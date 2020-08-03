@@ -22,13 +22,13 @@ namespace AnomalyDetector.Models
         }
 
         private const string AutoDetectValue = "AutoDetect";
-        private const string AnomalyValue = "Anomaly";
+        private const string Anomaly_Value = "Anomaly";
         private const string NotAnomalyValue = "NotAnomaly";
 
         /// <summary> AutoDetect. </summary>
         public static AnomalyValue AutoDetect { get; } = new AnomalyValue(AutoDetectValue);
         /// <summary> Anomaly. </summary>
-        public static AnomalyValue Anomaly { get; } = new AnomalyValue(AnomalyValue);
+        public static AnomalyValue Anomaly { get; } = new AnomalyValue(Anomaly_Value);
         /// <summary> NotAnomaly. </summary>
         public static AnomalyValue NotAnomaly { get; } = new AnomalyValue(NotAnomalyValue);
         /// <summary> Determines if two <see cref="AnomalyValue"/> values are the same. </summary>
