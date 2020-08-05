@@ -48,7 +48,6 @@ schemas: !<!Schemas>
     - !<!DictionarySchema> &ref_2
       type: dictionary
       elementType: *ref_1
-      nullableItems: false
       language: !<!Languages> 
         default:
           name: RenamedProperty
@@ -199,6 +198,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_1
                     header: originalHeader
+                    language:
+                      default:
+                        name: RenamedHeader
+                        description: ''
                 knownMediaType: json
                 mediaTypes:
                   - application/json

@@ -58,14 +58,7 @@ namespace object_type
                     {
                         object value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = document.RootElement.GetObject();
-                        }
+                        value = document.RootElement.GetObject();
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -85,14 +78,7 @@ namespace object_type
                     {
                         object value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = document.RootElement.GetObject();
-                        }
+                        value = document.RootElement.GetObject();
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -119,6 +105,7 @@ namespace object_type
         /// <summary> Basic put that puts an object. Pass in {&apos;foo&apos;: &apos;bar&apos;} to get a 200 and anything else to get an object error. </summary>
         /// <param name="putObject"> Pass in {&apos;foo&apos;: &apos;bar&apos;} for a 200, anything else for an object error. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="putObject"/> is null. </exception>
         public async Task<Response> PutAsync(object putObject, CancellationToken cancellationToken = default)
         {
             if (putObject == null)
@@ -140,6 +127,7 @@ namespace object_type
         /// <summary> Basic put that puts an object. Pass in {&apos;foo&apos;: &apos;bar&apos;} to get a 200 and anything else to get an object error. </summary>
         /// <param name="putObject"> Pass in {&apos;foo&apos;: &apos;bar&apos;} for a 200, anything else for an object error. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="putObject"/> is null. </exception>
         public Response Put(object putObject, CancellationToken cancellationToken = default)
         {
             if (putObject == null)

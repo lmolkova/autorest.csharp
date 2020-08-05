@@ -28,16 +28,12 @@ namespace CognitiveSearch
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
         /// <param name="endpoint"> The endpoint URL of the search service. </param>
         /// <param name="apiVersion"> Api Version. </param>
-        /// <exception cref="ArgumentNullException"> This occurs when one of the required arguments is null. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="endpoint"/> is null. </exception>
         public IndexersRestClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string endpoint, string apiVersion = "2019-05-06-Preview")
         {
             if (endpoint == null)
             {
                 throw new ArgumentNullException(nameof(endpoint));
-            }
-            if (apiVersion == null)
-            {
-                throw new ArgumentNullException(nameof(apiVersion));
             }
 
             this.endpoint = endpoint;
@@ -69,6 +65,7 @@ namespace CognitiveSearch
         /// <param name="indexerName"> The name of the indexer to reset. </param>
         /// <param name="requestOptions"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="indexerName"/> is null. </exception>
         public async Task<Response> ResetAsync(string indexerName, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {
             if (indexerName == null)
@@ -91,6 +88,7 @@ namespace CognitiveSearch
         /// <param name="indexerName"> The name of the indexer to reset. </param>
         /// <param name="requestOptions"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="indexerName"/> is null. </exception>
         public Response Reset(string indexerName, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {
             if (indexerName == null)
@@ -132,6 +130,7 @@ namespace CognitiveSearch
         /// <param name="indexerName"> The name of the indexer to run. </param>
         /// <param name="requestOptions"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="indexerName"/> is null. </exception>
         public async Task<Response> RunAsync(string indexerName, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {
             if (indexerName == null)
@@ -154,6 +153,7 @@ namespace CognitiveSearch
         /// <param name="indexerName"> The name of the indexer to run. </param>
         /// <param name="requestOptions"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="indexerName"/> is null. </exception>
         public Response Run(string indexerName, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {
             if (indexerName == null)
@@ -210,6 +210,7 @@ namespace CognitiveSearch
         /// <param name="requestOptions"> Parameter group. </param>
         /// <param name="accessCondition"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="indexerName"/> or <paramref name="indexer"/> is null. </exception>
         public async Task<Response<Indexer>> CreateOrUpdateAsync(string indexerName, Indexer indexer, RequestOptions requestOptions = null, AccessCondition accessCondition = null, CancellationToken cancellationToken = default)
         {
             if (indexerName == null)
@@ -230,14 +231,7 @@ namespace CognitiveSearch
                     {
                         Indexer value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Indexer.DeserializeIndexer(document.RootElement);
-                        }
+                        value = Indexer.DeserializeIndexer(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -251,6 +245,7 @@ namespace CognitiveSearch
         /// <param name="requestOptions"> Parameter group. </param>
         /// <param name="accessCondition"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="indexerName"/> or <paramref name="indexer"/> is null. </exception>
         public Response<Indexer> CreateOrUpdate(string indexerName, Indexer indexer, RequestOptions requestOptions = null, AccessCondition accessCondition = null, CancellationToken cancellationToken = default)
         {
             if (indexerName == null)
@@ -271,14 +266,7 @@ namespace CognitiveSearch
                     {
                         Indexer value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Indexer.DeserializeIndexer(document.RootElement);
-                        }
+                        value = Indexer.DeserializeIndexer(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -318,6 +306,7 @@ namespace CognitiveSearch
         /// <param name="requestOptions"> Parameter group. </param>
         /// <param name="accessCondition"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="indexerName"/> is null. </exception>
         public async Task<Response> DeleteAsync(string indexerName, RequestOptions requestOptions = null, AccessCondition accessCondition = null, CancellationToken cancellationToken = default)
         {
             if (indexerName == null)
@@ -342,6 +331,7 @@ namespace CognitiveSearch
         /// <param name="requestOptions"> Parameter group. </param>
         /// <param name="accessCondition"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="indexerName"/> is null. </exception>
         public Response Delete(string indexerName, RequestOptions requestOptions = null, AccessCondition accessCondition = null, CancellationToken cancellationToken = default)
         {
             if (indexerName == null)
@@ -384,6 +374,7 @@ namespace CognitiveSearch
         /// <param name="indexerName"> The name of the indexer to retrieve. </param>
         /// <param name="requestOptions"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="indexerName"/> is null. </exception>
         public async Task<Response<Indexer>> GetAsync(string indexerName, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {
             if (indexerName == null)
@@ -399,14 +390,7 @@ namespace CognitiveSearch
                     {
                         Indexer value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Indexer.DeserializeIndexer(document.RootElement);
-                        }
+                        value = Indexer.DeserializeIndexer(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -418,6 +402,7 @@ namespace CognitiveSearch
         /// <param name="indexerName"> The name of the indexer to retrieve. </param>
         /// <param name="requestOptions"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="indexerName"/> is null. </exception>
         public Response<Indexer> Get(string indexerName, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {
             if (indexerName == null)
@@ -433,14 +418,7 @@ namespace CognitiveSearch
                     {
                         Indexer value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Indexer.DeserializeIndexer(document.RootElement);
-                        }
+                        value = Indexer.DeserializeIndexer(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -483,14 +461,7 @@ namespace CognitiveSearch
                     {
                         ListIndexersResult value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = ListIndexersResult.DeserializeListIndexersResult(document.RootElement);
-                        }
+                        value = ListIndexersResult.DeserializeListIndexersResult(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -512,14 +483,7 @@ namespace CognitiveSearch
                     {
                         ListIndexersResult value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = ListIndexersResult.DeserializeListIndexersResult(document.RootElement);
-                        }
+                        value = ListIndexersResult.DeserializeListIndexersResult(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -552,6 +516,7 @@ namespace CognitiveSearch
         /// <param name="indexer"> The definition of the indexer to create. </param>
         /// <param name="requestOptions"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="indexer"/> is null. </exception>
         public async Task<Response<Indexer>> CreateAsync(Indexer indexer, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {
             if (indexer == null)
@@ -567,14 +532,7 @@ namespace CognitiveSearch
                     {
                         Indexer value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Indexer.DeserializeIndexer(document.RootElement);
-                        }
+                        value = Indexer.DeserializeIndexer(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -586,6 +544,7 @@ namespace CognitiveSearch
         /// <param name="indexer"> The definition of the indexer to create. </param>
         /// <param name="requestOptions"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="indexer"/> is null. </exception>
         public Response<Indexer> Create(Indexer indexer, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {
             if (indexer == null)
@@ -601,14 +560,7 @@ namespace CognitiveSearch
                     {
                         Indexer value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Indexer.DeserializeIndexer(document.RootElement);
-                        }
+                        value = Indexer.DeserializeIndexer(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -639,6 +591,7 @@ namespace CognitiveSearch
         /// <param name="indexerName"> The name of the indexer for which to retrieve status. </param>
         /// <param name="requestOptions"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="indexerName"/> is null. </exception>
         public async Task<Response<IndexerExecutionInfo>> GetStatusAsync(string indexerName, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {
             if (indexerName == null)
@@ -654,14 +607,7 @@ namespace CognitiveSearch
                     {
                         IndexerExecutionInfo value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = IndexerExecutionInfo.DeserializeIndexerExecutionInfo(document.RootElement);
-                        }
+                        value = IndexerExecutionInfo.DeserializeIndexerExecutionInfo(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -673,6 +619,7 @@ namespace CognitiveSearch
         /// <param name="indexerName"> The name of the indexer for which to retrieve status. </param>
         /// <param name="requestOptions"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="indexerName"/> is null. </exception>
         public Response<IndexerExecutionInfo> GetStatus(string indexerName, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {
             if (indexerName == null)
@@ -688,14 +635,7 @@ namespace CognitiveSearch
                     {
                         IndexerExecutionInfo value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = IndexerExecutionInfo.DeserializeIndexerExecutionInfo(document.RootElement);
-                        }
+                        value = IndexerExecutionInfo.DeserializeIndexerExecutionInfo(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:

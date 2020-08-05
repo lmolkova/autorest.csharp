@@ -30,7 +30,7 @@ namespace validation
         /// <param name="subscriptionId"> Subscription ID. </param>
         /// <param name="endpoint"> server parameter. </param>
         /// <param name="apiVersion"> Api Version. </param>
-        /// <exception cref="ArgumentNullException"> This occurs when one of the required arguments is null. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> is null. </exception>
         public ServiceRestClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null, string apiVersion = "1.0.0")
         {
             if (subscriptionId == null)
@@ -38,10 +38,6 @@ namespace validation
                 throw new ArgumentNullException(nameof(subscriptionId));
             }
             endpoint ??= new Uri("http://localhost:3000");
-            if (apiVersion == null)
-            {
-                throw new ArgumentNullException(nameof(apiVersion));
-            }
 
             this.subscriptionId = subscriptionId;
             this.endpoint = endpoint;
@@ -72,6 +68,7 @@ namespace validation
         /// <param name="resourceGroupName"> Required string between 3 and 10 chars with pattern [a-zA-Z0-9]+. </param>
         /// <param name="id"> Required int multiple of 10 from 100 to 1000. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/> is null. </exception>
         public async Task<Response<Product>> ValidationOfMethodParametersAsync(string resourceGroupName, int id, CancellationToken cancellationToken = default)
         {
             if (resourceGroupName == null)
@@ -87,14 +84,7 @@ namespace validation
                     {
                         Product value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Product.DeserializeProduct(document.RootElement);
-                        }
+                        value = Product.DeserializeProduct(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -106,6 +96,7 @@ namespace validation
         /// <param name="resourceGroupName"> Required string between 3 and 10 chars with pattern [a-zA-Z0-9]+. </param>
         /// <param name="id"> Required int multiple of 10 from 100 to 1000. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/> is null. </exception>
         public Response<Product> ValidationOfMethodParameters(string resourceGroupName, int id, CancellationToken cancellationToken = default)
         {
             if (resourceGroupName == null)
@@ -121,14 +112,7 @@ namespace validation
                     {
                         Product value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Product.DeserializeProduct(document.RootElement);
-                        }
+                        value = Product.DeserializeProduct(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -166,6 +150,7 @@ namespace validation
         /// <param name="id"> Required int multiple of 10 from 100 to 1000. </param>
         /// <param name="body"> The Product to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/> is null. </exception>
         public async Task<Response<Product>> ValidationOfBodyAsync(string resourceGroupName, int id, Product body = null, CancellationToken cancellationToken = default)
         {
             if (resourceGroupName == null)
@@ -181,14 +166,7 @@ namespace validation
                     {
                         Product value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Product.DeserializeProduct(document.RootElement);
-                        }
+                        value = Product.DeserializeProduct(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -201,6 +179,7 @@ namespace validation
         /// <param name="id"> Required int multiple of 10 from 100 to 1000. </param>
         /// <param name="body"> The Product to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/> is null. </exception>
         public Response<Product> ValidationOfBody(string resourceGroupName, int id, Product body = null, CancellationToken cancellationToken = default)
         {
             if (resourceGroupName == null)
@@ -216,14 +195,7 @@ namespace validation
                     {
                         Product value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Product.DeserializeProduct(document.RootElement);
-                        }
+                        value = Product.DeserializeProduct(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -306,14 +278,7 @@ namespace validation
                     {
                         Product value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Product.DeserializeProduct(document.RootElement);
-                        }
+                        value = Product.DeserializeProduct(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -333,14 +298,7 @@ namespace validation
                     {
                         Product value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Product.DeserializeProduct(document.RootElement);
-                        }
+                        value = Product.DeserializeProduct(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:

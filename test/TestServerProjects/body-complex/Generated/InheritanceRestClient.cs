@@ -59,14 +59,7 @@ namespace body_complex
                     {
                         Siamese value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Siamese.DeserializeSiamese(document.RootElement);
-                        }
+                        value = Siamese.DeserializeSiamese(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -86,14 +79,7 @@ namespace body_complex
                     {
                         Siamese value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Siamese.DeserializeSiamese(document.RootElement);
-                        }
+                        value = Siamese.DeserializeSiamese(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -120,6 +106,7 @@ namespace body_complex
         /// <summary> Put complex types that extend others. </summary>
         /// <param name="complexBody"> Please put a siamese with id=2, name=&quot;Siameee&quot;, color=green, breed=persion, which hates 2 dogs, the 1st one named &quot;Potato&quot; with id=1 and food=&quot;tomato&quot;, and the 2nd one named &quot;Tomato&quot; with id=-1 and food=&quot;french fries&quot;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="complexBody"/> is null. </exception>
         public async Task<Response> PutValidAsync(Siamese complexBody, CancellationToken cancellationToken = default)
         {
             if (complexBody == null)
@@ -141,6 +128,7 @@ namespace body_complex
         /// <summary> Put complex types that extend others. </summary>
         /// <param name="complexBody"> Please put a siamese with id=2, name=&quot;Siameee&quot;, color=green, breed=persion, which hates 2 dogs, the 1st one named &quot;Potato&quot; with id=1 and food=&quot;tomato&quot;, and the 2nd one named &quot;Tomato&quot; with id=-1 and food=&quot;french fries&quot;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="complexBody"/> is null. </exception>
         public Response PutValid(Siamese complexBody, CancellationToken cancellationToken = default)
         {
             if (complexBody == null)

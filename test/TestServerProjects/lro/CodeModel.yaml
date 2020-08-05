@@ -1864,7 +1864,6 @@ schemas: !<!Schemas>
     - !<!DictionarySchema> &ref_5
       type: dictionary
       elementType: *ref_1
-      nullableItems: false
       language: !<!Languages> 
         default:
           name: ResourceTags
@@ -2440,9 +2439,17 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_1
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/list/pollingGet'
                   - !<!HttpHeader> 
                     schema: *ref_30
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/list/finalGet'
                 statusCodes:
                   - '202'
         exceptions:
@@ -3058,6 +3065,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_38
                     header: location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/putasync/noheader/202/200/operationResults'
                 knownMediaType: json
                 mediaTypes:
                   - application/json
@@ -3146,12 +3157,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_40
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/putasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_41
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/putasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_42
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 knownMediaType: json
                 mediaTypes:
                   - application/json
@@ -3240,9 +3263,17 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_44
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/putasync/noretry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_45
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/putasync/noretry/succeeded/operationResults/200'
                 knownMediaType: json
                 mediaTypes:
                   - application/json
@@ -3331,12 +3362,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_47
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/putasync/retry/failed/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_48
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/putasync/retry/failed/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_49
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 knownMediaType: json
                 mediaTypes:
                   - application/json
@@ -3425,9 +3468,17 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_51
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/putasync/noretry/canceled/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_52
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/putasync/noretry/canceled/operationResults/200'
                 knownMediaType: json
                 mediaTypes:
                   - application/json
@@ -3516,6 +3567,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_54
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: ''
                 knownMediaType: json
                 mediaTypes:
                   - application/json
@@ -3922,9 +3977,17 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_60
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/delete/provisioning/202/accepted/200/succeeded'
                   - !<!HttpHeader> 
                     schema: *ref_61
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 knownMediaType: json
                 mediaTypes:
                   - application/json
@@ -3997,9 +4060,17 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_62
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/delete/provisioning/202/deleting/200/failed'
                   - !<!HttpHeader> 
                     schema: *ref_63
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 knownMediaType: json
                 mediaTypes:
                   - application/json
@@ -4070,9 +4141,17 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_64
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/delete/provisioning/202/deleting/200/canceled'
                   - !<!HttpHeader> 
                     schema: *ref_65
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 knownMediaType: json
                 mediaTypes:
                   - application/json
@@ -4193,9 +4272,17 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_66
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/delete/202/retry/200'
                   - !<!HttpHeader> 
                     schema: *ref_67
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -4262,9 +4349,17 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_68
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/delete/202/noretry/204'
                   - !<!HttpHeader> 
                     schema: *ref_69
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -4318,6 +4413,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_70
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/put/noheader/202/204/operationresults'
                 statusCodes:
                   - '202'
           - !<!Response> 
@@ -4380,6 +4479,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_71
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/put/noheader/202/204/operationresults'
                 statusCodes:
                   - '202'
           - !<!Response> 
@@ -4442,12 +4545,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_72
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/deleteasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_73
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/deleteasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_74
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -4501,12 +4616,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_75
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/deleteasync/noretry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_76
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/deleteasync/noretry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_77
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -4560,12 +4687,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_78
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/deleteasync/retry/failed/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_79
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/deleteasync/retry/failed/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_80
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -4619,12 +4758,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_81
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/deleteasync/retry/canceled/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_82
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/deleteasync/retry/canceled/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_83
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -4775,9 +4926,17 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_85
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/post/202/retry/200'
                   - !<!HttpHeader> 
                     schema: *ref_86
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -4863,9 +5022,17 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_88
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/post/202/noretry/204'
                   - !<!HttpHeader> 
                     schema: *ref_89
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 knownMediaType: json
                 mediaTypes:
                   - application/json
@@ -5131,12 +5298,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_91
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/putasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_92
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/putasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_93
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -5234,12 +5413,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_95
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/putasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_96
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/putasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_97
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -5324,12 +5515,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_99
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/putasync/retry/failed/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_100
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/putasync/retry/failed/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_101
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -5414,12 +5617,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_103
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/putasync/retry/canceled/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_104
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/putasync/retry/canceled/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_105
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -5612,12 +5827,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_108
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/retryerror/putasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_109
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/retryerror/putasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_110
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 knownMediaType: json
                 mediaTypes:
                   - application/json
@@ -5688,9 +5915,17 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_111
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/retryerror/delete/provisioning/202/accepted/200/succeeded'
                   - !<!HttpHeader> 
                     schema: *ref_112
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 knownMediaType: json
                 mediaTypes:
                   - application/json
@@ -5749,9 +5984,17 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_113
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/retryerror/delete/202/retry/200'
                   - !<!HttpHeader> 
                     schema: *ref_114
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -5805,12 +6048,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_115
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/retryerror/deleteasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_116
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/retryerror/deleteasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_117
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -5895,9 +6150,17 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_119
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/retryerror/post/202/retry/200'
                   - !<!HttpHeader> 
                     schema: *ref_120
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -5982,12 +6245,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_122
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/retryerror/putasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_123
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/retryerror/putasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_124
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -6374,12 +6649,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_129
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/nonretryerror/putasync/retry/operationResults/400'
                   - !<!HttpHeader> 
                     schema: *ref_130
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/nonretryerror/putasync/retry/operationResults/400'
                   - !<!HttpHeader> 
                     schema: *ref_131
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 knownMediaType: json
                 mediaTypes:
                   - application/json
@@ -6436,9 +6723,17 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_132
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/retryerror/delete/202/retry/200'
                   - !<!HttpHeader> 
                     schema: *ref_133
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -6492,9 +6787,17 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_134
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/retryerror/delete/202/retry/200'
                   - !<!HttpHeader> 
                     schema: *ref_135
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -6548,12 +6851,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_136
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/nonretryerror/deleteasync/retry/operationResults/400'
                   - !<!HttpHeader> 
                     schema: *ref_137
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/nonretryerror/deleteasync/retry/operationResults/400'
                   - !<!HttpHeader> 
                     schema: *ref_138
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -6638,9 +6953,17 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_140
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/retryerror/post/202/retry/200'
                   - !<!HttpHeader> 
                     schema: *ref_141
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -6725,9 +7048,17 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_143
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/retryerror/post/202/retry/200'
                   - !<!HttpHeader> 
                     schema: *ref_144
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -6812,12 +7143,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_146
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/nonretryerror/putasync/retry/operationResults/400'
                   - !<!HttpHeader> 
                     schema: *ref_147
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/nonretryerror/putasync/retry/operationResults/400'
                   - !<!HttpHeader> 
                     schema: *ref_148
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -7000,12 +7343,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_151
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/putasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_152
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/putasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_153
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 knownMediaType: json
                 mediaTypes:
                   - application/json
@@ -7094,12 +7449,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_155
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/putasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_156
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/putasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_157
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 knownMediaType: json
                 mediaTypes:
                   - application/json
@@ -7205,12 +7572,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_158
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/deleteasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_159
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/deleteasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_160
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -7295,9 +7674,17 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_162
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will not be set'
                   - !<!HttpHeader> 
                     schema: *ref_163
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -7382,12 +7769,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_165
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/error/putasync/retry/failed/operationResults/nopayload'
                   - !<!HttpHeader> 
                     schema: *ref_166
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/error/putasync/retry/failed/operationResults/nopayload'
                   - !<!HttpHeader> 
                     schema: *ref_167
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -7566,12 +7965,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_170
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/putasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_171
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/putasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_172
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 knownMediaType: json
                 mediaTypes:
                   - application/json
@@ -7660,12 +8071,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_174
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/putasync/retry/failed/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_175
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/putasync/retry/failed/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_176
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 knownMediaType: json
                 mediaTypes:
                   - application/json
@@ -7722,9 +8145,17 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_177
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /foo'
                   - !<!HttpHeader> 
                     schema: *ref_178
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to /bar'
                 statusCodes:
                   - '202'
         exceptions:
@@ -7778,12 +8209,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_179
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /foo'
                   - !<!HttpHeader> 
                     schema: *ref_180
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /foo'
                   - !<!HttpHeader> 
                     schema: *ref_181
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to /bar'
                 statusCodes:
                   - '202'
         exceptions:
@@ -7837,12 +8280,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_182
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/error/deleteasync/retry/failed/operationResults/invalidjsonpolling'
                   - !<!HttpHeader> 
                     schema: *ref_183
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/error/deleteasync/retry/failed/operationResults/invalidjsonpolling'
                   - !<!HttpHeader> 
                     schema: *ref_184
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -7927,9 +8382,17 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_186
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /foo'
                   - !<!HttpHeader> 
                     schema: *ref_187
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to /bar'
                 statusCodes:
                   - '202'
         exceptions:
@@ -8014,12 +8477,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_189
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to foo'
                   - !<!HttpHeader> 
                     schema: *ref_190
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to foo'
                   - !<!HttpHeader> 
                     schema: *ref_191
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to /bar'
                 statusCodes:
                   - '202'
         exceptions:
@@ -8104,12 +8579,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_193
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/error/postasync/retry/failed/operationResults/invalidjsonpolling'
                   - !<!HttpHeader> 
                     schema: *ref_194
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/error/postasync/retry/failed/operationResults/invalidjsonpolling'
                   - !<!HttpHeader> 
                     schema: *ref_195
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -8203,12 +8690,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_197
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/customheader/putasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_198
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/customheader/putasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_199
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 knownMediaType: json
                 mediaTypes:
                   - application/json
@@ -8397,9 +8896,17 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_202
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/customheader/post/202/retry/200'
                   - !<!HttpHeader> 
                     schema: *ref_203
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:
@@ -8486,12 +8993,24 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_205
                     header: Azure-AsyncOperation
+                    language:
+                      default:
+                        name: AzureAsyncOperation
+                        description: 'Location to poll for result status: will be set to /lro/customheader/putasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_206
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: 'Location to poll for result status: will be set to /lro/customheader/putasync/retry/succeeded/operationResults/200'
                   - !<!HttpHeader> 
                     schema: *ref_207
                     header: Retry-After
+                    language:
+                      default:
+                        name: RetryAfter
+                        description: 'Number of milliseconds until the next poll should be sent, will be set to zero'
                 statusCodes:
                   - '202'
         exceptions:

@@ -52,6 +52,7 @@ namespace xms_error_responses
         /// <summary> Gets pets by id. </summary>
         /// <param name="petId"> pet id. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="petId"/> is null. </exception>
         public async Task<Response<Pet>> GetPetByIdAsync(string petId, CancellationToken cancellationToken = default)
         {
             if (petId == null)
@@ -67,14 +68,7 @@ namespace xms_error_responses
                     {
                         Pet value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Pet.DeserializePet(document.RootElement);
-                        }
+                        value = Pet.DeserializePet(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 case 202:
@@ -87,6 +81,7 @@ namespace xms_error_responses
         /// <summary> Gets pets by id. </summary>
         /// <param name="petId"> pet id. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="petId"/> is null. </exception>
         public Response<Pet> GetPetById(string petId, CancellationToken cancellationToken = default)
         {
             if (petId == null)
@@ -102,14 +97,7 @@ namespace xms_error_responses
                     {
                         Pet value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Pet.DeserializePet(document.RootElement);
-                        }
+                        value = Pet.DeserializePet(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 case 202:
@@ -135,6 +123,7 @@ namespace xms_error_responses
         /// <summary> Asks pet to do something. </summary>
         /// <param name="whatAction"> what action the pet should do. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="whatAction"/> is null. </exception>
         public async Task<Response<PetAction>> DoSomethingAsync(string whatAction, CancellationToken cancellationToken = default)
         {
             if (whatAction == null)
@@ -150,14 +139,7 @@ namespace xms_error_responses
                     {
                         PetAction value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = PetAction.DeserializePetAction(document.RootElement);
-                        }
+                        value = PetAction.DeserializePetAction(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -168,6 +150,7 @@ namespace xms_error_responses
         /// <summary> Asks pet to do something. </summary>
         /// <param name="whatAction"> what action the pet should do. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="whatAction"/> is null. </exception>
         public Response<PetAction> DoSomething(string whatAction, CancellationToken cancellationToken = default)
         {
             if (whatAction == null)
@@ -183,14 +166,7 @@ namespace xms_error_responses
                     {
                         PetAction value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = PetAction.DeserializePetAction(document.RootElement);
-                        }
+                        value = PetAction.DeserializePetAction(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:

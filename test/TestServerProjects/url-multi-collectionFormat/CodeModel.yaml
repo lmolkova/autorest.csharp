@@ -154,6 +154,7 @@ operationGroups:
                 serializedName: arrayQuery
             protocol: !<!Protocols> 
               http: !<!HttpParameter> 
+                explode: true
                 in: query
                 style: form
         requests:
@@ -193,6 +194,12 @@ operationGroups:
                   - application/json
                 statusCodes:
                   - default
+        extensions:
+          x-ms-examples:
+            queries_ArrayStringMultiNull:
+              parameters: {}
+              responses:
+                '200': {}
         language: !<!Languages> 
           default:
             name: ArrayStringMultiNull
@@ -214,6 +221,7 @@ operationGroups:
                 serializedName: arrayQuery
             protocol: !<!Protocols> 
               http: !<!HttpParameter> 
+                explode: true
                 in: query
                 style: form
         requests:
@@ -253,6 +261,13 @@ operationGroups:
                   - application/json
                 statusCodes:
                   - default
+        extensions:
+          x-ms-examples:
+            queries_ArrayStringMultiEmpty:
+              parameters:
+                arrayQuery: ''
+              responses:
+                '200': {}
         language: !<!Languages> 
           default:
             name: ArrayStringMultiEmpty
@@ -274,6 +289,7 @@ operationGroups:
                 serializedName: arrayQuery
             protocol: !<!Protocols> 
               http: !<!HttpParameter> 
+                explode: true
                 in: query
                 style: form
         requests:
@@ -313,6 +329,13 @@ operationGroups:
                   - application/json
                 statusCodes:
                   - default
+        extensions:
+          x-ms-examples:
+            queries_ArrayStringMultiValid:
+              parameters:
+                arrayQuery: 'ArrayQuery1,begin!*''();:@ &=+$,/?#[]end,,'
+              responses:
+                '200': {}
         language: !<!Languages> 
           default:
             name: ArrayStringMultiValid

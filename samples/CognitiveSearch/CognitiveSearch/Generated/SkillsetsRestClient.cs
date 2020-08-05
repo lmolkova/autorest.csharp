@@ -28,16 +28,12 @@ namespace CognitiveSearch
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
         /// <param name="endpoint"> The endpoint URL of the search service. </param>
         /// <param name="apiVersion"> Api Version. </param>
-        /// <exception cref="ArgumentNullException"> This occurs when one of the required arguments is null. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="endpoint"/> is null. </exception>
         public SkillsetsRestClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string endpoint, string apiVersion = "2019-05-06-Preview")
         {
             if (endpoint == null)
             {
                 throw new ArgumentNullException(nameof(endpoint));
-            }
-            if (apiVersion == null)
-            {
-                throw new ArgumentNullException(nameof(apiVersion));
             }
 
             this.endpoint = endpoint;
@@ -84,6 +80,7 @@ namespace CognitiveSearch
         /// <param name="requestOptions"> Parameter group. </param>
         /// <param name="accessCondition"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="skillsetName"/> or <paramref name="skillset"/> is null. </exception>
         public async Task<Response<Skillset>> CreateOrUpdateAsync(string skillsetName, Skillset skillset, RequestOptions requestOptions = null, AccessCondition accessCondition = null, CancellationToken cancellationToken = default)
         {
             if (skillsetName == null)
@@ -104,14 +101,7 @@ namespace CognitiveSearch
                     {
                         Skillset value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Skillset.DeserializeSkillset(document.RootElement);
-                        }
+                        value = Skillset.DeserializeSkillset(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -125,6 +115,7 @@ namespace CognitiveSearch
         /// <param name="requestOptions"> Parameter group. </param>
         /// <param name="accessCondition"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="skillsetName"/> or <paramref name="skillset"/> is null. </exception>
         public Response<Skillset> CreateOrUpdate(string skillsetName, Skillset skillset, RequestOptions requestOptions = null, AccessCondition accessCondition = null, CancellationToken cancellationToken = default)
         {
             if (skillsetName == null)
@@ -145,14 +136,7 @@ namespace CognitiveSearch
                     {
                         Skillset value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Skillset.DeserializeSkillset(document.RootElement);
-                        }
+                        value = Skillset.DeserializeSkillset(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -192,6 +176,7 @@ namespace CognitiveSearch
         /// <param name="requestOptions"> Parameter group. </param>
         /// <param name="accessCondition"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="skillsetName"/> is null. </exception>
         public async Task<Response> DeleteAsync(string skillsetName, RequestOptions requestOptions = null, AccessCondition accessCondition = null, CancellationToken cancellationToken = default)
         {
             if (skillsetName == null)
@@ -216,6 +201,7 @@ namespace CognitiveSearch
         /// <param name="requestOptions"> Parameter group. </param>
         /// <param name="accessCondition"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="skillsetName"/> is null. </exception>
         public Response Delete(string skillsetName, RequestOptions requestOptions = null, AccessCondition accessCondition = null, CancellationToken cancellationToken = default)
         {
             if (skillsetName == null)
@@ -258,6 +244,7 @@ namespace CognitiveSearch
         /// <param name="skillsetName"> The name of the skillset to retrieve. </param>
         /// <param name="requestOptions"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="skillsetName"/> is null. </exception>
         public async Task<Response<Skillset>> GetAsync(string skillsetName, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {
             if (skillsetName == null)
@@ -273,14 +260,7 @@ namespace CognitiveSearch
                     {
                         Skillset value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Skillset.DeserializeSkillset(document.RootElement);
-                        }
+                        value = Skillset.DeserializeSkillset(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -292,6 +272,7 @@ namespace CognitiveSearch
         /// <param name="skillsetName"> The name of the skillset to retrieve. </param>
         /// <param name="requestOptions"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="skillsetName"/> is null. </exception>
         public Response<Skillset> Get(string skillsetName, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {
             if (skillsetName == null)
@@ -307,14 +288,7 @@ namespace CognitiveSearch
                     {
                         Skillset value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Skillset.DeserializeSkillset(document.RootElement);
-                        }
+                        value = Skillset.DeserializeSkillset(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -357,14 +331,7 @@ namespace CognitiveSearch
                     {
                         ListSkillsetsResult value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = ListSkillsetsResult.DeserializeListSkillsetsResult(document.RootElement);
-                        }
+                        value = ListSkillsetsResult.DeserializeListSkillsetsResult(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -386,14 +353,7 @@ namespace CognitiveSearch
                     {
                         ListSkillsetsResult value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = ListSkillsetsResult.DeserializeListSkillsetsResult(document.RootElement);
-                        }
+                        value = ListSkillsetsResult.DeserializeListSkillsetsResult(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -426,6 +386,7 @@ namespace CognitiveSearch
         /// <param name="skillset"> The skillset containing one or more skills to create in a search service. </param>
         /// <param name="requestOptions"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="skillset"/> is null. </exception>
         public async Task<Response<Skillset>> CreateAsync(Skillset skillset, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {
             if (skillset == null)
@@ -441,14 +402,7 @@ namespace CognitiveSearch
                     {
                         Skillset value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Skillset.DeserializeSkillset(document.RootElement);
-                        }
+                        value = Skillset.DeserializeSkillset(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -460,6 +414,7 @@ namespace CognitiveSearch
         /// <param name="skillset"> The skillset containing one or more skills to create in a search service. </param>
         /// <param name="requestOptions"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="skillset"/> is null. </exception>
         public Response<Skillset> Create(Skillset skillset, RequestOptions requestOptions = null, CancellationToken cancellationToken = default)
         {
             if (skillset == null)
@@ -475,14 +430,7 @@ namespace CognitiveSearch
                     {
                         Skillset value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Skillset.DeserializeSkillset(document.RootElement);
-                        }
+                        value = Skillset.DeserializeSkillset(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:

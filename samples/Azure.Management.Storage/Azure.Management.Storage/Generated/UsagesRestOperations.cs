@@ -30,7 +30,7 @@ namespace Azure.Management.Storage
         /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="endpoint"> server parameter. </param>
         /// <param name="apiVersion"> Api Version. </param>
-        /// <exception cref="ArgumentNullException"> This occurs when one of the required arguments is null. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> is null. </exception>
         public UsagesRestOperations(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null, string apiVersion = "2019-06-01")
         {
             if (subscriptionId == null)
@@ -38,10 +38,6 @@ namespace Azure.Management.Storage
                 throw new ArgumentNullException(nameof(subscriptionId));
             }
             endpoint ??= new Uri("https://management.azure.com");
-            if (apiVersion == null)
-            {
-                throw new ArgumentNullException(nameof(apiVersion));
-            }
 
             this.subscriptionId = subscriptionId;
             this.endpoint = endpoint;
@@ -70,6 +66,7 @@ namespace Azure.Management.Storage
         /// <summary> Gets the current usage count and the limit for the resources of the location under the subscription. </summary>
         /// <param name="location"> The location of the Azure Storage resource. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="location"/> is null. </exception>
         public async Task<Response<UsageListResult>> ListByLocationAsync(string location, CancellationToken cancellationToken = default)
         {
             if (location == null)
@@ -85,14 +82,7 @@ namespace Azure.Management.Storage
                     {
                         UsageListResult value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = UsageListResult.DeserializeUsageListResult(document.RootElement);
-                        }
+                        value = UsageListResult.DeserializeUsageListResult(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -103,6 +93,7 @@ namespace Azure.Management.Storage
         /// <summary> Gets the current usage count and the limit for the resources of the location under the subscription. </summary>
         /// <param name="location"> The location of the Azure Storage resource. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="location"/> is null. </exception>
         public Response<UsageListResult> ListByLocation(string location, CancellationToken cancellationToken = default)
         {
             if (location == null)
@@ -118,14 +109,7 @@ namespace Azure.Management.Storage
                     {
                         UsageListResult value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = UsageListResult.DeserializeUsageListResult(document.RootElement);
-                        }
+                        value = UsageListResult.DeserializeUsageListResult(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:

@@ -50,6 +50,7 @@ namespace extensible_enums_swagger
 
         /// <param name="petId"> Pet id. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="petId"/> is null. </exception>
         public async Task<Response<Pet>> GetByPetIdAsync(string petId, CancellationToken cancellationToken = default)
         {
             if (petId == null)
@@ -65,14 +66,7 @@ namespace extensible_enums_swagger
                     {
                         Pet value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Pet.DeserializePet(document.RootElement);
-                        }
+                        value = Pet.DeserializePet(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -82,6 +76,7 @@ namespace extensible_enums_swagger
 
         /// <param name="petId"> Pet id. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="petId"/> is null. </exception>
         public Response<Pet> GetByPetId(string petId, CancellationToken cancellationToken = default)
         {
             if (petId == null)
@@ -97,14 +92,7 @@ namespace extensible_enums_swagger
                     {
                         Pet value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Pet.DeserializePet(document.RootElement);
-                        }
+                        value = Pet.DeserializePet(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -143,14 +131,7 @@ namespace extensible_enums_swagger
                     {
                         Pet value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Pet.DeserializePet(document.RootElement);
-                        }
+                        value = Pet.DeserializePet(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -170,14 +151,7 @@ namespace extensible_enums_swagger
                     {
                         Pet value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Pet.DeserializePet(document.RootElement);
-                        }
+                        value = Pet.DeserializePet(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:

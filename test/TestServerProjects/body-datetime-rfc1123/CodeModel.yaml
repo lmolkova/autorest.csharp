@@ -141,6 +141,7 @@ operationGroups:
         responses:
           - !<!SchemaResponse> 
             schema: *ref_1
+            nullable: true
             language: !<!Languages> 
               default:
                 name: ''
@@ -166,6 +167,13 @@ operationGroups:
                   - application/json
                 statusCodes:
                   - default
+        extensions:
+          x-ms-examples:
+            datetimerfc1123_getNull:
+              parameters: {}
+              responses:
+                '200':
+                  body: ''
         language: !<!Languages> 
           default:
             name: GetNull
@@ -353,7 +361,7 @@ operationGroups:
                 language: !<!Languages> 
                   default:
                     name: datetimeBody
-                    description: ''
+                    description: datetime body
                 protocol: !<!Protocols> 
                   http: !<!HttpParameter> 
                     in: body
@@ -533,7 +541,7 @@ operationGroups:
                 language: !<!Languages> 
                   default:
                     name: datetimeBody
-                    description: ''
+                    description: datetime body
                 protocol: !<!Protocols> 
                   http: !<!HttpParameter> 
                     in: body

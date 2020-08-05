@@ -382,6 +382,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_4
                     header: User-Agent
+                    language:
+                      default:
+                        name: UserAgent
+                        description: 'response with header value "User-Agent": "overwrite"'
                 statusCodes:
                   - '200'
         exceptions:
@@ -493,6 +497,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_7
                     header: Content-Type
+                    language:
+                      default:
+                        name: ContentType
+                        description: 'response with header value "Content-Type": "text/html"'
                 statusCodes:
                   - '200'
         exceptions:
@@ -630,6 +638,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_10
                     header: value
+                    language:
+                      default:
+                        name: Value
+                        description: 'response with header value "value": 1 or -2'
                 statusCodes:
                   - '200'
         exceptions:
@@ -767,6 +779,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_14
                     header: value
+                    language:
+                      default:
+                        name: Value
+                        description: 'response with header value "value": 105 or -2'
                 statusCodes:
                   - '200'
         exceptions:
@@ -904,6 +920,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_18
                     header: value
+                    language:
+                      default:
+                        name: Value
+                        description: 'response with header value "value": 0.07 or -3.0'
                 statusCodes:
                   - '200'
         exceptions:
@@ -1041,6 +1061,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_22
                     header: value
+                    language:
+                      default:
+                        name: Value
+                        description: 'response with header value "value": 7e120 or -3.0'
                 statusCodes:
                   - '200'
         exceptions:
@@ -1178,6 +1202,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_26
                     header: value
+                    language:
+                      default:
+                        name: Value
+                        description: 'response with header value "value": true or false'
                 statusCodes:
                   - '200'
         exceptions:
@@ -1314,6 +1342,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_9
                     header: value
+                    language:
+                      default:
+                        name: Value
+                        description: response with header values "The quick brown fox jumps over the lazy dog" or null or ""
                 statusCodes:
                   - '200'
         exceptions:
@@ -1451,6 +1483,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_34
                     header: value
+                    language:
+                      default:
+                        name: Value
+                        description: response with header values "2010-01-01" or "0001-01-01"
                 statusCodes:
                   - '200'
         exceptions:
@@ -1588,6 +1624,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_38
                     header: value
+                    language:
+                      default:
+                        name: Value
+                        description: 'response with header values "2010-01-01T12:34:56Z" or "0001-01-01T00:00:00Z"'
                 statusCodes:
                   - '200'
         exceptions:
@@ -1724,6 +1764,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_42
                     header: value
+                    language:
+                      default:
+                        name: Value
+                        description: 'response with header values "Wed, 01 Jan 2010 12:34:56 GMT" or "Mon, 01 Jan 0001 00:00:00 GMT"'
                 statusCodes:
                   - '200'
         exceptions:
@@ -1861,6 +1905,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_46
                     header: value
+                    language:
+                      default:
+                        name: Value
+                        description: response with header values "P123DT22H14M12.011S"
                 statusCodes:
                   - '200'
         exceptions:
@@ -1998,6 +2046,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_54
                     header: value
+                    language:
+                      default:
+                        name: Value
+                        description: response with header values "啊齄丂狛狜隣郎隣兀﨩"
                 statusCodes:
                   - '200'
         exceptions:
@@ -2134,6 +2186,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_55
                     header: value
+                    language:
+                      default:
+                        name: Value
+                        description: response with header values "GREY" or null
                 statusCodes:
                   - '200'
         exceptions:

@@ -54,6 +54,7 @@ namespace additionalProperties
         /// <summary> Create a Pet which contains more properties than what is defined. </summary>
         /// <param name="createParameters"> The PetAPTrue to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="createParameters"/> is null. </exception>
         public async Task<Response<PetAPTrue>> CreateAPTrueAsync(PetAPTrue createParameters, CancellationToken cancellationToken = default)
         {
             if (createParameters == null)
@@ -69,14 +70,7 @@ namespace additionalProperties
                     {
                         PetAPTrue value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = PetAPTrue.DeserializePetAPTrue(document.RootElement);
-                        }
+                        value = PetAPTrue.DeserializePetAPTrue(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -87,6 +81,7 @@ namespace additionalProperties
         /// <summary> Create a Pet which contains more properties than what is defined. </summary>
         /// <param name="createParameters"> The PetAPTrue to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="createParameters"/> is null. </exception>
         public Response<PetAPTrue> CreateAPTrue(PetAPTrue createParameters, CancellationToken cancellationToken = default)
         {
             if (createParameters == null)
@@ -102,14 +97,7 @@ namespace additionalProperties
                     {
                         PetAPTrue value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = PetAPTrue.DeserializePetAPTrue(document.RootElement);
-                        }
+                        value = PetAPTrue.DeserializePetAPTrue(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -136,6 +124,7 @@ namespace additionalProperties
         /// <summary> Create a CatAPTrue which contains more properties than what is defined. </summary>
         /// <param name="createParameters"> The CatAPTrue to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="createParameters"/> is null. </exception>
         public async Task<Response<CatAPTrue>> CreateCatAPTrueAsync(CatAPTrue createParameters, CancellationToken cancellationToken = default)
         {
             if (createParameters == null)
@@ -151,14 +140,7 @@ namespace additionalProperties
                     {
                         CatAPTrue value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = CatAPTrue.DeserializeCatAPTrue(document.RootElement);
-                        }
+                        value = CatAPTrue.DeserializeCatAPTrue(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -169,6 +151,7 @@ namespace additionalProperties
         /// <summary> Create a CatAPTrue which contains more properties than what is defined. </summary>
         /// <param name="createParameters"> The CatAPTrue to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="createParameters"/> is null. </exception>
         public Response<CatAPTrue> CreateCatAPTrue(CatAPTrue createParameters, CancellationToken cancellationToken = default)
         {
             if (createParameters == null)
@@ -184,14 +167,7 @@ namespace additionalProperties
                     {
                         CatAPTrue value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = CatAPTrue.DeserializeCatAPTrue(document.RootElement);
-                        }
+                        value = CatAPTrue.DeserializeCatAPTrue(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -218,6 +194,7 @@ namespace additionalProperties
         /// <summary> Create a Pet which contains more properties than what is defined. </summary>
         /// <param name="createParameters"> The PetAPObject to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="createParameters"/> is null. </exception>
         public async Task<Response<PetAPObject>> CreateAPObjectAsync(PetAPObject createParameters, CancellationToken cancellationToken = default)
         {
             if (createParameters == null)
@@ -233,14 +210,7 @@ namespace additionalProperties
                     {
                         PetAPObject value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = PetAPObject.DeserializePetAPObject(document.RootElement);
-                        }
+                        value = PetAPObject.DeserializePetAPObject(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -251,6 +221,7 @@ namespace additionalProperties
         /// <summary> Create a Pet which contains more properties than what is defined. </summary>
         /// <param name="createParameters"> The PetAPObject to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="createParameters"/> is null. </exception>
         public Response<PetAPObject> CreateAPObject(PetAPObject createParameters, CancellationToken cancellationToken = default)
         {
             if (createParameters == null)
@@ -266,14 +237,7 @@ namespace additionalProperties
                     {
                         PetAPObject value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = PetAPObject.DeserializePetAPObject(document.RootElement);
-                        }
+                        value = PetAPObject.DeserializePetAPObject(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -300,6 +264,7 @@ namespace additionalProperties
         /// <summary> Create a Pet which contains more properties than what is defined. </summary>
         /// <param name="createParameters"> The PetAPString to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="createParameters"/> is null. </exception>
         public async Task<Response<PetAPString>> CreateAPStringAsync(PetAPString createParameters, CancellationToken cancellationToken = default)
         {
             if (createParameters == null)
@@ -315,14 +280,7 @@ namespace additionalProperties
                     {
                         PetAPString value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = PetAPString.DeserializePetAPString(document.RootElement);
-                        }
+                        value = PetAPString.DeserializePetAPString(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -333,6 +291,7 @@ namespace additionalProperties
         /// <summary> Create a Pet which contains more properties than what is defined. </summary>
         /// <param name="createParameters"> The PetAPString to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="createParameters"/> is null. </exception>
         public Response<PetAPString> CreateAPString(PetAPString createParameters, CancellationToken cancellationToken = default)
         {
             if (createParameters == null)
@@ -348,14 +307,7 @@ namespace additionalProperties
                     {
                         PetAPString value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = PetAPString.DeserializePetAPString(document.RootElement);
-                        }
+                        value = PetAPString.DeserializePetAPString(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -382,6 +334,7 @@ namespace additionalProperties
         /// <summary> Create a Pet which contains more properties than what is defined. </summary>
         /// <param name="createParameters"> The PetAPInProperties to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="createParameters"/> is null. </exception>
         public async Task<Response<PetAPInProperties>> CreateAPInPropertiesAsync(PetAPInProperties createParameters, CancellationToken cancellationToken = default)
         {
             if (createParameters == null)
@@ -397,14 +350,7 @@ namespace additionalProperties
                     {
                         PetAPInProperties value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = PetAPInProperties.DeserializePetAPInProperties(document.RootElement);
-                        }
+                        value = PetAPInProperties.DeserializePetAPInProperties(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -415,6 +361,7 @@ namespace additionalProperties
         /// <summary> Create a Pet which contains more properties than what is defined. </summary>
         /// <param name="createParameters"> The PetAPInProperties to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="createParameters"/> is null. </exception>
         public Response<PetAPInProperties> CreateAPInProperties(PetAPInProperties createParameters, CancellationToken cancellationToken = default)
         {
             if (createParameters == null)
@@ -430,14 +377,7 @@ namespace additionalProperties
                     {
                         PetAPInProperties value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = PetAPInProperties.DeserializePetAPInProperties(document.RootElement);
-                        }
+                        value = PetAPInProperties.DeserializePetAPInProperties(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -464,6 +404,7 @@ namespace additionalProperties
         /// <summary> Create a Pet which contains more properties than what is defined. </summary>
         /// <param name="createParameters"> The PetAPInPropertiesWithAPString to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="createParameters"/> is null. </exception>
         public async Task<Response<PetAPInPropertiesWithAPString>> CreateAPInPropertiesWithAPStringAsync(PetAPInPropertiesWithAPString createParameters, CancellationToken cancellationToken = default)
         {
             if (createParameters == null)
@@ -479,14 +420,7 @@ namespace additionalProperties
                     {
                         PetAPInPropertiesWithAPString value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = PetAPInPropertiesWithAPString.DeserializePetAPInPropertiesWithAPString(document.RootElement);
-                        }
+                        value = PetAPInPropertiesWithAPString.DeserializePetAPInPropertiesWithAPString(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -497,6 +431,7 @@ namespace additionalProperties
         /// <summary> Create a Pet which contains more properties than what is defined. </summary>
         /// <param name="createParameters"> The PetAPInPropertiesWithAPString to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="createParameters"/> is null. </exception>
         public Response<PetAPInPropertiesWithAPString> CreateAPInPropertiesWithAPString(PetAPInPropertiesWithAPString createParameters, CancellationToken cancellationToken = default)
         {
             if (createParameters == null)
@@ -512,14 +447,7 @@ namespace additionalProperties
                     {
                         PetAPInPropertiesWithAPString value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = PetAPInPropertiesWithAPString.DeserializePetAPInPropertiesWithAPString(document.RootElement);
-                        }
+                        value = PetAPInPropertiesWithAPString.DeserializePetAPInPropertiesWithAPString(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:

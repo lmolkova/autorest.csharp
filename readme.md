@@ -20,6 +20,7 @@
 
 - [Make a model internal](#make-a-model-internal)
 - [Rename a model class](#rename-a-model-class)
+- [Change a model namespace](#change-a-model-namespace)
 - [Make model property internal](#make-model-property-internal)
 - [Rename a model property](#rename-a-model-property)
 - [Change a model property type](#change-a-model-property-type)
@@ -32,6 +33,7 @@
 - [Rename a client](#rename-a-client)
 - [Replace any generated member](#replace-any-generated-member)
 - [Remove any generated member](#remove-any-generated-member)
+- [Change model namespace or accessability in bulk](#change-model-namespace-or-accessability-in-bulk)
 
 <!-- /TOC -->
 
@@ -103,6 +105,43 @@ namespace Azure.Service.Models
 {
 -    public partial class Model { }
 +    public partial class NewModelClassName { }
+}
+```
+
+</details>
+
+### Change a model namespace
+
+Define a class with a desired namespace and mark it with `[CodeGenModel("OriginalName")]`
+
+<details>
+
+**Generated code before (Generated/Models/Model.cs):**
+
+``` C#
+namespace Azure.Service.Models
+{
+    public partial class Model { }
+}
+```
+
+**Add customized model (NewModelClassName.cs)**
+
+``` C#
+namespace Azure.Service
+{
+    [CodeGenModel("Model")]
+    public partial class Model { }
+}
+```
+
+**Generated code after (Generated/Models/NewModelClassName.cs):**
+
+``` diff
+- namespace Azure.Service.Models
++ namespace Azure.Service
+{
+    public partial class Model { }
 }
 ```
 
@@ -736,10 +775,54 @@ namespace Azure.Service.Models
 
 </details>
 
+### Change model namespace or accessability in bulk
+
+**Generated code before:**
+
+``` C#
+namespace Azure.Service.Models
+{
+    public partial class Model1 {}
+    public partial class Model2 {}
+    public partial class Model3 {}
+    public partial class Model4 {}
+}
+```
+
+**Add autorest.md transformation**
+
+```
+directive:
+  from: swagger-document
+  where: $.definitions.*
+  transform: >
+    $["x-namespace"] = "Azure.Search.Documents.Indexes.Models"
+    $["x-accessibility"] = "internal"
+```
+
+**Generated code after:**
+
+``` diff
+-namespace Azure.Service
++namespace Azure.Service.Models
+{
+-    public partial class Model1 {}
++    internal partial class Model1 {}
+-    public partial class Model2 {}
++    internal partial class Model2 {}
+-    public partial class Model3 {}
++    internal partial class Model3 {}
+-    public partial class Model4 {}
++    internal partial class Model4 {}
+}
+```
+
+</details>
+
 ## Configuration
 ```yaml
 # autorest-core version
-version: 3.0.6283
+version: 3.0.6306
 shared-source-folder: $(this-folder)/src/assets
 save-inputs: true
 use: $(this-folder)/artifacts/bin/AutoRest.CSharp.V3/Debug/netcoreapp3.0/

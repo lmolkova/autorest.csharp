@@ -68,9 +68,6 @@ namespace AutoRest.CSharp.V3.Output.Builders
 
         public static string EscapeXmlDescription(string s) => SecurityElement.Escape(s) ?? s;
 
-        public static bool IsNullable(this RequestParameter parameter) => !(parameter.Required ?? false);
-        public static bool IsNullable(this Property parameter) => !(parameter.Required ?? false) || (parameter.Nullable ?? false);
-
         public static string CSharpName(this RequestParameter parameter) => parameter.Language.Default.Name.ToVariableName();
 
         public static string CSharpName(this ChoiceValue choice) => choice.Language.Default.Name.ToCleanName();
@@ -83,6 +80,8 @@ namespace AutoRest.CSharp.V3.Output.Builders
 
         public static string CSharpName(this Schema operation) =>
             operation.Language.Default.Name.ToCleanName();
+        public static string CSharpName(this HttpResponseHeader header) =>
+            header.Language!.Default.Name.ToCleanName();
 
         public static TypeDeclarationOptions CreateTypeAttributes(string defaultName, string defaultNamespace, string defaultAccessibility, INamedTypeSymbol? existingType = null, bool existingTypeOverrides = false)
         {

@@ -30,7 +30,7 @@ namespace Azure.Management.Storage
         /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="endpoint"> server parameter. </param>
         /// <param name="apiVersion"> Api Version. </param>
-        /// <exception cref="ArgumentNullException"> This occurs when one of the required arguments is null. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> is null. </exception>
         public SkusRestOperations(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null, string apiVersion = "2019-06-01")
         {
             if (subscriptionId == null)
@@ -38,10 +38,6 @@ namespace Azure.Management.Storage
                 throw new ArgumentNullException(nameof(subscriptionId));
             }
             endpoint ??= new Uri("https://management.azure.com");
-            if (apiVersion == null)
-            {
-                throw new ArgumentNullException(nameof(apiVersion));
-            }
 
             this.subscriptionId = subscriptionId;
             this.endpoint = endpoint;
@@ -77,14 +73,7 @@ namespace Azure.Management.Storage
                     {
                         StorageSkuListResult value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = StorageSkuListResult.DeserializeStorageSkuListResult(document.RootElement);
-                        }
+                        value = StorageSkuListResult.DeserializeStorageSkuListResult(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -104,14 +93,7 @@ namespace Azure.Management.Storage
                     {
                         StorageSkuListResult value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = StorageSkuListResult.DeserializeStorageSkuListResult(document.RootElement);
-                        }
+                        value = StorageSkuListResult.DeserializeStorageSkuListResult(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:

@@ -30,7 +30,7 @@ namespace Azure.Management.Storage
         /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="endpoint"> server parameter. </param>
         /// <param name="apiVersion"> Api Version. </param>
-        /// <exception cref="ArgumentNullException"> This occurs when one of the required arguments is null. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> is null. </exception>
         public ManagementPoliciesRestOperations(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null, string apiVersion = "2019-06-01")
         {
             if (subscriptionId == null)
@@ -38,10 +38,6 @@ namespace Azure.Management.Storage
                 throw new ArgumentNullException(nameof(subscriptionId));
             }
             endpoint ??= new Uri("https://management.azure.com");
-            if (apiVersion == null)
-            {
-                throw new ArgumentNullException(nameof(apiVersion));
-            }
 
             this.subscriptionId = subscriptionId;
             this.endpoint = endpoint;
@@ -50,7 +46,7 @@ namespace Azure.Management.Storage
             _pipeline = pipeline;
         }
 
-        internal HttpMessage CreateGetRequest(string resourceGroupName, string accountName)
+        internal HttpMessage CreateGetRequest(string resourceGroupName, string accountName, ManagementPolicyName managementPolicyName)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -64,7 +60,7 @@ namespace Azure.Management.Storage
             uri.AppendPath("/providers/Microsoft.Storage/storageAccounts/", false);
             uri.AppendPath(accountName, true);
             uri.AppendPath("/managementPolicies/", false);
-            uri.AppendPath("default", true);
+            uri.AppendPath(managementPolicyName.ToString(), true);
             uri.AppendQuery("api-version", apiVersion, true);
             request.Uri = uri;
             return message;
@@ -73,8 +69,10 @@ namespace Azure.Management.Storage
         /// <summary> Gets the managementpolicy associated with the specified storage account. </summary>
         /// <param name="resourceGroupName"> The name of the resource group within the user&apos;s subscription. The name is case insensitive. </param>
         /// <param name="accountName"> The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only. </param>
+        /// <param name="managementPolicyName"> The name of the Storage Account Management Policy. It should always be &apos;default&apos;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<ManagementPolicy>> GetAsync(string resourceGroupName, string accountName, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/> or <paramref name="accountName"/> is null. </exception>
+        public async Task<Response<ManagementPolicy>> GetAsync(string resourceGroupName, string accountName, ManagementPolicyName managementPolicyName, CancellationToken cancellationToken = default)
         {
             if (resourceGroupName == null)
             {
@@ -85,7 +83,7 @@ namespace Azure.Management.Storage
                 throw new ArgumentNullException(nameof(accountName));
             }
 
-            using var message = CreateGetRequest(resourceGroupName, accountName);
+            using var message = CreateGetRequest(resourceGroupName, accountName, managementPolicyName);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -93,14 +91,7 @@ namespace Azure.Management.Storage
                     {
                         ManagementPolicy value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = ManagementPolicy.DeserializeManagementPolicy(document.RootElement);
-                        }
+                        value = ManagementPolicy.DeserializeManagementPolicy(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -111,8 +102,10 @@ namespace Azure.Management.Storage
         /// <summary> Gets the managementpolicy associated with the specified storage account. </summary>
         /// <param name="resourceGroupName"> The name of the resource group within the user&apos;s subscription. The name is case insensitive. </param>
         /// <param name="accountName"> The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only. </param>
+        /// <param name="managementPolicyName"> The name of the Storage Account Management Policy. It should always be &apos;default&apos;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<ManagementPolicy> Get(string resourceGroupName, string accountName, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/> or <paramref name="accountName"/> is null. </exception>
+        public Response<ManagementPolicy> Get(string resourceGroupName, string accountName, ManagementPolicyName managementPolicyName, CancellationToken cancellationToken = default)
         {
             if (resourceGroupName == null)
             {
@@ -123,7 +116,7 @@ namespace Azure.Management.Storage
                 throw new ArgumentNullException(nameof(accountName));
             }
 
-            using var message = CreateGetRequest(resourceGroupName, accountName);
+            using var message = CreateGetRequest(resourceGroupName, accountName, managementPolicyName);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -131,14 +124,7 @@ namespace Azure.Management.Storage
                     {
                         ManagementPolicy value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = ManagementPolicy.DeserializeManagementPolicy(document.RootElement);
-                        }
+                        value = ManagementPolicy.DeserializeManagementPolicy(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -146,7 +132,7 @@ namespace Azure.Management.Storage
             }
         }
 
-        internal HttpMessage CreateCreateOrUpdateRequest(string resourceGroupName, string accountName, ManagementPolicySchema policy)
+        internal HttpMessage CreateCreateOrUpdateRequest(string resourceGroupName, string accountName, ManagementPolicyName managementPolicyName, ManagementPolicySchema policy)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -160,7 +146,7 @@ namespace Azure.Management.Storage
             uri.AppendPath("/providers/Microsoft.Storage/storageAccounts/", false);
             uri.AppendPath(accountName, true);
             uri.AppendPath("/managementPolicies/", false);
-            uri.AppendPath("default", true);
+            uri.AppendPath(managementPolicyName.ToString(), true);
             uri.AppendQuery("api-version", apiVersion, true);
             request.Uri = uri;
             request.Headers.Add("Content-Type", "application/json");
@@ -177,9 +163,11 @@ namespace Azure.Management.Storage
         /// <summary> Sets the managementpolicy to the specified storage account. </summary>
         /// <param name="resourceGroupName"> The name of the resource group within the user&apos;s subscription. The name is case insensitive. </param>
         /// <param name="accountName"> The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only. </param>
+        /// <param name="managementPolicyName"> The name of the Storage Account Management Policy. It should always be &apos;default&apos;. </param>
         /// <param name="policy"> The Storage Account ManagementPolicy, in JSON format. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<ManagementPolicy>> CreateOrUpdateAsync(string resourceGroupName, string accountName, ManagementPolicySchema policy = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/> or <paramref name="accountName"/> is null. </exception>
+        public async Task<Response<ManagementPolicy>> CreateOrUpdateAsync(string resourceGroupName, string accountName, ManagementPolicyName managementPolicyName, ManagementPolicySchema policy = null, CancellationToken cancellationToken = default)
         {
             if (resourceGroupName == null)
             {
@@ -190,7 +178,7 @@ namespace Azure.Management.Storage
                 throw new ArgumentNullException(nameof(accountName));
             }
 
-            using var message = CreateCreateOrUpdateRequest(resourceGroupName, accountName, policy);
+            using var message = CreateCreateOrUpdateRequest(resourceGroupName, accountName, managementPolicyName, policy);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -198,14 +186,7 @@ namespace Azure.Management.Storage
                     {
                         ManagementPolicy value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = ManagementPolicy.DeserializeManagementPolicy(document.RootElement);
-                        }
+                        value = ManagementPolicy.DeserializeManagementPolicy(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -216,9 +197,11 @@ namespace Azure.Management.Storage
         /// <summary> Sets the managementpolicy to the specified storage account. </summary>
         /// <param name="resourceGroupName"> The name of the resource group within the user&apos;s subscription. The name is case insensitive. </param>
         /// <param name="accountName"> The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only. </param>
+        /// <param name="managementPolicyName"> The name of the Storage Account Management Policy. It should always be &apos;default&apos;. </param>
         /// <param name="policy"> The Storage Account ManagementPolicy, in JSON format. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<ManagementPolicy> CreateOrUpdate(string resourceGroupName, string accountName, ManagementPolicySchema policy = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/> or <paramref name="accountName"/> is null. </exception>
+        public Response<ManagementPolicy> CreateOrUpdate(string resourceGroupName, string accountName, ManagementPolicyName managementPolicyName, ManagementPolicySchema policy = null, CancellationToken cancellationToken = default)
         {
             if (resourceGroupName == null)
             {
@@ -229,7 +212,7 @@ namespace Azure.Management.Storage
                 throw new ArgumentNullException(nameof(accountName));
             }
 
-            using var message = CreateCreateOrUpdateRequest(resourceGroupName, accountName, policy);
+            using var message = CreateCreateOrUpdateRequest(resourceGroupName, accountName, managementPolicyName, policy);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -237,14 +220,7 @@ namespace Azure.Management.Storage
                     {
                         ManagementPolicy value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = ManagementPolicy.DeserializeManagementPolicy(document.RootElement);
-                        }
+                        value = ManagementPolicy.DeserializeManagementPolicy(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -252,7 +228,7 @@ namespace Azure.Management.Storage
             }
         }
 
-        internal HttpMessage CreateDeleteRequest(string resourceGroupName, string accountName)
+        internal HttpMessage CreateDeleteRequest(string resourceGroupName, string accountName, ManagementPolicyName managementPolicyName)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -266,7 +242,7 @@ namespace Azure.Management.Storage
             uri.AppendPath("/providers/Microsoft.Storage/storageAccounts/", false);
             uri.AppendPath(accountName, true);
             uri.AppendPath("/managementPolicies/", false);
-            uri.AppendPath("default", true);
+            uri.AppendPath(managementPolicyName.ToString(), true);
             uri.AppendQuery("api-version", apiVersion, true);
             request.Uri = uri;
             return message;
@@ -275,8 +251,10 @@ namespace Azure.Management.Storage
         /// <summary> Deletes the managementpolicy associated with the specified storage account. </summary>
         /// <param name="resourceGroupName"> The name of the resource group within the user&apos;s subscription. The name is case insensitive. </param>
         /// <param name="accountName"> The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only. </param>
+        /// <param name="managementPolicyName"> The name of the Storage Account Management Policy. It should always be &apos;default&apos;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response> DeleteAsync(string resourceGroupName, string accountName, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/> or <paramref name="accountName"/> is null. </exception>
+        public async Task<Response> DeleteAsync(string resourceGroupName, string accountName, ManagementPolicyName managementPolicyName, CancellationToken cancellationToken = default)
         {
             if (resourceGroupName == null)
             {
@@ -287,7 +265,7 @@ namespace Azure.Management.Storage
                 throw new ArgumentNullException(nameof(accountName));
             }
 
-            using var message = CreateDeleteRequest(resourceGroupName, accountName);
+            using var message = CreateDeleteRequest(resourceGroupName, accountName, managementPolicyName);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -302,8 +280,10 @@ namespace Azure.Management.Storage
         /// <summary> Deletes the managementpolicy associated with the specified storage account. </summary>
         /// <param name="resourceGroupName"> The name of the resource group within the user&apos;s subscription. The name is case insensitive. </param>
         /// <param name="accountName"> The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only. </param>
+        /// <param name="managementPolicyName"> The name of the Storage Account Management Policy. It should always be &apos;default&apos;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response Delete(string resourceGroupName, string accountName, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/> or <paramref name="accountName"/> is null. </exception>
+        public Response Delete(string resourceGroupName, string accountName, ManagementPolicyName managementPolicyName, CancellationToken cancellationToken = default)
         {
             if (resourceGroupName == null)
             {
@@ -314,7 +294,7 @@ namespace Azure.Management.Storage
                 throw new ArgumentNullException(nameof(accountName));
             }
 
-            using var message = CreateDeleteRequest(resourceGroupName, accountName);
+            using var message = CreateDeleteRequest(resourceGroupName, accountName, managementPolicyName);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

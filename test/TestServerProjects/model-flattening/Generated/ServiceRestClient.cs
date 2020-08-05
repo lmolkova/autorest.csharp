@@ -116,26 +116,12 @@ namespace model_flattening
                     {
                         IReadOnlyList<FlattenedProduct> value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        List<FlattenedProduct> array = new List<FlattenedProduct>();
+                        foreach (var item in document.RootElement.EnumerateArray())
                         {
-                            value = null;
+                            array.Add(FlattenedProduct.DeserializeFlattenedProduct(item));
                         }
-                        else
-                        {
-                            List<FlattenedProduct> array = new List<FlattenedProduct>();
-                            foreach (var item in document.RootElement.EnumerateArray())
-                            {
-                                if (item.ValueKind == JsonValueKind.Null)
-                                {
-                                    array.Add(null);
-                                }
-                                else
-                                {
-                                    array.Add(FlattenedProduct.DeserializeFlattenedProduct(item));
-                                }
-                            }
-                            value = array;
-                        }
+                        value = array;
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -155,26 +141,12 @@ namespace model_flattening
                     {
                         IReadOnlyList<FlattenedProduct> value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        List<FlattenedProduct> array = new List<FlattenedProduct>();
+                        foreach (var item in document.RootElement.EnumerateArray())
                         {
-                            value = null;
+                            array.Add(FlattenedProduct.DeserializeFlattenedProduct(item));
                         }
-                        else
-                        {
-                            List<FlattenedProduct> array = new List<FlattenedProduct>();
-                            foreach (var item in document.RootElement.EnumerateArray())
-                            {
-                                if (item.ValueKind == JsonValueKind.Null)
-                                {
-                                    array.Add(null);
-                                }
-                                else
-                                {
-                                    array.Add(FlattenedProduct.DeserializeFlattenedProduct(item));
-                                }
-                            }
-                            value = array;
-                        }
+                        value = array;
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -262,26 +234,12 @@ namespace model_flattening
                     {
                         IReadOnlyList<ProductWrapper> value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        List<ProductWrapper> array = new List<ProductWrapper>();
+                        foreach (var item in document.RootElement.EnumerateArray())
                         {
-                            value = null;
+                            array.Add(ProductWrapper.DeserializeProductWrapper(item));
                         }
-                        else
-                        {
-                            List<ProductWrapper> array = new List<ProductWrapper>();
-                            foreach (var item in document.RootElement.EnumerateArray())
-                            {
-                                if (item.ValueKind == JsonValueKind.Null)
-                                {
-                                    array.Add(null);
-                                }
-                                else
-                                {
-                                    array.Add(ProductWrapper.DeserializeProductWrapper(item));
-                                }
-                            }
-                            value = array;
-                        }
+                        value = array;
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -301,26 +259,12 @@ namespace model_flattening
                     {
                         IReadOnlyList<ProductWrapper> value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        List<ProductWrapper> array = new List<ProductWrapper>();
+                        foreach (var item in document.RootElement.EnumerateArray())
                         {
-                            value = null;
+                            array.Add(ProductWrapper.DeserializeProductWrapper(item));
                         }
-                        else
-                        {
-                            List<ProductWrapper> array = new List<ProductWrapper>();
-                            foreach (var item in document.RootElement.EnumerateArray())
-                            {
-                                if (item.ValueKind == JsonValueKind.Null)
-                                {
-                                    array.Add(null);
-                                }
-                                else
-                                {
-                                    array.Add(ProductWrapper.DeserializeProductWrapper(item));
-                                }
-                            }
-                            value = array;
-                        }
+                        value = array;
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -409,26 +353,12 @@ namespace model_flattening
                     {
                         IReadOnlyDictionary<string, FlattenedProduct> value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        Dictionary<string, FlattenedProduct> dictionary = new Dictionary<string, FlattenedProduct>();
+                        foreach (var property in document.RootElement.EnumerateObject())
                         {
-                            value = null;
+                            dictionary.Add(property.Name, FlattenedProduct.DeserializeFlattenedProduct(property.Value));
                         }
-                        else
-                        {
-                            Dictionary<string, FlattenedProduct> dictionary = new Dictionary<string, FlattenedProduct>();
-                            foreach (var property in document.RootElement.EnumerateObject())
-                            {
-                                if (property.Value.ValueKind == JsonValueKind.Null)
-                                {
-                                    dictionary.Add(property.Name, null);
-                                }
-                                else
-                                {
-                                    dictionary.Add(property.Name, FlattenedProduct.DeserializeFlattenedProduct(property.Value));
-                                }
-                            }
-                            value = dictionary;
-                        }
+                        value = dictionary;
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -448,26 +378,12 @@ namespace model_flattening
                     {
                         IReadOnlyDictionary<string, FlattenedProduct> value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        Dictionary<string, FlattenedProduct> dictionary = new Dictionary<string, FlattenedProduct>();
+                        foreach (var property in document.RootElement.EnumerateObject())
                         {
-                            value = null;
+                            dictionary.Add(property.Name, FlattenedProduct.DeserializeFlattenedProduct(property.Value));
                         }
-                        else
-                        {
-                            Dictionary<string, FlattenedProduct> dictionary = new Dictionary<string, FlattenedProduct>();
-                            foreach (var property in document.RootElement.EnumerateObject())
-                            {
-                                if (property.Value.ValueKind == JsonValueKind.Null)
-                                {
-                                    dictionary.Add(property.Name, null);
-                                }
-                                else
-                                {
-                                    dictionary.Add(property.Name, FlattenedProduct.DeserializeFlattenedProduct(property.Value));
-                                }
-                            }
-                            value = dictionary;
-                        }
+                        value = dictionary;
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -550,14 +466,7 @@ namespace model_flattening
                     {
                         ResourceCollection value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = ResourceCollection.DeserializeResourceCollection(document.RootElement);
-                        }
+                        value = ResourceCollection.DeserializeResourceCollection(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -577,14 +486,7 @@ namespace model_flattening
                     {
                         ResourceCollection value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = ResourceCollection.DeserializeResourceCollection(document.RootElement);
-                        }
+                        value = ResourceCollection.DeserializeResourceCollection(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -624,14 +526,7 @@ namespace model_flattening
                     {
                         SimpleProduct value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = SimpleProduct.DeserializeSimpleProduct(document.RootElement);
-                        }
+                        value = SimpleProduct.DeserializeSimpleProduct(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -652,14 +547,7 @@ namespace model_flattening
                     {
                         SimpleProduct value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = SimpleProduct.DeserializeSimpleProduct(document.RootElement);
-                        }
+                        value = SimpleProduct.DeserializeSimpleProduct(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -667,7 +555,7 @@ namespace model_flattening
             }
         }
 
-        internal HttpMessage CreatePostFlattenedSimpleProductRequest(string productId, string description, string maxProductDisplayName, string capacity, string genericValue, string odataValue)
+        internal HttpMessage CreatePostFlattenedSimpleProductRequest(string productId, string description, string maxProductDisplayName, string genericValue, string odataValue)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -677,7 +565,13 @@ namespace model_flattening
             uri.AppendPath("/model-flatten/customFlattening", false);
             request.Uri = uri;
             request.Headers.Add("Content-Type", "application/json");
-            var model = new SimpleProduct(productId, description, maxProductDisplayName, capacity, genericValue, odataValue);
+            var model = new SimpleProduct(productId)
+            {
+                Description = description,
+                MaxProductDisplayName = maxProductDisplayName,
+                GenericValue = genericValue,
+                OdataValue = odataValue
+            };
             var content = new Utf8JsonRequestContent();
             content.JsonWriter.WriteObjectValue(model);
             request.Content = content;
@@ -688,18 +582,18 @@ namespace model_flattening
         /// <param name="productId"> Unique identifier representing a specific product for a given latitude &amp; longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles. </param>
         /// <param name="description"> Description of product. </param>
         /// <param name="maxProductDisplayName"> Display name of product. </param>
-        /// <param name="capacity"> Capacity of product. For example, 4 people. </param>
         /// <param name="genericValue"> Generic URL value. </param>
         /// <param name="odataValue"> URL value. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<SimpleProduct>> PostFlattenedSimpleProductAsync(string productId, string description = null, string maxProductDisplayName = null, string capacity = "Large", string genericValue = null, string odataValue = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="productId"/> is null. </exception>
+        public async Task<Response<SimpleProduct>> PostFlattenedSimpleProductAsync(string productId, string description = null, string maxProductDisplayName = null, string genericValue = null, string odataValue = null, CancellationToken cancellationToken = default)
         {
             if (productId == null)
             {
                 throw new ArgumentNullException(nameof(productId));
             }
 
-            using var message = CreatePostFlattenedSimpleProductRequest(productId, description, maxProductDisplayName, capacity, genericValue, odataValue);
+            using var message = CreatePostFlattenedSimpleProductRequest(productId, description, maxProductDisplayName, genericValue, odataValue);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -707,14 +601,7 @@ namespace model_flattening
                     {
                         SimpleProduct value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = SimpleProduct.DeserializeSimpleProduct(document.RootElement);
-                        }
+                        value = SimpleProduct.DeserializeSimpleProduct(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -726,18 +613,18 @@ namespace model_flattening
         /// <param name="productId"> Unique identifier representing a specific product for a given latitude &amp; longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles. </param>
         /// <param name="description"> Description of product. </param>
         /// <param name="maxProductDisplayName"> Display name of product. </param>
-        /// <param name="capacity"> Capacity of product. For example, 4 people. </param>
         /// <param name="genericValue"> Generic URL value. </param>
         /// <param name="odataValue"> URL value. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<SimpleProduct> PostFlattenedSimpleProduct(string productId, string description = null, string maxProductDisplayName = null, string capacity = "Large", string genericValue = null, string odataValue = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="productId"/> is null. </exception>
+        public Response<SimpleProduct> PostFlattenedSimpleProduct(string productId, string description = null, string maxProductDisplayName = null, string genericValue = null, string odataValue = null, CancellationToken cancellationToken = default)
         {
             if (productId == null)
             {
                 throw new ArgumentNullException(nameof(productId));
             }
 
-            using var message = CreatePostFlattenedSimpleProductRequest(productId, description, maxProductDisplayName, capacity, genericValue, odataValue);
+            using var message = CreatePostFlattenedSimpleProductRequest(productId, description, maxProductDisplayName, genericValue, odataValue);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -745,14 +632,7 @@ namespace model_flattening
                     {
                         SimpleProduct value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = SimpleProduct.DeserializeSimpleProduct(document.RootElement);
-                        }
+                        value = SimpleProduct.DeserializeSimpleProduct(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -760,7 +640,7 @@ namespace model_flattening
             }
         }
 
-        internal HttpMessage CreatePutSimpleProductWithGroupingRequest(FlattenParameterGroup flattenParameterGroup, string capacity)
+        internal HttpMessage CreatePutSimpleProductWithGroupingRequest(FlattenParameterGroup flattenParameterGroup)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -772,7 +652,13 @@ namespace model_flattening
             uri.AppendPath("/", false);
             request.Uri = uri;
             request.Headers.Add("Content-Type", "application/json");
-            var model = new SimpleProduct(flattenParameterGroup.ProductId, flattenParameterGroup.Description, flattenParameterGroup.MaxProductDisplayName, capacity, flattenParameterGroup.GenericValue, flattenParameterGroup.OdataValue);
+            var model = new SimpleProduct(flattenParameterGroup.ProductId)
+            {
+                Description = flattenParameterGroup.Description,
+                MaxProductDisplayName = flattenParameterGroup.MaxProductDisplayName,
+                GenericValue = flattenParameterGroup.GenericValue,
+                OdataValue = flattenParameterGroup.OdataValue
+            };
             var content = new Utf8JsonRequestContent();
             content.JsonWriter.WriteObjectValue(model);
             request.Content = content;
@@ -781,16 +667,16 @@ namespace model_flattening
 
         /// <summary> Put Simple Product with client flattening true on the model. </summary>
         /// <param name="flattenParameterGroup"> Parameter group. </param>
-        /// <param name="capacity"> Capacity of product. For example, 4 people. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<SimpleProduct>> PutSimpleProductWithGroupingAsync(FlattenParameterGroup flattenParameterGroup, string capacity = "Large", CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="flattenParameterGroup"/> is null. </exception>
+        public async Task<Response<SimpleProduct>> PutSimpleProductWithGroupingAsync(FlattenParameterGroup flattenParameterGroup, CancellationToken cancellationToken = default)
         {
             if (flattenParameterGroup == null)
             {
                 throw new ArgumentNullException(nameof(flattenParameterGroup));
             }
 
-            using var message = CreatePutSimpleProductWithGroupingRequest(flattenParameterGroup, capacity);
+            using var message = CreatePutSimpleProductWithGroupingRequest(flattenParameterGroup);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -798,14 +684,7 @@ namespace model_flattening
                     {
                         SimpleProduct value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = SimpleProduct.DeserializeSimpleProduct(document.RootElement);
-                        }
+                        value = SimpleProduct.DeserializeSimpleProduct(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -815,16 +694,16 @@ namespace model_flattening
 
         /// <summary> Put Simple Product with client flattening true on the model. </summary>
         /// <param name="flattenParameterGroup"> Parameter group. </param>
-        /// <param name="capacity"> Capacity of product. For example, 4 people. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<SimpleProduct> PutSimpleProductWithGrouping(FlattenParameterGroup flattenParameterGroup, string capacity = "Large", CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="flattenParameterGroup"/> is null. </exception>
+        public Response<SimpleProduct> PutSimpleProductWithGrouping(FlattenParameterGroup flattenParameterGroup, CancellationToken cancellationToken = default)
         {
             if (flattenParameterGroup == null)
             {
                 throw new ArgumentNullException(nameof(flattenParameterGroup));
             }
 
-            using var message = CreatePutSimpleProductWithGroupingRequest(flattenParameterGroup, capacity);
+            using var message = CreatePutSimpleProductWithGroupingRequest(flattenParameterGroup);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -832,14 +711,7 @@ namespace model_flattening
                     {
                         SimpleProduct value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = SimpleProduct.DeserializeSimpleProduct(document.RootElement);
-                        }
+                        value = SimpleProduct.DeserializeSimpleProduct(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:

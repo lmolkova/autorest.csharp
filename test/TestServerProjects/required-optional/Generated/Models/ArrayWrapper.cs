@@ -16,6 +16,7 @@ namespace required_optional.Models
     {
         /// <summary> Initializes a new instance of ArrayWrapper. </summary>
         /// <param name="value"> . </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="value"/> is null. </exception>
         public ArrayWrapper(IEnumerable<string> value)
         {
             if (value == null)
@@ -24,13 +25,6 @@ namespace required_optional.Models
             }
 
             Value = value.ToList();
-        }
-
-        /// <summary> Initializes a new instance of ArrayWrapper. </summary>
-        /// <param name="value"> . </param>
-        internal ArrayWrapper(IList<string> value)
-        {
-            Value = value ?? new List<string>();
         }
 
         public IList<string> Value { get; }

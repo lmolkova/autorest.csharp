@@ -259,14 +259,7 @@ namespace body_string
                     {
                         RefColorConstant value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = RefColorConstant.DeserializeRefColorConstant(document.RootElement);
-                        }
+                        value = RefColorConstant.DeserializeRefColorConstant(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -286,14 +279,7 @@ namespace body_string
                     {
                         RefColorConstant value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = RefColorConstant.DeserializeRefColorConstant(document.RootElement);
-                        }
+                        value = RefColorConstant.DeserializeRefColorConstant(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -320,6 +306,7 @@ namespace body_string
         /// <summary> Sends value &apos;green-color&apos; from a constant. </summary>
         /// <param name="enumStringBody"> The RefColorConstant to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="enumStringBody"/> is null. </exception>
         public async Task<Response> PutReferencedConstantAsync(RefColorConstant enumStringBody, CancellationToken cancellationToken = default)
         {
             if (enumStringBody == null)
@@ -341,6 +328,7 @@ namespace body_string
         /// <summary> Sends value &apos;green-color&apos; from a constant. </summary>
         /// <param name="enumStringBody"> The RefColorConstant to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="enumStringBody"/> is null. </exception>
         public Response PutReferencedConstant(RefColorConstant enumStringBody, CancellationToken cancellationToken = default)
         {
             if (enumStringBody == null)

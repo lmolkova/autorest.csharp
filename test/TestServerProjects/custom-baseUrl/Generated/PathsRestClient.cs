@@ -24,14 +24,8 @@ namespace custom_baseUrl
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
         /// <param name="host"> A string value that is used as a global part of the parameterized host. </param>
-        /// <exception cref="ArgumentNullException"> This occurs when one of the required arguments is null. </exception>
         public PathsRestClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string host = "host")
         {
-            if (host == null)
-            {
-                throw new ArgumentNullException(nameof(host));
-            }
-
             this.host = host;
             _clientDiagnostics = clientDiagnostics;
             _pipeline = pipeline;
@@ -54,6 +48,7 @@ namespace custom_baseUrl
         /// <summary> Get a 200 to test a valid base uri. </summary>
         /// <param name="accountName"> Account Name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="accountName"/> is null. </exception>
         public async Task<Response> GetEmptyAsync(string accountName, CancellationToken cancellationToken = default)
         {
             if (accountName == null)
@@ -75,6 +70,7 @@ namespace custom_baseUrl
         /// <summary> Get a 200 to test a valid base uri. </summary>
         /// <param name="accountName"> Account Name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="accountName"/> is null. </exception>
         public Response GetEmpty(string accountName, CancellationToken cancellationToken = default)
         {
             if (accountName == null)
