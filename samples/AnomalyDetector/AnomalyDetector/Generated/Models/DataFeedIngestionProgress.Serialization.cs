@@ -15,30 +15,22 @@ namespace AnomalyDetector.Models
     {
         internal static DataFeedIngestionProgress DeserializeDataFeedIngestionProgress(JsonElement element)
         {
-            DateTimeOffset? latestSuccessTimestamp = default;
-            DateTimeOffset? latestActiveTimestamp = default;
+            Optional<DateTimeOffset> latestSuccessTimestamp = default;
+            Optional<DateTimeOffset> latestActiveTimestamp = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("latestSuccessTimestamp"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     latestSuccessTimestamp = property.Value.GetDateTimeOffset("O");
                     continue;
                 }
                 if (property.NameEquals("latestActiveTimestamp"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     latestActiveTimestamp = property.Value.GetDateTimeOffset("O");
                     continue;
                 }
             }
-            return new DataFeedIngestionProgress(latestSuccessTimestamp, latestActiveTimestamp);
+            return new DataFeedIngestionProgress(Optional.ToNullable(latestSuccessTimestamp), Optional.ToNullable(latestActiveTimestamp));
         }
     }
 }

@@ -15,6 +15,7 @@ namespace AnomalyDetector.Models
         /// <summary> Initializes a new instance of AzureEventHubsParameter. </summary>
         /// <param name="connectionString"> Azure Event Hubs connection string. </param>
         /// <param name="consumerGroup"> Azure Event Hubs consumer group. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="connectionString"/> or <paramref name="consumerGroup"/> is null. </exception>
         internal AzureEventHubsParameter(string connectionString, string consumerGroup)
         {
             if (connectionString == null)

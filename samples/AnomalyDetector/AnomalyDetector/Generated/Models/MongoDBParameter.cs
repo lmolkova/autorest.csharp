@@ -16,6 +16,7 @@ namespace AnomalyDetector.Models
         /// <param name="connectionString"> MongoDB connection string. </param>
         /// <param name="database"> Database name. </param>
         /// <param name="command"> Query script. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="connectionString"/>, <paramref name="database"/>, or <paramref name="command"/> is null. </exception>
         internal MongoDBParameter(string connectionString, string database, string command)
         {
             if (connectionString == null)

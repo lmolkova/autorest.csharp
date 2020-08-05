@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using Azure.Core;
 
 namespace AnomalyDetector.Models
 {
@@ -15,6 +16,7 @@ namespace AnomalyDetector.Models
     {
         /// <summary> Initializes a new instance of HookInfo. </summary>
         /// <param name="hookName"> hook unique name. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="hookName"/> is null. </exception>
         internal HookInfo(string hookName)
         {
             if (hookName == null)
@@ -23,23 +25,7 @@ namespace AnomalyDetector.Models
             }
 
             HookName = hookName;
-        }
-
-        /// <summary> Initializes a new instance of HookInfo. </summary>
-        /// <param name="hookType"> . </param>
-        /// <param name="hookId"> Hook unique id. </param>
-        /// <param name="hookName"> hook unique name. </param>
-        /// <param name="description"> hook description. </param>
-        /// <param name="externalLink"> hook external link. </param>
-        /// <param name="admins"> hook administrators. </param>
-        internal HookInfo(HookType hookType, Guid? hookId, string hookName, string description, string externalLink, IReadOnlyList<string> admins)
-        {
-            HookType = hookType;
-            HookId = hookId;
-            HookName = hookName;
-            Description = description;
-            ExternalLink = externalLink;
-            Admins = admins;
+            Admins = new ChangeTrackingList<string>();
         }
 
         internal HookType HookType { get; set; }

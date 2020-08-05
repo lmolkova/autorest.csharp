@@ -19,23 +19,6 @@ namespace AnomalyDetector.Models
             MetricId = metricId;
         }
 
-        /// <summary> Initializes a new instance of MetricFeedbackFilter. </summary>
-        /// <param name="feedbackType"> . </param>
-        /// <param name="metricId"> filter feedbacks by metric id. </param>
-        /// <param name="dimensionFilter"> . </param>
-        /// <param name="startTime"> filter feedbacks which startTime equals or larger than this timestamp. </param>
-        /// <param name="endTime"> filter feedbacks which endTime equals or smaller than this timestamp. </param>
-        /// <param name="userPrincipal"> filter feedbacks given by this user. </param>
-        internal MetricFeedbackFilter(FeedbackType feedbackType, Guid metricId, FeedbackDimensionFilter dimensionFilter, DateTimeOffset? startTime, DateTimeOffset? endTime, string userPrincipal)
-        {
-            FeedbackType = feedbackType;
-            MetricId = metricId;
-            DimensionFilter = dimensionFilter;
-            StartTime = startTime;
-            EndTime = endTime;
-            UserPrincipal = userPrincipal;
-        }
-
         internal FeedbackType FeedbackType { get; set; }
         /// <summary> filter feedbacks by metric id. </summary>
         public Guid MetricId { get; }

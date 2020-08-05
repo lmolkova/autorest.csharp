@@ -19,17 +19,17 @@ namespace AnomalyDetector.Models
             writer.WriteObjectValue(Series);
             writer.WritePropertyName("conditionOperator");
             writer.WriteStringValue(ConditionOperator.ToString());
-            if (SmartDetectionCondition != null)
+            if (Optional.IsDefined(SmartDetectionCondition))
             {
                 writer.WritePropertyName("smartDetectionCondition");
                 writer.WriteObjectValue(SmartDetectionCondition);
             }
-            if (HardThresholdCondition != null)
+            if (Optional.IsDefined(HardThresholdCondition))
             {
                 writer.WritePropertyName("hardThresholdCondition");
                 writer.WriteObjectValue(HardThresholdCondition);
             }
-            if (ChangeThresholdCondition != null)
+            if (Optional.IsDefined(ChangeThresholdCondition))
             {
                 writer.WritePropertyName("changeThresholdCondition");
                 writer.WriteObjectValue(ChangeThresholdCondition);
@@ -41,9 +41,9 @@ namespace AnomalyDetector.Models
         {
             SeriesIdentity series = default;
             AnomalyDetectionConfigurationLogicType conditionOperator = default;
-            SmartDetectionCondition smartDetectionCondition = default;
-            HardThresholdCondition hardThresholdCondition = default;
-            ChangeThresholdCondition changeThresholdCondition = default;
+            Optional<SmartDetectionCondition> smartDetectionCondition = default;
+            Optional<HardThresholdCondition> hardThresholdCondition = default;
+            Optional<ChangeThresholdCondition> changeThresholdCondition = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("series"))
@@ -58,33 +58,21 @@ namespace AnomalyDetector.Models
                 }
                 if (property.NameEquals("smartDetectionCondition"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     smartDetectionCondition = SmartDetectionCondition.DeserializeSmartDetectionCondition(property.Value);
                     continue;
                 }
                 if (property.NameEquals("hardThresholdCondition"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     hardThresholdCondition = HardThresholdCondition.DeserializeHardThresholdCondition(property.Value);
                     continue;
                 }
                 if (property.NameEquals("changeThresholdCondition"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     changeThresholdCondition = ChangeThresholdCondition.DeserializeChangeThresholdCondition(property.Value);
                     continue;
                 }
             }
-            return new SeriesConfiguration(series, conditionOperator, smartDetectionCondition, hardThresholdCondition, changeThresholdCondition);
+            return new SeriesConfiguration(series, conditionOperator, smartDetectionCondition.Value, hardThresholdCondition.Value, changeThresholdCondition.Value);
         }
     }
 }

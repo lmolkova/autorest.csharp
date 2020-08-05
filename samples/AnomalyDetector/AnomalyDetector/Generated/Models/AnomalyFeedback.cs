@@ -17,6 +17,7 @@ namespace AnomalyDetector.Models
         /// <param name="startTime"> the start timestamp of feedback timerange. </param>
         /// <param name="endTime"> the end timestamp of feedback timerange, when equals to startTime means only one timestamp. </param>
         /// <param name="value"> . </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="value"/> is null. </exception>
         internal AnomalyFeedback(Guid metricId, DateTimeOffset startTime, DateTimeOffset endTime, AnomalyFeedbackValue value) : base(metricId)
         {
             if (value == null)
@@ -28,26 +29,6 @@ namespace AnomalyDetector.Models
             EndTime = endTime;
             Value = value;
             FeedbackType = new FeedbackType("AnomalyFeedback");
-        }
-
-        /// <summary> Initializes a new instance of AnomalyFeedback. </summary>
-        /// <param name="feedbackType"> . </param>
-        /// <param name="feedbackId"> feedback unique id. </param>
-        /// <param name="createdTime"> feedback created time. </param>
-        /// <param name="userPrincipal"> user who gives this feedback. </param>
-        /// <param name="metricId"> metric unique id. </param>
-        /// <param name="dimensionFilter"> . </param>
-        /// <param name="startTime"> the start timestamp of feedback timerange. </param>
-        /// <param name="endTime"> the end timestamp of feedback timerange, when equals to startTime means only one timestamp. </param>
-        /// <param name="value"> . </param>
-        /// <param name="sourceInfo"> . </param>
-        internal AnomalyFeedback(FeedbackType feedbackType, Guid? feedbackId, DateTimeOffset? createdTime, string userPrincipal, Guid metricId, FeedbackDimensionFilter dimensionFilter, DateTimeOffset startTime, DateTimeOffset endTime, AnomalyFeedbackValue value, MetricAnomalyFeedbackSourceInfo sourceInfo) : base(feedbackType, feedbackId, createdTime, userPrincipal, metricId, dimensionFilter)
-        {
-            StartTime = startTime;
-            EndTime = endTime;
-            Value = value;
-            SourceInfo = sourceInfo;
-            FeedbackType = feedbackType;
         }
 
         /// <summary> the start timestamp of feedback timerange. </summary>

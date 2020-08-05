@@ -15,80 +15,52 @@ namespace AnomalyDetector.Models
     {
         internal static IncidentResult DeserializeIncidentResult(JsonElement element)
         {
-            Guid? metricId = default;
-            Guid? anomalyDetectionConfigurationId = default;
-            string incidentId = default;
-            DateTimeOffset? startTime = default;
-            DateTimeOffset? lastTime = default;
-            SeriesIdentity rootNode = default;
-            IncidentProperty property = default;
+            Optional<Guid> metricId = default;
+            Optional<Guid> anomalyDetectionConfigurationId = default;
+            Optional<string> incidentId = default;
+            Optional<DateTimeOffset> startTime = default;
+            Optional<DateTimeOffset> lastTime = default;
+            Optional<SeriesIdentity> rootNode = default;
+            Optional<IncidentProperty> property = default;
             foreach (var property0 in element.EnumerateObject())
             {
                 if (property0.NameEquals("metricId"))
                 {
-                    if (property0.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     metricId = property0.Value.GetGuid();
                     continue;
                 }
                 if (property0.NameEquals("anomalyDetectionConfigurationId"))
                 {
-                    if (property0.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     anomalyDetectionConfigurationId = property0.Value.GetGuid();
                     continue;
                 }
                 if (property0.NameEquals("incidentId"))
                 {
-                    if (property0.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     incidentId = property0.Value.GetString();
                     continue;
                 }
                 if (property0.NameEquals("startTime"))
                 {
-                    if (property0.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     startTime = property0.Value.GetDateTimeOffset("O");
                     continue;
                 }
                 if (property0.NameEquals("lastTime"))
                 {
-                    if (property0.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     lastTime = property0.Value.GetDateTimeOffset("O");
                     continue;
                 }
                 if (property0.NameEquals("rootNode"))
                 {
-                    if (property0.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     rootNode = SeriesIdentity.DeserializeSeriesIdentity(property0.Value);
                     continue;
                 }
                 if (property0.NameEquals("property"))
                 {
-                    if (property0.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     property = IncidentProperty.DeserializeIncidentProperty(property0.Value);
                     continue;
                 }
             }
-            return new IncidentResult(metricId, anomalyDetectionConfigurationId, incidentId, startTime, lastTime, rootNode, property);
+            return new IncidentResult(Optional.ToNullable(metricId), Optional.ToNullable(anomalyDetectionConfigurationId), incidentId.Value, Optional.ToNullable(startTime), Optional.ToNullable(lastTime), rootNode.Value, property.Value);
         }
     }
 }

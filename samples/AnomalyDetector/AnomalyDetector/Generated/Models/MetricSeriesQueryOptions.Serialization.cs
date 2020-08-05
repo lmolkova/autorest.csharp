@@ -17,21 +17,28 @@ namespace AnomalyDetector.Models
             writer.WriteStartObject();
             writer.WritePropertyName("activeSince");
             writer.WriteStringValue(ActiveSince, "O");
-            if (DimensionFilter != null)
+            if (Optional.IsCollectionDefined(DimensionFilter))
             {
-                writer.WritePropertyName("dimensionFilter");
-                writer.WriteStartObject();
-                foreach (var item in DimensionFilter)
+                if (DimensionFilter != null)
                 {
-                    writer.WritePropertyName(item.Key);
-                    writer.WriteStartArray();
-                    foreach (var item0 in item.Value)
+                    writer.WritePropertyName("dimensionFilter");
+                    writer.WriteStartObject();
+                    foreach (var item in DimensionFilter)
                     {
-                        writer.WriteStringValue(item0);
+                        writer.WritePropertyName(item.Key);
+                        writer.WriteStartArray();
+                        foreach (var item0 in item.Value)
+                        {
+                            writer.WriteStringValue(item0);
+                        }
+                        writer.WriteEndArray();
                     }
-                    writer.WriteEndArray();
+                    writer.WriteEndObject();
                 }
-                writer.WriteEndObject();
+                else
+                {
+                    writer.WriteNull("dimensionFilter");
+                }
             }
             writer.WriteEndObject();
         }

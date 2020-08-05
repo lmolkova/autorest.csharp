@@ -15,42 +15,27 @@ namespace AnomalyDetector.Models
     {
         internal static IngestionStatusList DeserializeIngestionStatusList(JsonElement element)
         {
-            string nextLink = default;
-            IReadOnlyList<IngestionStatus> value = default;
+            Optional<string> nextLink = default;
+            Optional<IReadOnlyList<IngestionStatus>> value = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("@nextLink"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     nextLink = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("value"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     List<IngestionStatus> array = new List<IngestionStatus>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        if (item.ValueKind == JsonValueKind.Null)
-                        {
-                            array.Add(null);
-                        }
-                        else
-                        {
-                            array.Add(IngestionStatus.DeserializeIngestionStatus(item));
-                        }
+                        array.Add(IngestionStatus.DeserializeIngestionStatus(item));
                     }
                     value = array;
                     continue;
                 }
             }
-            return new IngestionStatusList(nextLink, value);
+            return new IngestionStatusList(nextLink.Value, Optional.ToList(value));
         }
     }
 }

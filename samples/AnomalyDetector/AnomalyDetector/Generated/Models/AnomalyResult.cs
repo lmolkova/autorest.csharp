@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using Azure.Core;
 
 namespace AnomalyDetector.Models
 {
@@ -16,6 +17,7 @@ namespace AnomalyDetector.Models
         /// <summary> Initializes a new instance of AnomalyResult. </summary>
         internal AnomalyResult()
         {
+            Dimension = new ChangeTrackingDictionary<string, string>();
         }
 
         /// <summary> Initializes a new instance of AnomalyResult. </summary>

@@ -15,32 +15,21 @@ namespace AnomalyDetector.Models
     {
         internal static RootCauseList DeserializeRootCauseList(JsonElement element)
         {
-            IReadOnlyList<RootCause> value = default;
+            Optional<IReadOnlyList<RootCause>> value = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("value"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     List<RootCause> array = new List<RootCause>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        if (item.ValueKind == JsonValueKind.Null)
-                        {
-                            array.Add(null);
-                        }
-                        else
-                        {
-                            array.Add(RootCause.DeserializeRootCause(item));
-                        }
+                        array.Add(RootCause.DeserializeRootCause(item));
                     }
                     value = array;
                     continue;
                 }
             }
-            return new RootCauseList(value);
+            return new RootCauseList(Optional.ToList(value));
         }
     }
 }

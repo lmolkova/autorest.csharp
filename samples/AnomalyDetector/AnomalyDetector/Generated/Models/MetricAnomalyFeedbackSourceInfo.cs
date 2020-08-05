@@ -14,6 +14,7 @@ namespace AnomalyDetector.Models
     {
         /// <summary> Initializes a new instance of MetricAnomalyFeedbackSourceInfo. </summary>
         /// <param name="anomalyDetectionConfiguration"> . </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="anomalyDetectionConfiguration"/> is null. </exception>
         internal MetricAnomalyFeedbackSourceInfo(AnomalyDetectionConfiguration anomalyDetectionConfiguration)
         {
             if (anomalyDetectionConfiguration == null)

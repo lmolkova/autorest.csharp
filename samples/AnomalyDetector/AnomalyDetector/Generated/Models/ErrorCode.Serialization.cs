@@ -14,14 +14,15 @@ namespace AnomalyDetector.Models
     {
         internal static ErrorCode DeserializeErrorCode(JsonElement element)
         {
-            string message = default;
-            int? code = default;
+            Optional<string> message = default;
+            Optional<int> code = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("message"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
+                        message = null;
                         continue;
                     }
                     message = property.Value.GetString();
@@ -29,15 +30,11 @@ namespace AnomalyDetector.Models
                 }
                 if (property.NameEquals("code"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     code = property.Value.GetInt32();
                     continue;
                 }
             }
-            return new ErrorCode(message, code);
+            return new ErrorCode(message.Value, Optional.ToNullable(code));
         }
     }
 }

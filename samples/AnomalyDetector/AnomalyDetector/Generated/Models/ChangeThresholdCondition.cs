@@ -22,6 +22,7 @@ namespace AnomalyDetector.Models
         /// </param>
         /// <param name="anomalyDetectorDirection"> . </param>
         /// <param name="suppressCondition"> . </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="suppressCondition"/> is null. </exception>
         public ChangeThresholdCondition(double changePercentage, int shiftPoint, bool withinRange, AnomalyDetectorDirection anomalyDetectorDirection, SuppressCondition suppressCondition)
         {
             if (suppressCondition == null)

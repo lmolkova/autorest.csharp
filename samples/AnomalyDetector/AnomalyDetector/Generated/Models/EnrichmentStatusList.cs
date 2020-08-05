@@ -6,6 +6,7 @@
 #nullable disable
 
 using System.Collections.Generic;
+using Azure.Core;
 
 namespace AnomalyDetector.Models
 {
@@ -15,6 +16,7 @@ namespace AnomalyDetector.Models
         /// <summary> Initializes a new instance of EnrichmentStatusList. </summary>
         internal EnrichmentStatusList()
         {
+            Value = new ChangeTrackingList<EnrichmentStatus>();
         }
 
         /// <summary> Initializes a new instance of EnrichmentStatusList. </summary>

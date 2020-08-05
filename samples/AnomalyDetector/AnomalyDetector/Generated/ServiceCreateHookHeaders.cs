@@ -17,6 +17,7 @@ namespace AnomalyDetector
         {
             _response = response;
         }
+        /// <summary> Location of the newly created resource. </summary>
         public string Location => _response.Headers.TryGetValue("Location", out string value) ? value : null;
     }
 }

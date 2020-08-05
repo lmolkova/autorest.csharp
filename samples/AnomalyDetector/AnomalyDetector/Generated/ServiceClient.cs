@@ -1003,6 +1003,7 @@ namespace AnomalyDetector
         /// <param name="skip"> The Integer to use. </param>
         /// <param name="top"> The Integer to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="alertId"/> is null. </exception>
         public virtual AsyncPageable<AnomalyResult> GetAnomaliesFromAlertByAnomalyAlertingConfigurationAsync(Guid configurationId, string alertId, int? skip = null, int? top = null, CancellationToken cancellationToken = default)
         {
             if (alertId == null)
@@ -1049,6 +1050,7 @@ namespace AnomalyDetector
         /// <param name="skip"> The Integer to use. </param>
         /// <param name="top"> The Integer to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="alertId"/> is null. </exception>
         public virtual Pageable<AnomalyResult> GetAnomaliesFromAlertByAnomalyAlertingConfiguration(Guid configurationId, string alertId, int? skip = null, int? top = null, CancellationToken cancellationToken = default)
         {
             if (alertId == null)
@@ -1095,6 +1097,7 @@ namespace AnomalyDetector
         /// <param name="skip"> The Integer to use. </param>
         /// <param name="top"> The Integer to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="alertId"/> is null. </exception>
         public virtual AsyncPageable<IncidentResult> GetIncidentsFromAlertByAnomalyAlertingConfigurationAsync(Guid configurationId, string alertId, int? skip = null, int? top = null, CancellationToken cancellationToken = default)
         {
             if (alertId == null)
@@ -1141,6 +1144,7 @@ namespace AnomalyDetector
         /// <param name="skip"> The Integer to use. </param>
         /// <param name="top"> The Integer to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="alertId"/> is null. </exception>
         public virtual Pageable<IncidentResult> GetIncidentsFromAlertByAnomalyAlertingConfiguration(Guid configurationId, string alertId, int? skip = null, int? top = null, CancellationToken cancellationToken = default)
         {
             if (alertId == null)

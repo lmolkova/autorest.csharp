@@ -21,17 +21,6 @@ namespace AnomalyDetector.Models
             EndTime = endTime;
         }
 
-        /// <summary> Initializes a new instance of DetectionResultQuery. </summary>
-        /// <param name="startTime"> start time. </param>
-        /// <param name="endTime"> end time. </param>
-        /// <param name="filter"> . </param>
-        internal DetectionResultQuery(DateTimeOffset startTime, DateTimeOffset endTime, DetectionFilterCondition filter)
-        {
-            StartTime = startTime;
-            EndTime = endTime;
-            Filter = filter;
-        }
-
         /// <summary> start time. </summary>
         public DateTimeOffset StartTime { get; }
         /// <summary> end time. </summary>

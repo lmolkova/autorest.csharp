@@ -21,7 +21,7 @@ namespace AnomalyDetector.Models
             writer.WriteStringValue(EndTime, "O");
             writer.WritePropertyName("dimensionName");
             writer.WriteStringValue(DimensionName);
-            if (DimensionFilter != null)
+            if (Optional.IsDefined(DimensionFilter))
             {
                 writer.WritePropertyName("dimensionFilter");
                 writer.WriteObjectValue(DimensionFilter);

@@ -15,6 +15,7 @@ namespace AnomalyDetector.Models
     {
         /// <summary> Initializes a new instance of SeriesIdentity. </summary>
         /// <param name="dimension"> dimension specified for series. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="dimension"/> is null. </exception>
         public SeriesIdentity(IDictionary<string, string> dimension)
         {
             if (dimension == null)

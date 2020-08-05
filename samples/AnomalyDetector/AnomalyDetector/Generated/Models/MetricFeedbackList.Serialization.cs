@@ -15,42 +15,27 @@ namespace AnomalyDetector.Models
     {
         internal static MetricFeedbackList DeserializeMetricFeedbackList(JsonElement element)
         {
-            string nextLink = default;
-            IReadOnlyList<MetricFeedbackListValueItem> value = default;
+            Optional<string> nextLink = default;
+            Optional<IReadOnlyList<MetricFeedbackListValueItem>> value = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("@nextLink"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     nextLink = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("value"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     List<MetricFeedbackListValueItem> array = new List<MetricFeedbackListValueItem>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        if (item.ValueKind == JsonValueKind.Null)
-                        {
-                            array.Add(null);
-                        }
-                        else
-                        {
-                            array.Add(MetricFeedbackListValueItem.DeserializeMetricFeedbackListValueItem(item));
-                        }
+                        array.Add(MetricFeedbackListValueItem.DeserializeMetricFeedbackListValueItem(item));
                     }
                     value = array;
                     continue;
                 }
             }
-            return new MetricFeedbackList(nextLink, value);
+            return new MetricFeedbackList(nextLink.Value, Optional.ToList(value));
         }
     }
 }

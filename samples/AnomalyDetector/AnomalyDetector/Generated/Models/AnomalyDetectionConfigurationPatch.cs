@@ -6,6 +6,7 @@
 #nullable disable
 
 using System.Collections.Generic;
+using Azure.Core;
 
 namespace AnomalyDetector.Models
 {
@@ -15,21 +16,8 @@ namespace AnomalyDetector.Models
         /// <summary> Initializes a new instance of AnomalyDetectionConfigurationPatch. </summary>
         internal AnomalyDetectionConfigurationPatch()
         {
-        }
-
-        /// <summary> Initializes a new instance of AnomalyDetectionConfigurationPatch. </summary>
-        /// <param name="name"> anomaly detection configuration name. </param>
-        /// <param name="description"> anomaly detection configuration description. </param>
-        /// <param name="wholeMetricConfiguration"> . </param>
-        /// <param name="dimensionGroupOverrideConfigurations"> detection configuration for series group. </param>
-        /// <param name="seriesOverrideConfigurations"> detection configuration for specific series. </param>
-        internal AnomalyDetectionConfigurationPatch(string name, string description, WholeMetricConfiguration wholeMetricConfiguration, IReadOnlyList<DimensionGroupConfiguration> dimensionGroupOverrideConfigurations, IReadOnlyList<SeriesConfiguration> seriesOverrideConfigurations)
-        {
-            Name = name;
-            Description = description;
-            WholeMetricConfiguration = wholeMetricConfiguration;
-            DimensionGroupOverrideConfigurations = dimensionGroupOverrideConfigurations;
-            SeriesOverrideConfigurations = seriesOverrideConfigurations;
+            DimensionGroupOverrideConfigurations = new ChangeTrackingList<DimensionGroupConfiguration>();
+            SeriesOverrideConfigurations = new ChangeTrackingList<SeriesConfiguration>();
         }
 
         /// <summary> anomaly detection configuration name. </summary>

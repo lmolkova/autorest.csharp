@@ -15,6 +15,7 @@ namespace AnomalyDetector.Models
         /// <summary> Initializes a new instance of HardThresholdCondition. </summary>
         /// <param name="anomalyDetectorDirection"> . </param>
         /// <param name="suppressCondition"> . </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="suppressCondition"/> is null. </exception>
         public HardThresholdCondition(AnomalyDetectorDirection anomalyDetectorDirection, SuppressCondition suppressCondition)
         {
             if (suppressCondition == null)

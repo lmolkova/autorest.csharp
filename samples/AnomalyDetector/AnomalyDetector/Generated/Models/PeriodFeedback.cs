@@ -15,6 +15,7 @@ namespace AnomalyDetector.Models
         /// <summary> Initializes a new instance of PeriodFeedback. </summary>
         /// <param name="metricId"> metric unique id. </param>
         /// <param name="value"> . </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="value"/> is null. </exception>
         internal PeriodFeedback(Guid metricId, PeriodFeedbackValue value) : base(metricId)
         {
             if (value == null)
@@ -24,20 +25,6 @@ namespace AnomalyDetector.Models
 
             Value = value;
             FeedbackType = new FeedbackType("PeriodFeedback");
-        }
-
-        /// <summary> Initializes a new instance of PeriodFeedback. </summary>
-        /// <param name="feedbackType"> . </param>
-        /// <param name="feedbackId"> feedback unique id. </param>
-        /// <param name="createdTime"> feedback created time. </param>
-        /// <param name="userPrincipal"> user who gives this feedback. </param>
-        /// <param name="metricId"> metric unique id. </param>
-        /// <param name="dimensionFilter"> . </param>
-        /// <param name="value"> . </param>
-        internal PeriodFeedback(FeedbackType feedbackType, Guid? feedbackId, DateTimeOffset? createdTime, string userPrincipal, Guid metricId, FeedbackDimensionFilter dimensionFilter, PeriodFeedbackValue value) : base(feedbackType, feedbackId, createdTime, userPrincipal, metricId, dimensionFilter)
-        {
-            Value = value;
-            FeedbackType = feedbackType;
         }
 
         public PeriodFeedbackValue Value { get; }

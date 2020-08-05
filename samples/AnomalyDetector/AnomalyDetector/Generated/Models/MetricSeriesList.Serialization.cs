@@ -15,42 +15,27 @@ namespace AnomalyDetector.Models
     {
         internal static MetricSeriesList DeserializeMetricSeriesList(JsonElement element)
         {
-            string nextLink = default;
-            IReadOnlyList<MetricSeriesItem> value = default;
+            Optional<string> nextLink = default;
+            Optional<IReadOnlyList<MetricSeriesItem>> value = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("@nextLink"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     nextLink = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("value"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     List<MetricSeriesItem> array = new List<MetricSeriesItem>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        if (item.ValueKind == JsonValueKind.Null)
-                        {
-                            array.Add(null);
-                        }
-                        else
-                        {
-                            array.Add(MetricSeriesItem.DeserializeMetricSeriesItem(item));
-                        }
+                        array.Add(MetricSeriesItem.DeserializeMetricSeriesItem(item));
                     }
                     value = array;
                     continue;
                 }
             }
-            return new MetricSeriesList(nextLink, value);
+            return new MetricSeriesList(nextLink.Value, Optional.ToList(value));
         }
     }
 }

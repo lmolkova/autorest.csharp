@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using Azure.Core;
 
 namespace AnomalyDetector.Models
 {
@@ -16,6 +17,8 @@ namespace AnomalyDetector.Models
         /// <summary> Initializes a new instance of MetricDataItem. </summary>
         internal MetricDataItem()
         {
+            TimestampList = new ChangeTrackingList<DateTimeOffset>();
+            ValueList = new ChangeTrackingList<double>();
         }
 
         /// <summary> Initializes a new instance of MetricDataItem. </summary>

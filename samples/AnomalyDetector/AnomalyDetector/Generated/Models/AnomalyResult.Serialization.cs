@@ -16,92 +16,57 @@ namespace AnomalyDetector.Models
     {
         internal static AnomalyResult DeserializeAnomalyResult(JsonElement element)
         {
-            Guid? metricId = default;
-            Guid? anomalyDetectionConfigurationId = default;
-            DateTimeOffset? timestamp = default;
-            DateTimeOffset? createdTime = default;
-            DateTimeOffset? modifiedTime = default;
-            IReadOnlyDictionary<string, string> dimension = default;
-            AnomalyProperty property = default;
+            Optional<Guid> metricId = default;
+            Optional<Guid> anomalyDetectionConfigurationId = default;
+            Optional<DateTimeOffset> timestamp = default;
+            Optional<DateTimeOffset> createdTime = default;
+            Optional<DateTimeOffset> modifiedTime = default;
+            Optional<IReadOnlyDictionary<string, string>> dimension = default;
+            Optional<AnomalyProperty> property = default;
             foreach (var property0 in element.EnumerateObject())
             {
                 if (property0.NameEquals("metricId"))
                 {
-                    if (property0.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     metricId = property0.Value.GetGuid();
                     continue;
                 }
                 if (property0.NameEquals("anomalyDetectionConfigurationId"))
                 {
-                    if (property0.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     anomalyDetectionConfigurationId = property0.Value.GetGuid();
                     continue;
                 }
                 if (property0.NameEquals("timestamp"))
                 {
-                    if (property0.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     timestamp = property0.Value.GetDateTimeOffset("O");
                     continue;
                 }
                 if (property0.NameEquals("createdTime"))
                 {
-                    if (property0.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     createdTime = property0.Value.GetDateTimeOffset("O");
                     continue;
                 }
                 if (property0.NameEquals("modifiedTime"))
                 {
-                    if (property0.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     modifiedTime = property0.Value.GetDateTimeOffset("O");
                     continue;
                 }
                 if (property0.NameEquals("dimension"))
                 {
-                    if (property0.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     Dictionary<string, string> dictionary = new Dictionary<string, string>();
                     foreach (var property1 in property0.Value.EnumerateObject())
                     {
-                        if (property1.Value.ValueKind == JsonValueKind.Null)
-                        {
-                            dictionary.Add(property1.Name, null);
-                        }
-                        else
-                        {
-                            dictionary.Add(property1.Name, property1.Value.GetString());
-                        }
+                        dictionary.Add(property1.Name, property1.Value.GetString());
                     }
                     dimension = dictionary;
                     continue;
                 }
                 if (property0.NameEquals("property"))
                 {
-                    if (property0.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     property = AnomalyProperty.DeserializeAnomalyProperty(property0.Value);
                     continue;
                 }
             }
-            return new AnomalyResult(metricId, anomalyDetectionConfigurationId, timestamp, createdTime, modifiedTime, dimension, property);
+            return new AnomalyResult(Optional.ToNullable(metricId), Optional.ToNullable(anomalyDetectionConfigurationId), Optional.ToNullable(timestamp), Optional.ToNullable(createdTime), Optional.ToNullable(modifiedTime), Optional.ToDictionary(dimension), property.Value);
         }
     }
 }

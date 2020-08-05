@@ -19,7 +19,7 @@ namespace AnomalyDetector.Models
             writer.WriteStringValue(StartTime, "O");
             writer.WritePropertyName("endTime");
             writer.WriteStringValue(EndTime, "O");
-            if (Filter != null)
+            if (Optional.IsDefined(Filter))
             {
                 writer.WritePropertyName("filter");
                 writer.WriteObjectValue(Filter);

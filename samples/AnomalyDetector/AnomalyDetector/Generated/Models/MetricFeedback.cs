@@ -19,23 +19,6 @@ namespace AnomalyDetector.Models
             MetricId = metricId;
         }
 
-        /// <summary> Initializes a new instance of MetricFeedback. </summary>
-        /// <param name="feedbackType"> . </param>
-        /// <param name="feedbackId"> feedback unique id. </param>
-        /// <param name="createdTime"> feedback created time. </param>
-        /// <param name="userPrincipal"> user who gives this feedback. </param>
-        /// <param name="metricId"> metric unique id. </param>
-        /// <param name="dimensionFilter"> . </param>
-        internal MetricFeedback(FeedbackType feedbackType, Guid? feedbackId, DateTimeOffset? createdTime, string userPrincipal, Guid metricId, FeedbackDimensionFilter dimensionFilter)
-        {
-            FeedbackType = feedbackType;
-            FeedbackId = feedbackId;
-            CreatedTime = createdTime;
-            UserPrincipal = userPrincipal;
-            MetricId = metricId;
-            DimensionFilter = dimensionFilter;
-        }
-
         internal FeedbackType FeedbackType { get; set; }
         /// <summary> feedback unique id. </summary>
         public Guid? FeedbackId { get; }

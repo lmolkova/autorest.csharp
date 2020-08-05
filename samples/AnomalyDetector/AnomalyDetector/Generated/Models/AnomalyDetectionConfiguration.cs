@@ -21,6 +21,7 @@ namespace AnomalyDetector.Models
         /// <param name="wholeMetricConfiguration"> . </param>
         /// <param name="dimensionGroupOverrideConfigurations"> detection configuration for series group. </param>
         /// <param name="seriesOverrideConfigurations"> detection configuration for specific series. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/>, <paramref name="description"/>, <paramref name="wholeMetricConfiguration"/>, <paramref name="dimensionGroupOverrideConfigurations"/>, or <paramref name="seriesOverrideConfigurations"/> is null. </exception>
         public AnomalyDetectionConfiguration(string name, string description, Guid metricId, WholeMetricConfiguration wholeMetricConfiguration, IEnumerable<DimensionGroupConfiguration> dimensionGroupOverrideConfigurations, IEnumerable<SeriesConfiguration> seriesOverrideConfigurations)
         {
             if (name == null)
@@ -67,8 +68,8 @@ namespace AnomalyDetector.Models
             Description = description;
             MetricId = metricId;
             WholeMetricConfiguration = wholeMetricConfiguration;
-            DimensionGroupOverrideConfigurations = dimensionGroupOverrideConfigurations ?? new List<DimensionGroupConfiguration>();
-            SeriesOverrideConfigurations = seriesOverrideConfigurations ?? new List<SeriesConfiguration>();
+            DimensionGroupOverrideConfigurations = dimensionGroupOverrideConfigurations;
+            SeriesOverrideConfigurations = seriesOverrideConfigurations;
         }
 
         /// <summary> Anomaly detection configuration unique id. </summary>

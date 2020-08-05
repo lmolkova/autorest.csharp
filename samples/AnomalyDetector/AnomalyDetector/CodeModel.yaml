@@ -2245,7 +2245,6 @@ schemas: !<!Schemas>
     - !<!DictionarySchema> &ref_14
       type: dictionary
       elementType: *ref_1
-      nullableItems: false
       language: !<!Languages> 
         default:
           name: DimensionGroupIdentityDimension
@@ -2254,7 +2253,6 @@ schemas: !<!Schemas>
     - !<!DictionarySchema> &ref_50
       type: dictionary
       elementType: *ref_2
-      nullableItems: false
       language: !<!Languages> 
         default:
           name: AnomalyResultDimension
@@ -2263,7 +2261,6 @@ schemas: !<!Schemas>
     - !<!DictionarySchema> &ref_60
       type: dictionary
       elementType: *ref_2
-      nullableItems: false
       language: !<!Languages> 
         default:
           name: SeriesIdentityDimension
@@ -2272,7 +2269,6 @@ schemas: !<!Schemas>
     - !<!DictionarySchema> &ref_215
       type: dictionary
       elementType: *ref_3
-      nullableItems: false
       language: !<!Languages> 
         default:
           name: FeedbackDimensionFilterDimension
@@ -2281,7 +2277,6 @@ schemas: !<!Schemas>
     - !<!DictionarySchema> &ref_245
       type: dictionary
       elementType: *ref_4
-      nullableItems: false
       language: !<!Languages> 
         default:
           name: WebhookHookParameterHeaders
@@ -2290,7 +2285,6 @@ schemas: !<!Schemas>
     - !<!DictionarySchema> &ref_272
       type: dictionary
       elementType: *ref_5
-      nullableItems: false
       language: !<!Languages> 
         default:
           name: MetricDataQueryOptionsSeriesItem
@@ -2299,7 +2293,6 @@ schemas: !<!Schemas>
     - !<!DictionarySchema> &ref_275
       type: dictionary
       elementType: *ref_5
-      nullableItems: false
       language: !<!Languages> 
         default:
           name: MetricSeriesItemDimension
@@ -2318,7 +2311,6 @@ schemas: !<!Schemas>
             name: ArrayOfMetricSeriesQueryOptionsDimensionFilterItemsItem
             description: Array of MetricSeriesQueryOptionsDimensionFilterItemsItem
         protocol: !<!Protocols> {}
-      nullableItems: false
       language: !<!Languages> 
         default:
           name: MetricSeriesQueryOptionsDimensionFilter
@@ -9267,6 +9259,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_1
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: Location of the newly created resource.
                 statusCodes:
                   - '201'
         exceptions:
@@ -9910,6 +9906,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_2
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: Location of the newly created resource.
                 statusCodes:
                   - '201'
         exceptions:
@@ -10715,6 +10715,7 @@ operationGroups:
               - !<!Parameter> &ref_453
                 schema: *ref_452
                 implementation: Method
+                nullable: true
                 required: false
                 language: !<!Languages> 
                   default:
@@ -10751,6 +10752,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_454
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: Location of the newly created resource.
                 statusCodes:
                   - '201'
         exceptions:
@@ -10875,6 +10880,7 @@ operationGroups:
               - !<!Parameter> &ref_459
                 schema: *ref_458
                 implementation: Method
+                nullable: true
                 required: true
                 language: !<!Languages> 
                   default:
@@ -11104,6 +11110,7 @@ operationGroups:
               - !<!Parameter> &ref_466
                 schema: *ref_465
                 implementation: Method
+                nullable: true
                 required: false
                 language: !<!Languages> 
                   default:
@@ -11194,6 +11201,7 @@ operationGroups:
               - !<!Parameter> &ref_471
                 schema: *ref_470
                 implementation: Method
+                nullable: true
                 required: false
                 language: !<!Languages> 
                   default:
@@ -11230,6 +11238,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_3
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: Location of the newly created resource.
                 statusCodes:
                   - '201'
         exceptions:
@@ -11371,6 +11383,7 @@ operationGroups:
               - !<!Parameter> &ref_478
                 schema: *ref_477
                 implementation: Method
+                nullable: true
                 required: false
                 language: !<!Languages> 
                   default:
@@ -11407,6 +11420,10 @@ operationGroups:
                   - !<!HttpHeader> 
                     schema: *ref_4
                     header: Location
+                    language:
+                      default:
+                        name: Location
+                        description: Location of the newly created resource.
                 statusCodes:
                   - '201'
         exceptions:
@@ -11531,6 +11548,7 @@ operationGroups:
               - !<!Parameter> &ref_483
                 schema: *ref_482
                 implementation: Method
+                nullable: true
                 required: true
                 language: !<!Languages> 
                   default:

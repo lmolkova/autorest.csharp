@@ -16,32 +16,24 @@ namespace AnomalyDetector.Models
     {
         internal static SeriesResult DeserializeSeriesResult(JsonElement element)
         {
-            SeriesIdentity series = default;
-            IReadOnlyList<DateTimeOffset> timestampList = default;
-            IReadOnlyList<double> valueList = default;
-            IReadOnlyList<bool> isAnomalyList = default;
-            IReadOnlyList<bool> trendChangeList = default;
-            IReadOnlyList<int> periodList = default;
-            IReadOnlyList<double> expectedValueList = default;
-            IReadOnlyList<double> lowerBoundaryList = default;
-            IReadOnlyList<double> upperBoundaryList = default;
+            Optional<SeriesIdentity> series = default;
+            Optional<IReadOnlyList<DateTimeOffset>> timestampList = default;
+            Optional<IReadOnlyList<double>> valueList = default;
+            Optional<IReadOnlyList<bool>> isAnomalyList = default;
+            Optional<IReadOnlyList<bool>> trendChangeList = default;
+            Optional<IReadOnlyList<int>> periodList = default;
+            Optional<IReadOnlyList<double>> expectedValueList = default;
+            Optional<IReadOnlyList<double>> lowerBoundaryList = default;
+            Optional<IReadOnlyList<double>> upperBoundaryList = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("series"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     series = SeriesIdentity.DeserializeSeriesIdentity(property.Value);
                     continue;
                 }
                 if (property.NameEquals("timestampList"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     List<DateTimeOffset> array = new List<DateTimeOffset>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
@@ -52,10 +44,6 @@ namespace AnomalyDetector.Models
                 }
                 if (property.NameEquals("valueList"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     List<double> array = new List<double>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
@@ -66,10 +54,6 @@ namespace AnomalyDetector.Models
                 }
                 if (property.NameEquals("isAnomalyList"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     List<bool> array = new List<bool>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
@@ -80,10 +64,6 @@ namespace AnomalyDetector.Models
                 }
                 if (property.NameEquals("trendChangeList"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     List<bool> array = new List<bool>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
@@ -94,10 +74,6 @@ namespace AnomalyDetector.Models
                 }
                 if (property.NameEquals("periodList"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     List<int> array = new List<int>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
@@ -108,10 +84,6 @@ namespace AnomalyDetector.Models
                 }
                 if (property.NameEquals("expectedValueList"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     List<double> array = new List<double>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
@@ -122,10 +94,6 @@ namespace AnomalyDetector.Models
                 }
                 if (property.NameEquals("lowerBoundaryList"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     List<double> array = new List<double>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
@@ -136,10 +104,6 @@ namespace AnomalyDetector.Models
                 }
                 if (property.NameEquals("upperBoundaryList"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     List<double> array = new List<double>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
@@ -149,7 +113,7 @@ namespace AnomalyDetector.Models
                     continue;
                 }
             }
-            return new SeriesResult(series, timestampList, valueList, isAnomalyList, trendChangeList, periodList, expectedValueList, lowerBoundaryList, upperBoundaryList);
+            return new SeriesResult(series.Value, Optional.ToList(timestampList), Optional.ToList(valueList), Optional.ToList(isAnomalyList), Optional.ToList(trendChangeList), Optional.ToList(periodList), Optional.ToList(expectedValueList), Optional.ToList(lowerBoundaryList), Optional.ToList(upperBoundaryList));
         }
     }
 }

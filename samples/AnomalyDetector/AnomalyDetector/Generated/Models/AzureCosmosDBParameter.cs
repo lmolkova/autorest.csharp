@@ -17,6 +17,7 @@ namespace AnomalyDetector.Models
         /// <param name="sqlQuery"> Query script. </param>
         /// <param name="database"> Database name. </param>
         /// <param name="collectionId"> Collection id. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="connectionString"/>, <paramref name="sqlQuery"/>, <paramref name="database"/>, or <paramref name="collectionId"/> is null. </exception>
         internal AzureCosmosDBParameter(string connectionString, string sqlQuery, string database, string collectionId)
         {
             if (connectionString == null)

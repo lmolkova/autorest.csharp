@@ -22,27 +22,27 @@ namespace AnomalyDetector.Models
             writer.WriteStringValue(AnomalyScopeType.ToString());
             writer.WritePropertyName("negationOperation");
             writer.WriteBooleanValue(NegationOperation);
-            if (DimensionAnomalyScope != null)
+            if (Optional.IsDefined(DimensionAnomalyScope))
             {
                 writer.WritePropertyName("dimensionAnomalyScope");
                 writer.WriteObjectValue(DimensionAnomalyScope);
             }
-            if (TopNAnomalyScope != null)
+            if (Optional.IsDefined(TopNAnomalyScope))
             {
                 writer.WritePropertyName("topNAnomalyScope");
                 writer.WriteObjectValue(TopNAnomalyScope);
             }
-            if (SeverityFilter != null)
+            if (Optional.IsDefined(SeverityFilter))
             {
                 writer.WritePropertyName("severityFilter");
                 writer.WriteObjectValue(SeverityFilter);
             }
-            if (SnoozeFilter != null)
+            if (Optional.IsDefined(SnoozeFilter))
             {
                 writer.WritePropertyName("snoozeFilter");
                 writer.WriteObjectValue(SnoozeFilter);
             }
-            if (ValueFilter != null)
+            if (Optional.IsDefined(ValueFilter))
             {
                 writer.WritePropertyName("valueFilter");
                 writer.WriteObjectValue(ValueFilter);
@@ -55,11 +55,11 @@ namespace AnomalyDetector.Models
             Guid anomalyDetectionConfigurationId = default;
             AnomalyScope anomalyScopeType = default;
             bool negationOperation = default;
-            DimensionGroupIdentity dimensionAnomalyScope = default;
-            TopNGroupScope topNAnomalyScope = default;
-            SeverityCondition severityFilter = default;
-            AlertSnoozeCondition snoozeFilter = default;
-            ValueCondition valueFilter = default;
+            Optional<DimensionGroupIdentity> dimensionAnomalyScope = default;
+            Optional<TopNGroupScope> topNAnomalyScope = default;
+            Optional<SeverityCondition> severityFilter = default;
+            Optional<AlertSnoozeCondition> snoozeFilter = default;
+            Optional<ValueCondition> valueFilter = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("anomalyDetectionConfigurationId"))
@@ -79,51 +79,31 @@ namespace AnomalyDetector.Models
                 }
                 if (property.NameEquals("dimensionAnomalyScope"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     dimensionAnomalyScope = DimensionGroupIdentity.DeserializeDimensionGroupIdentity(property.Value);
                     continue;
                 }
                 if (property.NameEquals("topNAnomalyScope"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     topNAnomalyScope = TopNGroupScope.DeserializeTopNGroupScope(property.Value);
                     continue;
                 }
                 if (property.NameEquals("severityFilter"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     severityFilter = SeverityCondition.DeserializeSeverityCondition(property.Value);
                     continue;
                 }
                 if (property.NameEquals("snoozeFilter"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     snoozeFilter = AlertSnoozeCondition.DeserializeAlertSnoozeCondition(property.Value);
                     continue;
                 }
                 if (property.NameEquals("valueFilter"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     valueFilter = ValueCondition.DeserializeValueCondition(property.Value);
                     continue;
                 }
             }
-            return new MetricAlertingConfiguration(anomalyDetectionConfigurationId, anomalyScopeType, negationOperation, dimensionAnomalyScope, topNAnomalyScope, severityFilter, snoozeFilter, valueFilter);
+            return new MetricAlertingConfiguration(anomalyDetectionConfigurationId, anomalyScopeType, negationOperation, dimensionAnomalyScope.Value, topNAnomalyScope.Value, severityFilter.Value, snoozeFilter.Value, valueFilter.Value);
         }
     }
 }

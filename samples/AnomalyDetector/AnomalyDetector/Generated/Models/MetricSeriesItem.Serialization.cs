@@ -16,42 +16,27 @@ namespace AnomalyDetector.Models
     {
         internal static MetricSeriesItem DeserializeMetricSeriesItem(JsonElement element)
         {
-            Guid? metricId = default;
-            IReadOnlyDictionary<string, string> dimension = default;
+            Optional<Guid> metricId = default;
+            Optional<IReadOnlyDictionary<string, string>> dimension = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("metricId"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     metricId = property.Value.GetGuid();
                     continue;
                 }
                 if (property.NameEquals("dimension"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     Dictionary<string, string> dictionary = new Dictionary<string, string>();
                     foreach (var property0 in property.Value.EnumerateObject())
                     {
-                        if (property0.Value.ValueKind == JsonValueKind.Null)
-                        {
-                            dictionary.Add(property0.Name, null);
-                        }
-                        else
-                        {
-                            dictionary.Add(property0.Name, property0.Value.GetString());
-                        }
+                        dictionary.Add(property0.Name, property0.Value.GetString());
                     }
                     dimension = dictionary;
                     continue;
                 }
             }
-            return new MetricSeriesItem(metricId, dimension);
+            return new MetricSeriesItem(Optional.ToNullable(metricId), Optional.ToDictionary(dimension));
         }
     }
 }

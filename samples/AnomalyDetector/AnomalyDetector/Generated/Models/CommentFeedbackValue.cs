@@ -14,6 +14,7 @@ namespace AnomalyDetector.Models
     {
         /// <summary> Initializes a new instance of CommentFeedbackValue. </summary>
         /// <param name="commentValue"> the comment string. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="commentValue"/> is null. </exception>
         internal CommentFeedbackValue(string commentValue)
         {
             if (commentValue == null)

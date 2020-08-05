@@ -15,6 +15,7 @@ namespace AnomalyDetector.Models
     {
         /// <summary> Initializes a new instance of FeedbackDimensionFilter. </summary>
         /// <param name="dimension"> metric dimension filter. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="dimension"/> is null. </exception>
         internal FeedbackDimensionFilter(IReadOnlyDictionary<string, string> dimension)
         {
             if (dimension == null)

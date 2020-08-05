@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using Azure.Core;
 
 namespace AnomalyDetector.Models
 {
@@ -20,17 +21,7 @@ namespace AnomalyDetector.Models
         {
             StartTime = startTime;
             EndTime = endTime;
-        }
-
-        /// <summary> Initializes a new instance of MetricDataQueryOptions. </summary>
-        /// <param name="startTime"> start time of query a time series data, and format should be yyyy-MM-ddThh:mm:ssZ. </param>
-        /// <param name="endTime"> start time of query a time series data, and format should be yyyy-MM-ddThh:mm:ssZ. </param>
-        /// <param name="series"> query specific series. </param>
-        internal MetricDataQueryOptions(DateTimeOffset startTime, DateTimeOffset endTime, IList<IDictionary<string, string>> series)
-        {
-            StartTime = startTime;
-            EndTime = endTime;
-            Series = series;
+            Series = new ChangeTrackingList<IDictionary<string, string>>();
         }
 
         /// <summary> start time of query a time series data, and format should be yyyy-MM-ddThh:mm:ssZ. </summary>

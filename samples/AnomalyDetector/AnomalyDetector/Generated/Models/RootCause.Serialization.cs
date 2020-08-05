@@ -15,62 +15,39 @@ namespace AnomalyDetector.Models
     {
         internal static RootCause DeserializeRootCause(JsonElement element)
         {
-            DimensionGroupIdentity rootCause = default;
-            IReadOnlyList<string> path = default;
-            double? score = default;
-            string description = default;
+            Optional<DimensionGroupIdentity> rootCause = default;
+            Optional<IReadOnlyList<string>> path = default;
+            Optional<double> score = default;
+            Optional<string> description = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("rootCause"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     rootCause = DimensionGroupIdentity.DeserializeDimensionGroupIdentity(property.Value);
                     continue;
                 }
                 if (property.NameEquals("path"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     List<string> array = new List<string>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        if (item.ValueKind == JsonValueKind.Null)
-                        {
-                            array.Add(null);
-                        }
-                        else
-                        {
-                            array.Add(item.GetString());
-                        }
+                        array.Add(item.GetString());
                     }
                     path = array;
                     continue;
                 }
                 if (property.NameEquals("score"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     score = property.Value.GetDouble();
                     continue;
                 }
                 if (property.NameEquals("description"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     description = property.Value.GetString();
                     continue;
                 }
             }
-            return new RootCause(rootCause, path, score, description);
+            return new RootCause(rootCause.Value, Optional.ToList(path), Optional.ToNullable(score), description.Value);
         }
     }
 }

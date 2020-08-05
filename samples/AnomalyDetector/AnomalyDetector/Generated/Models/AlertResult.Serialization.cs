@@ -15,50 +15,34 @@ namespace AnomalyDetector.Models
     {
         internal static AlertResult DeserializeAlertResult(JsonElement element)
         {
-            string alertId = default;
-            DateTimeOffset? timestamp = default;
-            DateTimeOffset? createdTime = default;
-            DateTimeOffset? modifiedTime = default;
+            Optional<string> alertId = default;
+            Optional<DateTimeOffset> timestamp = default;
+            Optional<DateTimeOffset> createdTime = default;
+            Optional<DateTimeOffset> modifiedTime = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("alertId"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     alertId = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("timestamp"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     timestamp = property.Value.GetDateTimeOffset("O");
                     continue;
                 }
                 if (property.NameEquals("createdTime"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     createdTime = property.Value.GetDateTimeOffset("O");
                     continue;
                 }
                 if (property.NameEquals("modifiedTime"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     modifiedTime = property.Value.GetDateTimeOffset("O");
                     continue;
                 }
             }
-            return new AlertResult(alertId, timestamp, createdTime, modifiedTime);
+            return new AlertResult(alertId.Value, Optional.ToNullable(timestamp), Optional.ToNullable(createdTime), Optional.ToNullable(modifiedTime));
         }
     }
 }

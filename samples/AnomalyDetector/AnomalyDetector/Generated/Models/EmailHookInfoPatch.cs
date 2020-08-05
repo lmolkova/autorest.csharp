@@ -5,8 +5,6 @@
 
 #nullable disable
 
-using System.Collections.Generic;
-
 namespace AnomalyDetector.Models
 {
     /// <summary> The EmailHookInfoPatch. </summary>
@@ -16,19 +14,6 @@ namespace AnomalyDetector.Models
         internal EmailHookInfoPatch()
         {
             HookType = new HookType("EmailHookInfoPatch");
-        }
-
-        /// <summary> Initializes a new instance of EmailHookInfoPatch. </summary>
-        /// <param name="hookType"> . </param>
-        /// <param name="hookName"> hook unique name. </param>
-        /// <param name="description"> hook description. </param>
-        /// <param name="externalLink"> hook external link. </param>
-        /// <param name="admins"> hook administrators. </param>
-        /// <param name="hookParameter"> . </param>
-        internal EmailHookInfoPatch(HookType hookType, string hookName, string description, string externalLink, IReadOnlyList<string> admins, EmailHookParameter hookParameter) : base(hookType, hookName, description, externalLink, admins)
-        {
-            HookParameter = hookParameter;
-            HookType = hookType;
         }
 
         public EmailHookParameter HookParameter { get; }

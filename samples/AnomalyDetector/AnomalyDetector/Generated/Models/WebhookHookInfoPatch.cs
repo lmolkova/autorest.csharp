@@ -5,8 +5,6 @@
 
 #nullable disable
 
-using System.Collections.Generic;
-
 namespace AnomalyDetector.Models
 {
     /// <summary> The WebhookHookInfoPatch. </summary>
@@ -16,19 +14,6 @@ namespace AnomalyDetector.Models
         internal WebhookHookInfoPatch()
         {
             HookType = new HookType("WebhookHookInfoPatch");
-        }
-
-        /// <summary> Initializes a new instance of WebhookHookInfoPatch. </summary>
-        /// <param name="hookType"> . </param>
-        /// <param name="hookName"> hook unique name. </param>
-        /// <param name="description"> hook description. </param>
-        /// <param name="externalLink"> hook external link. </param>
-        /// <param name="admins"> hook administrators. </param>
-        /// <param name="hookParameter"> . </param>
-        internal WebhookHookInfoPatch(HookType hookType, string hookName, string description, string externalLink, IReadOnlyList<string> admins, WebhookHookParameter hookParameter) : base(hookType, hookName, description, externalLink, admins)
-        {
-            HookParameter = hookParameter;
-            HookType = hookType;
         }
 
         public WebhookHookParameter HookParameter { get; }

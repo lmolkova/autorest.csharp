@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Azure.Core;
 
 namespace AnomalyDetector.Models
 {
@@ -20,6 +21,7 @@ namespace AnomalyDetector.Models
         /// <param name="metrics"> measure list. </param>
         /// <param name="dimension"> dimension list. </param>
         /// <param name="dataStartFrom"> ingestion start time. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="dataFeedName"/>, <paramref name="metrics"/>, or <paramref name="dimension"/> is null. </exception>
         internal DataFeedDetail(string dataFeedName, Granularity granularityName, IEnumerable<Metric> metrics, IEnumerable<Dimension> dimension, DateTimeOffset dataStartFrom)
         {
             if (dataFeedName == null)
@@ -37,70 +39,11 @@ namespace AnomalyDetector.Models
 
             DataFeedName = dataFeedName;
             GranularityName = granularityName;
-            Metrics = metrics.ToArray();
-            Dimension = dimension.ToArray();
+            Metrics = metrics.ToList();
+            Dimension = dimension.ToList();
             DataStartFrom = dataStartFrom;
-        }
-
-        /// <summary> Initializes a new instance of DataFeedDetail. </summary>
-        /// <param name="dataSourceType"> . </param>
-        /// <param name="dataFeedId"> data feed unique id. </param>
-        /// <param name="dataFeedName"> data feed name. </param>
-        /// <param name="dataFeedDescription"> data feed description. </param>
-        /// <param name="granularityName"> . </param>
-        /// <param name="granularityAmount"> if granularity is custom,it is required. </param>
-        /// <param name="metrics"> measure list. </param>
-        /// <param name="dimension"> dimension list. </param>
-        /// <param name="dataStartFrom"> ingestion start time. </param>
-        /// <param name="timestampColumn"> user-defined timestamp column. if timestampColumn is null, start time of every time slice will be used as default value. </param>
-        /// <param name="startOffsetInSeconds"> the time that the beginning of data ingestion task will delay for every data slice according to this offset. </param>
-        /// <param name="maxConcurrency"> the max concurrency of data ingestion queries against user data source. 0 means no limitation. </param>
-        /// <param name="minRetryIntervalInSeconds"> the min retry interval for failed data ingestion tasks. </param>
-        /// <param name="stopRetryAfterInSeconds"> stop retry data ingestion after the data slice first schedule time in seconds. </param>
-        /// <param name="needRollup"> . </param>
-        /// <param name="rollUpMethod"> . </param>
-        /// <param name="rollUpColumns"> roll up columns. </param>
-        /// <param name="allUpIdentification"> the identification value for the row of calculated all-up value. </param>
-        /// <param name="fillMissingPointType"> . </param>
-        /// <param name="fillMissingPointValue"> the value of fill missing point for anomaly detection. </param>
-        /// <param name="viewMode"> . </param>
-        /// <param name="admins"> data feed administrator. </param>
-        /// <param name="viewers"> data feed viewer. </param>
-        /// <param name="isAdmin"> the query user is one of data feed administrator or not. </param>
-        /// <param name="creator"> data feed creator. </param>
-        /// <param name="status"> . </param>
-        /// <param name="createdTime"> data feed created time. </param>
-        /// <param name="actionLinkTemplate"> action link for alert. </param>
-        internal DataFeedDetail(DataSourceType dataSourceType, Guid? dataFeedId, string dataFeedName, string dataFeedDescription, Granularity granularityName, int? granularityAmount, IReadOnlyList<Metric> metrics, IReadOnlyList<Dimension> dimension, DateTimeOffset dataStartFrom, string timestampColumn, long? startOffsetInSeconds, int? maxConcurrency, long? minRetryIntervalInSeconds, long? stopRetryAfterInSeconds, NeedRollupEnum? needRollup, RollUpMethod? rollUpMethod, string rollUpColumns, string allUpIdentification, FillMissingPointType? fillMissingPointType, double? fillMissingPointValue, ViewMode? viewMode, IReadOnlyList<string> admins, IReadOnlyList<string> viewers, bool? isAdmin, string creator, EntityStatus? status, DateTimeOffset? createdTime, string actionLinkTemplate)
-        {
-            DataSourceType = dataSourceType;
-            DataFeedId = dataFeedId;
-            DataFeedName = dataFeedName;
-            DataFeedDescription = dataFeedDescription;
-            GranularityName = granularityName;
-            GranularityAmount = granularityAmount;
-            Metrics = metrics ?? new List<Metric>();
-            Dimension = dimension ?? new List<Dimension>();
-            DataStartFrom = dataStartFrom;
-            TimestampColumn = timestampColumn;
-            StartOffsetInSeconds = startOffsetInSeconds;
-            MaxConcurrency = maxConcurrency;
-            MinRetryIntervalInSeconds = minRetryIntervalInSeconds;
-            StopRetryAfterInSeconds = stopRetryAfterInSeconds;
-            NeedRollup = needRollup;
-            RollUpMethod = rollUpMethod;
-            RollUpColumns = rollUpColumns;
-            AllUpIdentification = allUpIdentification;
-            FillMissingPointType = fillMissingPointType;
-            FillMissingPointValue = fillMissingPointValue;
-            ViewMode = viewMode;
-            Admins = admins;
-            Viewers = viewers;
-            IsAdmin = isAdmin;
-            Creator = creator;
-            Status = status;
-            CreatedTime = createdTime;
-            ActionLinkTemplate = actionLinkTemplate;
+            Admins = new ChangeTrackingList<string>();
+            Viewers = new ChangeTrackingList<string>();
         }
 
         internal DataSourceType DataSourceType { get; set; }

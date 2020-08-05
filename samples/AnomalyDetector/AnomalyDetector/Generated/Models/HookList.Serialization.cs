@@ -15,42 +15,27 @@ namespace AnomalyDetector.Models
     {
         internal static HookList DeserializeHookList(JsonElement element)
         {
-            string nextLink = default;
-            IReadOnlyList<HookListValueItem> value = default;
+            Optional<string> nextLink = default;
+            Optional<IReadOnlyList<HookListValueItem>> value = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("@nextLink"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     nextLink = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("value"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     List<HookListValueItem> array = new List<HookListValueItem>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        if (item.ValueKind == JsonValueKind.Null)
-                        {
-                            array.Add(null);
-                        }
-                        else
-                        {
-                            array.Add(HookListValueItem.DeserializeHookListValueItem(item));
-                        }
+                        array.Add(HookListValueItem.DeserializeHookListValueItem(item));
                     }
                     value = array;
                     continue;
                 }
             }
-            return new HookList(nextLink, value);
+            return new HookList(nextLink.Value, Optional.ToList(value));
         }
     }
 }

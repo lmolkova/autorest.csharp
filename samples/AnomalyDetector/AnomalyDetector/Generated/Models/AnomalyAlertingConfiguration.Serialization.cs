@@ -17,11 +17,6 @@ namespace AnomalyDetector.Models
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
-            if (AnomalyAlertingConfigurationId != null)
-            {
-                writer.WritePropertyName("anomalyAlertingConfigurationId");
-                writer.WriteStringValue(AnomalyAlertingConfigurationId.Value);
-            }
             writer.WritePropertyName("name");
             writer.WriteStringValue(Name);
             writer.WritePropertyName("crossMetricsOperator");
@@ -45,7 +40,7 @@ namespace AnomalyDetector.Models
 
         internal static AnomalyAlertingConfiguration DeserializeAnomalyAlertingConfiguration(JsonElement element)
         {
-            Guid? anomalyAlertingConfigurationId = default;
+            Optional<Guid> anomalyAlertingConfigurationId = default;
             string name = default;
             AnomalyAlertingConfigurationLogicType crossMetricsOperator = default;
             IList<Guid> hookIds = default;
@@ -54,10 +49,6 @@ namespace AnomalyDetector.Models
             {
                 if (property.NameEquals("anomalyAlertingConfigurationId"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     anomalyAlertingConfigurationId = property.Value.GetGuid();
                     continue;
                 }
@@ -86,20 +77,13 @@ namespace AnomalyDetector.Models
                     List<MetricAlertingConfiguration> array = new List<MetricAlertingConfiguration>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        if (item.ValueKind == JsonValueKind.Null)
-                        {
-                            array.Add(null);
-                        }
-                        else
-                        {
-                            array.Add(MetricAlertingConfiguration.DeserializeMetricAlertingConfiguration(item));
-                        }
+                        array.Add(MetricAlertingConfiguration.DeserializeMetricAlertingConfiguration(item));
                     }
                     metricAlertingConfigurations = array;
                     continue;
                 }
             }
-            return new AnomalyAlertingConfiguration(anomalyAlertingConfigurationId, name, crossMetricsOperator, hookIds, metricAlertingConfigurations);
+            return new AnomalyAlertingConfiguration(Optional.ToNullable(anomalyAlertingConfigurationId), name, crossMetricsOperator, hookIds, metricAlertingConfigurations);
         }
     }
 }

@@ -16,26 +16,18 @@ namespace AnomalyDetector.Models
     {
         internal static MetricDataItem DeserializeMetricDataItem(JsonElement element)
         {
-            MetricSeriesItem id = default;
-            IReadOnlyList<DateTimeOffset> timestampList = default;
-            IReadOnlyList<double> valueList = default;
+            Optional<MetricSeriesItem> id = default;
+            Optional<IReadOnlyList<DateTimeOffset>> timestampList = default;
+            Optional<IReadOnlyList<double>> valueList = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("id"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     id = MetricSeriesItem.DeserializeMetricSeriesItem(property.Value);
                     continue;
                 }
                 if (property.NameEquals("timestampList"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     List<DateTimeOffset> array = new List<DateTimeOffset>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
@@ -46,10 +38,6 @@ namespace AnomalyDetector.Models
                 }
                 if (property.NameEquals("valueList"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     List<double> array = new List<double>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
@@ -59,7 +47,7 @@ namespace AnomalyDetector.Models
                     continue;
                 }
             }
-            return new MetricDataItem(id, timestampList, valueList);
+            return new MetricDataItem(id.Value, Optional.ToList(timestampList), Optional.ToList(valueList));
         }
     }
 }

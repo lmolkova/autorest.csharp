@@ -15,6 +15,7 @@ namespace AnomalyDetector.Models
         /// <summary> Initializes a new instance of SqlSourceParameter. </summary>
         /// <param name="connectionString"> Database connection string. </param>
         /// <param name="query"> Query script. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="connectionString"/> or <paramref name="query"/> is null. </exception>
         internal SqlSourceParameter(string connectionString, string query)
         {
             if (connectionString == null)

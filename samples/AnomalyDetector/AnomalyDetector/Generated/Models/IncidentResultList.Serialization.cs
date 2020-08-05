@@ -15,42 +15,27 @@ namespace AnomalyDetector.Models
     {
         internal static IncidentResultList DeserializeIncidentResultList(JsonElement element)
         {
-            string nextLink = default;
-            IReadOnlyList<IncidentResult> value = default;
+            Optional<string> nextLink = default;
+            Optional<IReadOnlyList<IncidentResult>> value = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("@nextLink"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     nextLink = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("value"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     List<IncidentResult> array = new List<IncidentResult>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        if (item.ValueKind == JsonValueKind.Null)
-                        {
-                            array.Add(null);
-                        }
-                        else
-                        {
-                            array.Add(IncidentResult.DeserializeIncidentResult(item));
-                        }
+                        array.Add(IncidentResult.DeserializeIncidentResult(item));
                     }
                     value = array;
                     continue;
                 }
             }
-            return new IncidentResultList(nextLink, value);
+            return new IncidentResultList(nextLink.Value, Optional.ToList(value));
         }
     }
 }

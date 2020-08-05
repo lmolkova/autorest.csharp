@@ -15,15 +15,29 @@ namespace AnomalyDetector.Models
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
-            if (LowerBound != null)
+            if (Optional.IsDefined(LowerBound))
             {
-                writer.WritePropertyName("lowerBound");
-                writer.WriteNumberValue(LowerBound.Value);
+                if (LowerBound != null)
+                {
+                    writer.WritePropertyName("lowerBound");
+                    writer.WriteNumberValue(LowerBound.Value);
+                }
+                else
+                {
+                    writer.WriteNull("lowerBound");
+                }
             }
-            if (UpperBound != null)
+            if (Optional.IsDefined(UpperBound))
             {
-                writer.WritePropertyName("upperBound");
-                writer.WriteNumberValue(UpperBound.Value);
+                if (UpperBound != null)
+                {
+                    writer.WritePropertyName("upperBound");
+                    writer.WriteNumberValue(UpperBound.Value);
+                }
+                else
+                {
+                    writer.WriteNull("upperBound");
+                }
             }
             writer.WritePropertyName("anomalyDetectorDirection");
             writer.WriteStringValue(AnomalyDetectorDirection.ToString());
@@ -34,8 +48,8 @@ namespace AnomalyDetector.Models
 
         internal static HardThresholdCondition DeserializeHardThresholdCondition(JsonElement element)
         {
-            double? lowerBound = default;
-            double? upperBound = default;
+            Optional<double?> lowerBound = default;
+            Optional<double?> upperBound = default;
             AnomalyDetectorDirection anomalyDetectorDirection = default;
             SuppressCondition suppressCondition = default;
             foreach (var property in element.EnumerateObject())
@@ -44,6 +58,7 @@ namespace AnomalyDetector.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
+                        lowerBound = null;
                         continue;
                     }
                     lowerBound = property.Value.GetDouble();
@@ -53,6 +68,7 @@ namespace AnomalyDetector.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
+                        upperBound = null;
                         continue;
                     }
                     upperBound = property.Value.GetDouble();
@@ -69,7 +85,7 @@ namespace AnomalyDetector.Models
                     continue;
                 }
             }
-            return new HardThresholdCondition(lowerBound, upperBound, anomalyDetectorDirection, suppressCondition);
+            return new HardThresholdCondition(Optional.ToNullable(lowerBound), Optional.ToNullable(upperBound), anomalyDetectorDirection, suppressCondition);
         }
     }
 }

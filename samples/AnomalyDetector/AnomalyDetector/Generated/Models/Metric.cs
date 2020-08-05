@@ -14,6 +14,7 @@ namespace AnomalyDetector.Models
     {
         /// <summary> Initializes a new instance of Metric. </summary>
         /// <param name="metricName"> metric name. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="metricName"/> is null. </exception>
         internal Metric(string metricName)
         {
             if (metricName == null)
@@ -22,19 +23,6 @@ namespace AnomalyDetector.Models
             }
 
             MetricName = metricName;
-        }
-
-        /// <summary> Initializes a new instance of Metric. </summary>
-        /// <param name="metricId"> metric id. </param>
-        /// <param name="metricName"> metric name. </param>
-        /// <param name="metricDisplayName"> metric display name. </param>
-        /// <param name="metricDescription"> metric description. </param>
-        internal Metric(Guid? metricId, string metricName, string metricDisplayName, string metricDescription)
-        {
-            MetricId = metricId;
-            MetricName = metricName;
-            MetricDisplayName = metricDisplayName;
-            MetricDescription = metricDescription;
         }
 
         /// <summary> metric id. </summary>

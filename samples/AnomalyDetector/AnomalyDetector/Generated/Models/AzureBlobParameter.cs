@@ -16,6 +16,7 @@ namespace AnomalyDetector.Models
         /// <param name="connectionString"> Azure Blob connection string. </param>
         /// <param name="container"> Container. </param>
         /// <param name="blobTemplate"> Blob Template. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="connectionString"/>, <paramref name="container"/>, or <paramref name="blobTemplate"/> is null. </exception>
         internal AzureBlobParameter(string connectionString, string container, string blobTemplate)
         {
             if (connectionString == null)

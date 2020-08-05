@@ -17,6 +17,7 @@ namespace AnomalyDetector.Models
         /// <param name="applicationId"> Azure Application Insights ID. </param>
         /// <param name="apiKey"> API Key. </param>
         /// <param name="query"> Query. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="azureCloud"/>, <paramref name="applicationId"/>, <paramref name="apiKey"/>, or <paramref name="query"/> is null. </exception>
         internal AzureApplicationInsightsParameter(string azureCloud, string applicationId, string apiKey, string query)
         {
             if (azureCloud == null)

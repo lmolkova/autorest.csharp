@@ -15,42 +15,27 @@ namespace AnomalyDetector.Models
     {
         internal static EnrichmentStatusList DeserializeEnrichmentStatusList(JsonElement element)
         {
-            string nextLink = default;
-            IReadOnlyList<EnrichmentStatus> value = default;
+            Optional<string> nextLink = default;
+            Optional<IReadOnlyList<EnrichmentStatus>> value = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("@nextLink"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     nextLink = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("value"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     List<EnrichmentStatus> array = new List<EnrichmentStatus>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        if (item.ValueKind == JsonValueKind.Null)
-                        {
-                            array.Add(null);
-                        }
-                        else
-                        {
-                            array.Add(EnrichmentStatus.DeserializeEnrichmentStatus(item));
-                        }
+                        array.Add(EnrichmentStatus.DeserializeEnrichmentStatus(item));
                     }
                     value = array;
                     continue;
                 }
             }
-            return new EnrichmentStatusList(nextLink, value);
+            return new EnrichmentStatusList(nextLink.Value, Optional.ToList(value));
         }
     }
 }

@@ -6,6 +6,7 @@
 #nullable disable
 
 using System.Collections.Generic;
+using Azure.Core;
 
 namespace AnomalyDetector.Models
 {
@@ -15,21 +16,7 @@ namespace AnomalyDetector.Models
         /// <summary> Initializes a new instance of HookInfoPatch. </summary>
         internal HookInfoPatch()
         {
-        }
-
-        /// <summary> Initializes a new instance of HookInfoPatch. </summary>
-        /// <param name="hookType"> . </param>
-        /// <param name="hookName"> hook unique name. </param>
-        /// <param name="description"> hook description. </param>
-        /// <param name="externalLink"> hook external link. </param>
-        /// <param name="admins"> hook administrators. </param>
-        internal HookInfoPatch(HookType hookType, string hookName, string description, string externalLink, IReadOnlyList<string> admins)
-        {
-            HookType = hookType;
-            HookName = hookName;
-            Description = description;
-            ExternalLink = externalLink;
-            Admins = admins;
+            Admins = new ChangeTrackingList<string>();
         }
 
         internal HookType HookType { get; set; }

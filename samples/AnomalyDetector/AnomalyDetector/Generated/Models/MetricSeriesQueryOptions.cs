@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using Azure.Core;
 
 namespace AnomalyDetector.Models
 {
@@ -18,15 +19,7 @@ namespace AnomalyDetector.Models
         public MetricSeriesQueryOptions(DateTimeOffset activeSince)
         {
             ActiveSince = activeSince;
-        }
-
-        /// <summary> Initializes a new instance of MetricSeriesQueryOptions. </summary>
-        /// <param name="activeSince"> query series ingested after this time, the format should be yyyy-MM-ddTHH:mm:ssZ. </param>
-        /// <param name="dimensionFilter"> filter specfic dimension name and values. </param>
-        internal MetricSeriesQueryOptions(DateTimeOffset activeSince, IDictionary<string, IList<string>> dimensionFilter)
-        {
-            ActiveSince = activeSince;
-            DimensionFilter = dimensionFilter;
+            DimensionFilter = new ChangeTrackingDictionary<string, IList<string>>();
         }
 
         /// <summary> query series ingested after this time, the format should be yyyy-MM-ddTHH:mm:ssZ. </summary>

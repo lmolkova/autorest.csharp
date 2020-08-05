@@ -16,6 +16,7 @@ namespace AnomalyDetector.Models
         /// <param name="connectionString"> Azure Table connection string. </param>
         /// <param name="script"> Query script. </param>
         /// <param name="table"> Table name. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="connectionString"/>, <paramref name="script"/>, or <paramref name="table"/> is null. </exception>
         internal AzureTableParameter(string connectionString, string script, string table)
         {
             if (connectionString == null)

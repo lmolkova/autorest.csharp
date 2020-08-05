@@ -15,6 +15,7 @@ namespace AnomalyDetector.Models
         /// <summary> Initializes a new instance of DimensionGroupConfiguration. </summary>
         /// <param name="group"> . </param>
         /// <param name="conditionOperator"> . </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="group"/> is null. </exception>
         public DimensionGroupConfiguration(DimensionGroupIdentity group, AnomalyDetectionConfigurationLogicType conditionOperator)
         {
             if (group == null)

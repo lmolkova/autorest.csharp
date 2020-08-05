@@ -14,30 +14,22 @@ namespace AnomalyDetector.Models
     {
         internal static IncidentProperty DeserializeIncidentProperty(JsonElement element)
         {
-            Severity? maxSeverity = default;
-            IncidentStatus? incidentStatus = default;
+            Optional<Severity> maxSeverity = default;
+            Optional<IncidentStatus> incidentStatus = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("maxSeverity"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     maxSeverity = new Severity(property.Value.GetString());
                     continue;
                 }
                 if (property.NameEquals("incidentStatus"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     incidentStatus = new IncidentStatus(property.Value.GetString());
                     continue;
                 }
             }
-            return new IncidentProperty(maxSeverity, incidentStatus);
+            return new IncidentProperty(Optional.ToNullable(maxSeverity), Optional.ToNullable(incidentStatus));
         }
     }
 }

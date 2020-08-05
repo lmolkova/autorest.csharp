@@ -62,14 +62,7 @@ namespace AnomalyDetector
                     {
                         AnomalyAlertingConfiguration value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AnomalyAlertingConfiguration.DeserializeAnomalyAlertingConfiguration(document.RootElement);
-                        }
+                        value = AnomalyAlertingConfiguration.DeserializeAnomalyAlertingConfiguration(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -90,14 +83,7 @@ namespace AnomalyDetector
                     {
                         AnomalyAlertingConfiguration value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AnomalyAlertingConfiguration.DeserializeAnomalyAlertingConfiguration(document.RootElement);
-                        }
+                        value = AnomalyAlertingConfiguration.DeserializeAnomalyAlertingConfiguration(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -124,6 +110,7 @@ namespace AnomalyDetector
         /// <param name="configurationId"> anomaly alerting configuration unique id. </param>
         /// <param name="data"> anomaly alerting configuration. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="data"/> is null. </exception>
         public async Task<Response> UpdateAnomalyAlertingConfigurationAsync(Guid configurationId, Stream data, CancellationToken cancellationToken = default)
         {
             if (data == null)
@@ -146,6 +133,7 @@ namespace AnomalyDetector
         /// <param name="configurationId"> anomaly alerting configuration unique id. </param>
         /// <param name="data"> anomaly alerting configuration. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="data"/> is null. </exception>
         public Response UpdateAnomalyAlertingConfiguration(Guid configurationId, Stream data, CancellationToken cancellationToken = default)
         {
             if (data == null)
@@ -307,14 +295,7 @@ namespace AnomalyDetector
                     {
                         AlertResultList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AlertResultList.DeserializeAlertResultList(document.RootElement);
-                        }
+                        value = AlertResultList.DeserializeAlertResultList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -338,14 +319,7 @@ namespace AnomalyDetector
                     {
                         AlertResultList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AlertResultList.DeserializeAlertResultList(document.RootElement);
-                        }
+                        value = AlertResultList.DeserializeAlertResultList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -383,6 +357,7 @@ namespace AnomalyDetector
         /// <param name="skip"> The Integer to use. </param>
         /// <param name="top"> The Integer to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="alertId"/> is null. </exception>
         public async Task<Response<AnomalyResultList>> GetAnomaliesFromAlertByAnomalyAlertingConfigurationAsync(Guid configurationId, string alertId, int? skip = null, int? top = null, CancellationToken cancellationToken = default)
         {
             if (alertId == null)
@@ -398,14 +373,7 @@ namespace AnomalyDetector
                     {
                         AnomalyResultList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AnomalyResultList.DeserializeAnomalyResultList(document.RootElement);
-                        }
+                        value = AnomalyResultList.DeserializeAnomalyResultList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -419,6 +387,7 @@ namespace AnomalyDetector
         /// <param name="skip"> The Integer to use. </param>
         /// <param name="top"> The Integer to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="alertId"/> is null. </exception>
         public Response<AnomalyResultList> GetAnomaliesFromAlertByAnomalyAlertingConfiguration(Guid configurationId, string alertId, int? skip = null, int? top = null, CancellationToken cancellationToken = default)
         {
             if (alertId == null)
@@ -434,14 +403,7 @@ namespace AnomalyDetector
                     {
                         AnomalyResultList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AnomalyResultList.DeserializeAnomalyResultList(document.RootElement);
-                        }
+                        value = AnomalyResultList.DeserializeAnomalyResultList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -479,6 +441,7 @@ namespace AnomalyDetector
         /// <param name="skip"> The Integer to use. </param>
         /// <param name="top"> The Integer to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="alertId"/> is null. </exception>
         public async Task<Response<IncidentResultList>> GetIncidentsFromAlertByAnomalyAlertingConfigurationAsync(Guid configurationId, string alertId, int? skip = null, int? top = null, CancellationToken cancellationToken = default)
         {
             if (alertId == null)
@@ -494,14 +457,7 @@ namespace AnomalyDetector
                     {
                         IncidentResultList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = IncidentResultList.DeserializeIncidentResultList(document.RootElement);
-                        }
+                        value = IncidentResultList.DeserializeIncidentResultList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -515,6 +471,7 @@ namespace AnomalyDetector
         /// <param name="skip"> The Integer to use. </param>
         /// <param name="top"> The Integer to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="alertId"/> is null. </exception>
         public Response<IncidentResultList> GetIncidentsFromAlertByAnomalyAlertingConfiguration(Guid configurationId, string alertId, int? skip = null, int? top = null, CancellationToken cancellationToken = default)
         {
             if (alertId == null)
@@ -530,14 +487,7 @@ namespace AnomalyDetector
                     {
                         IncidentResultList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = IncidentResultList.DeserializeIncidentResultList(document.RootElement);
-                        }
+                        value = IncidentResultList.DeserializeIncidentResultList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -571,14 +521,7 @@ namespace AnomalyDetector
                     {
                         AnomalyDetectionConfiguration value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AnomalyDetectionConfiguration.DeserializeAnomalyDetectionConfiguration(document.RootElement);
-                        }
+                        value = AnomalyDetectionConfiguration.DeserializeAnomalyDetectionConfiguration(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -599,14 +542,7 @@ namespace AnomalyDetector
                     {
                         AnomalyDetectionConfiguration value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AnomalyDetectionConfiguration.DeserializeAnomalyDetectionConfiguration(document.RootElement);
-                        }
+                        value = AnomalyDetectionConfiguration.DeserializeAnomalyDetectionConfiguration(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -633,6 +569,7 @@ namespace AnomalyDetector
         /// <param name="configurationId"> anomaly detection configuration unique id. </param>
         /// <param name="data"> anomaly detection configuration. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="data"/> is null. </exception>
         public async Task<Response> UpdateAnomalyDetectionConfigurationAsync(Guid configurationId, Stream data, CancellationToken cancellationToken = default)
         {
             if (data == null)
@@ -655,6 +592,7 @@ namespace AnomalyDetector
         /// <param name="configurationId"> anomaly detection configuration unique id. </param>
         /// <param name="data"> anomaly detection configuration. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="data"/> is null. </exception>
         public Response UpdateAnomalyDetectionConfiguration(Guid configurationId, Stream data, CancellationToken cancellationToken = default)
         {
             if (data == null)
@@ -798,14 +736,7 @@ namespace AnomalyDetector
                     {
                         AnomalyAlertingConfigurationList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AnomalyAlertingConfigurationList.DeserializeAnomalyAlertingConfigurationList(document.RootElement);
-                        }
+                        value = AnomalyAlertingConfigurationList.DeserializeAnomalyAlertingConfigurationList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -826,14 +757,7 @@ namespace AnomalyDetector
                     {
                         AnomalyAlertingConfigurationList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AnomalyAlertingConfigurationList.DeserializeAnomalyAlertingConfigurationList(document.RootElement);
-                        }
+                        value = AnomalyAlertingConfigurationList.DeserializeAnomalyAlertingConfigurationList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -876,14 +800,7 @@ namespace AnomalyDetector
                     {
                         SeriesResultList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = SeriesResultList.DeserializeSeriesResultList(document.RootElement);
-                        }
+                        value = SeriesResultList.DeserializeSeriesResultList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -905,14 +822,7 @@ namespace AnomalyDetector
                     {
                         SeriesResultList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = SeriesResultList.DeserializeSeriesResultList(document.RootElement);
-                        }
+                        value = SeriesResultList.DeserializeSeriesResultList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -965,14 +875,7 @@ namespace AnomalyDetector
                     {
                         AnomalyResultList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AnomalyResultList.DeserializeAnomalyResultList(document.RootElement);
-                        }
+                        value = AnomalyResultList.DeserializeAnomalyResultList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -996,14 +899,7 @@ namespace AnomalyDetector
                     {
                         AnomalyResultList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AnomalyResultList.DeserializeAnomalyResultList(document.RootElement);
-                        }
+                        value = AnomalyResultList.DeserializeAnomalyResultList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -1056,14 +952,7 @@ namespace AnomalyDetector
                     {
                         AnomalyDimensionList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AnomalyDimensionList.DeserializeAnomalyDimensionList(document.RootElement);
-                        }
+                        value = AnomalyDimensionList.DeserializeAnomalyDimensionList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -1087,14 +976,7 @@ namespace AnomalyDetector
                     {
                         AnomalyDimensionList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AnomalyDimensionList.DeserializeAnomalyDimensionList(document.RootElement);
-                        }
+                        value = AnomalyDimensionList.DeserializeAnomalyDimensionList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -1147,14 +1029,7 @@ namespace AnomalyDetector
                     {
                         IncidentResultList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = IncidentResultList.DeserializeIncidentResultList(document.RootElement);
-                        }
+                        value = IncidentResultList.DeserializeIncidentResultList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -1178,14 +1053,7 @@ namespace AnomalyDetector
                     {
                         IncidentResultList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = IncidentResultList.DeserializeIncidentResultList(document.RootElement);
-                        }
+                        value = IncidentResultList.DeserializeIncidentResultList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -1213,6 +1081,7 @@ namespace AnomalyDetector
         /// <param name="configurationId"> anomaly detection configuration unique id. </param>
         /// <param name="incidentId"> incident id. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="incidentId"/> is null. </exception>
         public async Task<Response<RootCauseList>> GetRootCauseOfIncidentByAnomalyDetectionConfigurationAsync(Guid configurationId, string incidentId, CancellationToken cancellationToken = default)
         {
             if (incidentId == null)
@@ -1228,14 +1097,7 @@ namespace AnomalyDetector
                     {
                         RootCauseList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = RootCauseList.DeserializeRootCauseList(document.RootElement);
-                        }
+                        value = RootCauseList.DeserializeRootCauseList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -1247,6 +1109,7 @@ namespace AnomalyDetector
         /// <param name="configurationId"> anomaly detection configuration unique id. </param>
         /// <param name="incidentId"> incident id. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="incidentId"/> is null. </exception>
         public Response<RootCauseList> GetRootCauseOfIncidentByAnomalyDetectionConfiguration(Guid configurationId, string incidentId, CancellationToken cancellationToken = default)
         {
             if (incidentId == null)
@@ -1262,14 +1125,7 @@ namespace AnomalyDetector
                     {
                         RootCauseList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = RootCauseList.DeserializeRootCauseList(document.RootElement);
-                        }
+                        value = RootCauseList.DeserializeRootCauseList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -1336,14 +1192,7 @@ namespace AnomalyDetector
                     {
                         DataFeedList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = DataFeedList.DeserializeDataFeedList(document.RootElement);
-                        }
+                        value = DataFeedList.DeserializeDataFeedList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -1370,14 +1219,7 @@ namespace AnomalyDetector
                     {
                         DataFeedList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = DataFeedList.DeserializeDataFeedList(document.RootElement);
-                        }
+                        value = DataFeedList.DeserializeDataFeedList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -1464,14 +1306,7 @@ namespace AnomalyDetector
                     {
                         PathsGmfhusDatafeedsDatafeedidGetResponses200ContentApplicationJsonSchema value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = PathsGmfhusDatafeedsDatafeedidGetResponses200ContentApplicationJsonSchema.DeserializePathsGmfhusDatafeedsDatafeedidGetResponses200ContentApplicationJsonSchema(document.RootElement);
-                        }
+                        value = PathsGmfhusDatafeedsDatafeedidGetResponses200ContentApplicationJsonSchema.DeserializePathsGmfhusDatafeedsDatafeedidGetResponses200ContentApplicationJsonSchema(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -1492,14 +1327,7 @@ namespace AnomalyDetector
                     {
                         PathsGmfhusDatafeedsDatafeedidGetResponses200ContentApplicationJsonSchema value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = PathsGmfhusDatafeedsDatafeedidGetResponses200ContentApplicationJsonSchema.DeserializePathsGmfhusDatafeedsDatafeedidGetResponses200ContentApplicationJsonSchema(document.RootElement);
-                        }
+                        value = PathsGmfhusDatafeedsDatafeedidGetResponses200ContentApplicationJsonSchema.DeserializePathsGmfhusDatafeedsDatafeedidGetResponses200ContentApplicationJsonSchema(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -1518,7 +1346,10 @@ namespace AnomalyDetector
             uri.AppendPath(dataFeedId, true);
             request.Uri = uri;
             request.Headers.Add("Content-Type", "application/json-merge-patch");
-            request.Content = RequestContent.Create(data);
+            if (data != null)
+            {
+                request.Content = RequestContent.Create(data);
+            }
             return message;
         }
 
@@ -1526,6 +1357,7 @@ namespace AnomalyDetector
         /// <param name="dataFeedId"> The data feed unique id. </param>
         /// <param name="data"> parameters to update a data feed. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="data"/> is null. </exception>
         public async Task<Response> UpdateDataFeedAsync(Guid dataFeedId, Stream data, CancellationToken cancellationToken = default)
         {
             if (data == null)
@@ -1548,6 +1380,7 @@ namespace AnomalyDetector
         /// <param name="dataFeedId"> The data feed unique id. </param>
         /// <param name="data"> parameters to update a data feed. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="data"/> is null. </exception>
         public Response UpdateDataFeed(Guid dataFeedId, Stream data, CancellationToken cancellationToken = default)
         {
             if (data == null)
@@ -1637,14 +1470,7 @@ namespace AnomalyDetector
                     {
                         PathsK7L8KkFeedbackMetricFeedbackidGetResponses200ContentApplicationJsonSchema value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = PathsK7L8KkFeedbackMetricFeedbackidGetResponses200ContentApplicationJsonSchema.DeserializePathsK7L8KkFeedbackMetricFeedbackidGetResponses200ContentApplicationJsonSchema(document.RootElement);
-                        }
+                        value = PathsK7L8KkFeedbackMetricFeedbackidGetResponses200ContentApplicationJsonSchema.DeserializePathsK7L8KkFeedbackMetricFeedbackidGetResponses200ContentApplicationJsonSchema(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -1665,14 +1491,7 @@ namespace AnomalyDetector
                     {
                         PathsK7L8KkFeedbackMetricFeedbackidGetResponses200ContentApplicationJsonSchema value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = PathsK7L8KkFeedbackMetricFeedbackidGetResponses200ContentApplicationJsonSchema.DeserializePathsK7L8KkFeedbackMetricFeedbackidGetResponses200ContentApplicationJsonSchema(document.RootElement);
-                        }
+                        value = PathsK7L8KkFeedbackMetricFeedbackidGetResponses200ContentApplicationJsonSchema.DeserializePathsK7L8KkFeedbackMetricFeedbackidGetResponses200ContentApplicationJsonSchema(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -1722,14 +1541,7 @@ namespace AnomalyDetector
                     {
                         MetricFeedbackList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = MetricFeedbackList.DeserializeMetricFeedbackList(document.RootElement);
-                        }
+                        value = MetricFeedbackList.DeserializeMetricFeedbackList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -1752,14 +1564,7 @@ namespace AnomalyDetector
                     {
                         MetricFeedbackList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = MetricFeedbackList.DeserializeMetricFeedbackList(document.RootElement);
-                        }
+                        value = MetricFeedbackList.DeserializeMetricFeedbackList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -1859,14 +1664,7 @@ namespace AnomalyDetector
                     {
                         HookList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = HookList.DeserializeHookList(document.RootElement);
-                        }
+                        value = HookList.DeserializeHookList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -1889,14 +1687,7 @@ namespace AnomalyDetector
                     {
                         HookList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = HookList.DeserializeHookList(document.RootElement);
-                        }
+                        value = HookList.DeserializeHookList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -1983,14 +1774,7 @@ namespace AnomalyDetector
                     {
                         Paths14A3T2HHooksHookidGetResponses200ContentApplicationJsonSchema value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Paths14A3T2HHooksHookidGetResponses200ContentApplicationJsonSchema.DeserializePaths14A3T2HHooksHookidGetResponses200ContentApplicationJsonSchema(document.RootElement);
-                        }
+                        value = Paths14A3T2HHooksHookidGetResponses200ContentApplicationJsonSchema.DeserializePaths14A3T2HHooksHookidGetResponses200ContentApplicationJsonSchema(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -2011,14 +1795,7 @@ namespace AnomalyDetector
                     {
                         Paths14A3T2HHooksHookidGetResponses200ContentApplicationJsonSchema value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = Paths14A3T2HHooksHookidGetResponses200ContentApplicationJsonSchema.DeserializePaths14A3T2HHooksHookidGetResponses200ContentApplicationJsonSchema(document.RootElement);
-                        }
+                        value = Paths14A3T2HHooksHookidGetResponses200ContentApplicationJsonSchema.DeserializePaths14A3T2HHooksHookidGetResponses200ContentApplicationJsonSchema(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -2037,7 +1814,10 @@ namespace AnomalyDetector
             uri.AppendPath(hookId, true);
             request.Uri = uri;
             request.Headers.Add("Content-Type", "application/json-merge-patch");
-            request.Content = RequestContent.Create(data);
+            if (data != null)
+            {
+                request.Content = RequestContent.Create(data);
+            }
             return message;
         }
 
@@ -2045,6 +1825,7 @@ namespace AnomalyDetector
         /// <param name="hookId"> Hook unique ID. </param>
         /// <param name="data"> Update hook request. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="data"/> is null. </exception>
         public async Task<Response> UpdateHookAsync(Guid hookId, Stream data, CancellationToken cancellationToken = default)
         {
             if (data == null)
@@ -2067,6 +1848,7 @@ namespace AnomalyDetector
         /// <param name="hookId"> Hook unique ID. </param>
         /// <param name="data"> Update hook request. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="data"/> is null. </exception>
         public Response UpdateHook(Guid hookId, Stream data, CancellationToken cancellationToken = default)
         {
             if (data == null)
@@ -2175,14 +1957,7 @@ namespace AnomalyDetector
                     {
                         IngestionStatusList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = IngestionStatusList.DeserializeIngestionStatusList(document.RootElement);
-                        }
+                        value = IngestionStatusList.DeserializeIngestionStatusList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -2206,14 +1981,7 @@ namespace AnomalyDetector
                     {
                         IngestionStatusList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = IngestionStatusList.DeserializeIngestionStatusList(document.RootElement);
-                        }
+                        value = IngestionStatusList.DeserializeIngestionStatusList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -2303,14 +2071,7 @@ namespace AnomalyDetector
                     {
                         DataFeedIngestionProgress value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = DataFeedIngestionProgress.DeserializeDataFeedIngestionProgress(document.RootElement);
-                        }
+                        value = DataFeedIngestionProgress.DeserializeDataFeedIngestionProgress(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -2331,14 +2092,7 @@ namespace AnomalyDetector
                     {
                         DataFeedIngestionProgress value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = DataFeedIngestionProgress.DeserializeDataFeedIngestionProgress(document.RootElement);
-                        }
+                        value = DataFeedIngestionProgress.DeserializeDataFeedIngestionProgress(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -2391,14 +2145,7 @@ namespace AnomalyDetector
                     {
                         MetricDataList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = MetricDataList.DeserializeMetricDataList(document.RootElement);
-                        }
+                        value = MetricDataList.DeserializeMetricDataList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -2422,14 +2169,7 @@ namespace AnomalyDetector
                     {
                         MetricDataList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = MetricDataList.DeserializeMetricDataList(document.RootElement);
-                        }
+                        value = MetricDataList.DeserializeMetricDataList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -2482,14 +2222,7 @@ namespace AnomalyDetector
                     {
                         MetricSeriesList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = MetricSeriesList.DeserializeMetricSeriesList(document.RootElement);
-                        }
+                        value = MetricSeriesList.DeserializeMetricSeriesList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -2513,14 +2246,7 @@ namespace AnomalyDetector
                     {
                         MetricSeriesList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = MetricSeriesList.DeserializeMetricSeriesList(document.RootElement);
-                        }
+                        value = MetricSeriesList.DeserializeMetricSeriesList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -2573,14 +2299,7 @@ namespace AnomalyDetector
                     {
                         MetricDimensionList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = MetricDimensionList.DeserializeMetricDimensionList(document.RootElement);
-                        }
+                        value = MetricDimensionList.DeserializeMetricDimensionList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -2604,14 +2323,7 @@ namespace AnomalyDetector
                     {
                         MetricDimensionList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = MetricDimensionList.DeserializeMetricDimensionList(document.RootElement);
-                        }
+                        value = MetricDimensionList.DeserializeMetricDimensionList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -2646,14 +2358,7 @@ namespace AnomalyDetector
                     {
                         AnomalyDetectionConfigurationList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AnomalyDetectionConfigurationList.DeserializeAnomalyDetectionConfigurationList(document.RootElement);
-                        }
+                        value = AnomalyDetectionConfigurationList.DeserializeAnomalyDetectionConfigurationList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -2674,14 +2379,7 @@ namespace AnomalyDetector
                     {
                         AnomalyDetectionConfigurationList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AnomalyDetectionConfigurationList.DeserializeAnomalyDetectionConfigurationList(document.RootElement);
-                        }
+                        value = AnomalyDetectionConfigurationList.DeserializeAnomalyDetectionConfigurationList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -2734,14 +2432,7 @@ namespace AnomalyDetector
                     {
                         EnrichmentStatusList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = EnrichmentStatusList.DeserializeEnrichmentStatusList(document.RootElement);
-                        }
+                        value = EnrichmentStatusList.DeserializeEnrichmentStatusList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -2765,14 +2456,7 @@ namespace AnomalyDetector
                     {
                         EnrichmentStatusList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = EnrichmentStatusList.DeserializeEnrichmentStatusList(document.RootElement);
-                        }
+                        value = EnrichmentStatusList.DeserializeEnrichmentStatusList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -2800,6 +2484,7 @@ namespace AnomalyDetector
         /// <param name="top"> The Integer to use. </param>
         /// <param name="body"> query alerting result request. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public async Task<Response<AlertResultList>> GetAlertsByAnomalyAlertingConfigurationNextPageAsync(string nextLink, Guid configurationId, int? skip = null, int? top = null, AlertingResultQuery body = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -2815,14 +2500,7 @@ namespace AnomalyDetector
                     {
                         AlertResultList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AlertResultList.DeserializeAlertResultList(document.RootElement);
-                        }
+                        value = AlertResultList.DeserializeAlertResultList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -2837,6 +2515,7 @@ namespace AnomalyDetector
         /// <param name="top"> The Integer to use. </param>
         /// <param name="body"> query alerting result request. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public Response<AlertResultList> GetAlertsByAnomalyAlertingConfigurationNextPage(string nextLink, Guid configurationId, int? skip = null, int? top = null, AlertingResultQuery body = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -2852,14 +2531,7 @@ namespace AnomalyDetector
                     {
                         AlertResultList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AlertResultList.DeserializeAlertResultList(document.RootElement);
-                        }
+                        value = AlertResultList.DeserializeAlertResultList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -2886,6 +2558,7 @@ namespace AnomalyDetector
         /// <param name="skip"> The Integer to use. </param>
         /// <param name="top"> The Integer to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> or <paramref name="alertId"/> is null. </exception>
         public async Task<Response<AnomalyResultList>> GetAnomaliesFromAlertByAnomalyAlertingConfigurationNextPageAsync(string nextLink, Guid configurationId, string alertId, int? skip = null, int? top = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -2905,14 +2578,7 @@ namespace AnomalyDetector
                     {
                         AnomalyResultList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AnomalyResultList.DeserializeAnomalyResultList(document.RootElement);
-                        }
+                        value = AnomalyResultList.DeserializeAnomalyResultList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -2927,6 +2593,7 @@ namespace AnomalyDetector
         /// <param name="skip"> The Integer to use. </param>
         /// <param name="top"> The Integer to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> or <paramref name="alertId"/> is null. </exception>
         public Response<AnomalyResultList> GetAnomaliesFromAlertByAnomalyAlertingConfigurationNextPage(string nextLink, Guid configurationId, string alertId, int? skip = null, int? top = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -2946,14 +2613,7 @@ namespace AnomalyDetector
                     {
                         AnomalyResultList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AnomalyResultList.DeserializeAnomalyResultList(document.RootElement);
-                        }
+                        value = AnomalyResultList.DeserializeAnomalyResultList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -2980,6 +2640,7 @@ namespace AnomalyDetector
         /// <param name="skip"> The Integer to use. </param>
         /// <param name="top"> The Integer to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> or <paramref name="alertId"/> is null. </exception>
         public async Task<Response<IncidentResultList>> GetIncidentsFromAlertByAnomalyAlertingConfigurationNextPageAsync(string nextLink, Guid configurationId, string alertId, int? skip = null, int? top = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -2999,14 +2660,7 @@ namespace AnomalyDetector
                     {
                         IncidentResultList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = IncidentResultList.DeserializeIncidentResultList(document.RootElement);
-                        }
+                        value = IncidentResultList.DeserializeIncidentResultList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3021,6 +2675,7 @@ namespace AnomalyDetector
         /// <param name="skip"> The Integer to use. </param>
         /// <param name="top"> The Integer to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> or <paramref name="alertId"/> is null. </exception>
         public Response<IncidentResultList> GetIncidentsFromAlertByAnomalyAlertingConfigurationNextPage(string nextLink, Guid configurationId, string alertId, int? skip = null, int? top = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -3040,14 +2695,7 @@ namespace AnomalyDetector
                     {
                         IncidentResultList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = IncidentResultList.DeserializeIncidentResultList(document.RootElement);
-                        }
+                        value = IncidentResultList.DeserializeIncidentResultList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3075,6 +2723,7 @@ namespace AnomalyDetector
         /// <param name="top"> The Integer to use. </param>
         /// <param name="body"> query detection result request. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public async Task<Response<AnomalyResultList>> GetAnomaliesByAnomalyDetectionConfigurationNextPageAsync(string nextLink, Guid configurationId, int? skip = null, int? top = null, DetectionResultQuery body = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -3090,14 +2739,7 @@ namespace AnomalyDetector
                     {
                         AnomalyResultList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AnomalyResultList.DeserializeAnomalyResultList(document.RootElement);
-                        }
+                        value = AnomalyResultList.DeserializeAnomalyResultList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3112,6 +2754,7 @@ namespace AnomalyDetector
         /// <param name="top"> The Integer to use. </param>
         /// <param name="body"> query detection result request. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public Response<AnomalyResultList> GetAnomaliesByAnomalyDetectionConfigurationNextPage(string nextLink, Guid configurationId, int? skip = null, int? top = null, DetectionResultQuery body = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -3127,14 +2770,7 @@ namespace AnomalyDetector
                     {
                         AnomalyResultList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AnomalyResultList.DeserializeAnomalyResultList(document.RootElement);
-                        }
+                        value = AnomalyResultList.DeserializeAnomalyResultList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3162,6 +2798,7 @@ namespace AnomalyDetector
         /// <param name="top"> The Integer to use. </param>
         /// <param name="body"> query dimension values request. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public async Task<Response<AnomalyDimensionList>> GetDimensionOfAnomaliesByAnomalyDetectionConfigurationNextPageAsync(string nextLink, Guid configurationId, int? skip = null, int? top = null, AnomalyDimensionQuery body = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -3177,14 +2814,7 @@ namespace AnomalyDetector
                     {
                         AnomalyDimensionList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AnomalyDimensionList.DeserializeAnomalyDimensionList(document.RootElement);
-                        }
+                        value = AnomalyDimensionList.DeserializeAnomalyDimensionList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3199,6 +2829,7 @@ namespace AnomalyDetector
         /// <param name="top"> The Integer to use. </param>
         /// <param name="body"> query dimension values request. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public Response<AnomalyDimensionList> GetDimensionOfAnomaliesByAnomalyDetectionConfigurationNextPage(string nextLink, Guid configurationId, int? skip = null, int? top = null, AnomalyDimensionQuery body = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -3214,14 +2845,7 @@ namespace AnomalyDetector
                     {
                         AnomalyDimensionList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = AnomalyDimensionList.DeserializeAnomalyDimensionList(document.RootElement);
-                        }
+                        value = AnomalyDimensionList.DeserializeAnomalyDimensionList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3249,6 +2873,7 @@ namespace AnomalyDetector
         /// <param name="top"> The Integer to use. </param>
         /// <param name="body"> query detection result request. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public async Task<Response<IncidentResultList>> GetIncidentsByAnomalyDetectionConfigurationNextPageAsync(string nextLink, Guid configurationId, int? skip = null, int? top = null, DetectionResultQuery body = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -3264,14 +2889,7 @@ namespace AnomalyDetector
                     {
                         IncidentResultList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = IncidentResultList.DeserializeIncidentResultList(document.RootElement);
-                        }
+                        value = IncidentResultList.DeserializeIncidentResultList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3286,6 +2904,7 @@ namespace AnomalyDetector
         /// <param name="top"> The Integer to use. </param>
         /// <param name="body"> query detection result request. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public Response<IncidentResultList> GetIncidentsByAnomalyDetectionConfigurationNextPage(string nextLink, Guid configurationId, int? skip = null, int? top = null, DetectionResultQuery body = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -3301,14 +2920,7 @@ namespace AnomalyDetector
                     {
                         IncidentResultList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = IncidentResultList.DeserializeIncidentResultList(document.RootElement);
-                        }
+                        value = IncidentResultList.DeserializeIncidentResultList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3338,6 +2950,7 @@ namespace AnomalyDetector
         /// <param name="skip"> The Integer to use. </param>
         /// <param name="top"> The Integer to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public async Task<Response<DataFeedList>> ListDataFeedsNextPageAsync(string nextLink, string dataFeedName = null, DataSourceType? dataSourceType = null, Granularity? granularityName = null, EntityStatus? status = null, string creator = null, int? skip = null, int? top = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -3353,14 +2966,7 @@ namespace AnomalyDetector
                     {
                         DataFeedList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = DataFeedList.DeserializeDataFeedList(document.RootElement);
-                        }
+                        value = DataFeedList.DeserializeDataFeedList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3378,6 +2984,7 @@ namespace AnomalyDetector
         /// <param name="skip"> The Integer to use. </param>
         /// <param name="top"> The Integer to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public Response<DataFeedList> ListDataFeedsNextPage(string nextLink, string dataFeedName = null, DataSourceType? dataSourceType = null, Granularity? granularityName = null, EntityStatus? status = null, string creator = null, int? skip = null, int? top = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -3393,14 +3000,7 @@ namespace AnomalyDetector
                     {
                         DataFeedList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = DataFeedList.DeserializeDataFeedList(document.RootElement);
-                        }
+                        value = DataFeedList.DeserializeDataFeedList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3427,6 +3027,7 @@ namespace AnomalyDetector
         /// <param name="top"> The Integer to use. </param>
         /// <param name="body"> metric feedback filter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public async Task<Response<MetricFeedbackList>> ListMetricFeedbacksNextPageAsync(string nextLink, int? skip = null, int? top = null, Paths1AmeiraFeedbackMetricQueryPostRequestbodyContentApplicationJsonSchema body = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -3442,14 +3043,7 @@ namespace AnomalyDetector
                     {
                         MetricFeedbackList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = MetricFeedbackList.DeserializeMetricFeedbackList(document.RootElement);
-                        }
+                        value = MetricFeedbackList.DeserializeMetricFeedbackList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3463,6 +3057,7 @@ namespace AnomalyDetector
         /// <param name="top"> The Integer to use. </param>
         /// <param name="body"> metric feedback filter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public Response<MetricFeedbackList> ListMetricFeedbacksNextPage(string nextLink, int? skip = null, int? top = null, Paths1AmeiraFeedbackMetricQueryPostRequestbodyContentApplicationJsonSchema body = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -3478,14 +3073,7 @@ namespace AnomalyDetector
                     {
                         MetricFeedbackList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = MetricFeedbackList.DeserializeMetricFeedbackList(document.RootElement);
-                        }
+                        value = MetricFeedbackList.DeserializeMetricFeedbackList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3511,6 +3099,7 @@ namespace AnomalyDetector
         /// <param name="skip"> The Integer to use. </param>
         /// <param name="top"> The Integer to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public async Task<Response<HookList>> ListHooksNextPageAsync(string nextLink, string hookName = null, int? skip = null, int? top = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -3526,14 +3115,7 @@ namespace AnomalyDetector
                     {
                         HookList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = HookList.DeserializeHookList(document.RootElement);
-                        }
+                        value = HookList.DeserializeHookList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3547,6 +3129,7 @@ namespace AnomalyDetector
         /// <param name="skip"> The Integer to use. </param>
         /// <param name="top"> The Integer to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public Response<HookList> ListHooksNextPage(string nextLink, string hookName = null, int? skip = null, int? top = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -3562,14 +3145,7 @@ namespace AnomalyDetector
                     {
                         HookList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = HookList.DeserializeHookList(document.RootElement);
-                        }
+                        value = HookList.DeserializeHookList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3597,6 +3173,7 @@ namespace AnomalyDetector
         /// <param name="top"> The Integer to use. </param>
         /// <param name="body"> The query time range. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public async Task<Response<IngestionStatusList>> GetDataFeedIngestionStatusNextPageAsync(string nextLink, Guid dataFeedId, int? skip = null, int? top = null, IngestionStatusQueryOptions body = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -3612,14 +3189,7 @@ namespace AnomalyDetector
                     {
                         IngestionStatusList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = IngestionStatusList.DeserializeIngestionStatusList(document.RootElement);
-                        }
+                        value = IngestionStatusList.DeserializeIngestionStatusList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3634,6 +3204,7 @@ namespace AnomalyDetector
         /// <param name="top"> The Integer to use. </param>
         /// <param name="body"> The query time range. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public Response<IngestionStatusList> GetDataFeedIngestionStatusNextPage(string nextLink, Guid dataFeedId, int? skip = null, int? top = null, IngestionStatusQueryOptions body = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -3649,14 +3220,7 @@ namespace AnomalyDetector
                     {
                         IngestionStatusList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = IngestionStatusList.DeserializeIngestionStatusList(document.RootElement);
-                        }
+                        value = IngestionStatusList.DeserializeIngestionStatusList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3684,6 +3248,7 @@ namespace AnomalyDetector
         /// <param name="top"> The Integer to use. </param>
         /// <param name="body"> query time series data condition. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public async Task<Response<MetricDataList>> GetMetricDataNextPageAsync(string nextLink, Guid metricId, int? skip = null, int? top = null, MetricDataQueryOptions body = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -3699,14 +3264,7 @@ namespace AnomalyDetector
                     {
                         MetricDataList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = MetricDataList.DeserializeMetricDataList(document.RootElement);
-                        }
+                        value = MetricDataList.DeserializeMetricDataList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3721,6 +3279,7 @@ namespace AnomalyDetector
         /// <param name="top"> The Integer to use. </param>
         /// <param name="body"> query time series data condition. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public Response<MetricDataList> GetMetricDataNextPage(string nextLink, Guid metricId, int? skip = null, int? top = null, MetricDataQueryOptions body = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -3736,14 +3295,7 @@ namespace AnomalyDetector
                     {
                         MetricDataList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = MetricDataList.DeserializeMetricDataList(document.RootElement);
-                        }
+                        value = MetricDataList.DeserializeMetricDataList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3771,6 +3323,7 @@ namespace AnomalyDetector
         /// <param name="top"> The Integer to use. </param>
         /// <param name="body"> filter to query series. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public async Task<Response<MetricSeriesList>> GetMetricSeriesNextPageAsync(string nextLink, Guid metricId, int? skip = null, int? top = null, MetricSeriesQueryOptions body = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -3786,14 +3339,7 @@ namespace AnomalyDetector
                     {
                         MetricSeriesList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = MetricSeriesList.DeserializeMetricSeriesList(document.RootElement);
-                        }
+                        value = MetricSeriesList.DeserializeMetricSeriesList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3808,6 +3354,7 @@ namespace AnomalyDetector
         /// <param name="top"> The Integer to use. </param>
         /// <param name="body"> filter to query series. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public Response<MetricSeriesList> GetMetricSeriesNextPage(string nextLink, Guid metricId, int? skip = null, int? top = null, MetricSeriesQueryOptions body = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -3823,14 +3370,7 @@ namespace AnomalyDetector
                     {
                         MetricSeriesList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = MetricSeriesList.DeserializeMetricSeriesList(document.RootElement);
-                        }
+                        value = MetricSeriesList.DeserializeMetricSeriesList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3858,6 +3398,7 @@ namespace AnomalyDetector
         /// <param name="top"> The Integer to use. </param>
         /// <param name="body"> query dimension option. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public async Task<Response<MetricDimensionList>> GetMetricDimensionNextPageAsync(string nextLink, Guid metricId, int? skip = null, int? top = null, MetricDimensionQueryOptions body = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -3873,14 +3414,7 @@ namespace AnomalyDetector
                     {
                         MetricDimensionList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = MetricDimensionList.DeserializeMetricDimensionList(document.RootElement);
-                        }
+                        value = MetricDimensionList.DeserializeMetricDimensionList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3895,6 +3429,7 @@ namespace AnomalyDetector
         /// <param name="top"> The Integer to use. </param>
         /// <param name="body"> query dimension option. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public Response<MetricDimensionList> GetMetricDimensionNextPage(string nextLink, Guid metricId, int? skip = null, int? top = null, MetricDimensionQueryOptions body = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -3910,14 +3445,7 @@ namespace AnomalyDetector
                     {
                         MetricDimensionList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = MetricDimensionList.DeserializeMetricDimensionList(document.RootElement);
-                        }
+                        value = MetricDimensionList.DeserializeMetricDimensionList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3945,6 +3473,7 @@ namespace AnomalyDetector
         /// <param name="top"> The Integer to use. </param>
         /// <param name="body"> query options. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public async Task<Response<EnrichmentStatusList>> GetEnrichmentStatusByMetricNextPageAsync(string nextLink, Guid metricId, int? skip = null, int? top = null, EnrichmentStatusQueryOption body = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -3960,14 +3489,7 @@ namespace AnomalyDetector
                     {
                         EnrichmentStatusList value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = EnrichmentStatusList.DeserializeEnrichmentStatusList(document.RootElement);
-                        }
+                        value = EnrichmentStatusList.DeserializeEnrichmentStatusList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3982,6 +3504,7 @@ namespace AnomalyDetector
         /// <param name="top"> The Integer to use. </param>
         /// <param name="body"> query options. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
         public Response<EnrichmentStatusList> GetEnrichmentStatusByMetricNextPage(string nextLink, Guid metricId, int? skip = null, int? top = null, EnrichmentStatusQueryOption body = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
@@ -3997,14 +3520,7 @@ namespace AnomalyDetector
                     {
                         EnrichmentStatusList value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = EnrichmentStatusList.DeserializeEnrichmentStatusList(document.RootElement);
-                        }
+                        value = EnrichmentStatusList.DeserializeEnrichmentStatusList(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:

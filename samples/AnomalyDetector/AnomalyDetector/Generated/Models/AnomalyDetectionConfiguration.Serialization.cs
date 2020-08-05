@@ -17,11 +17,6 @@ namespace AnomalyDetector.Models
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
-            if (AnomalyDetectionConfigurationId != null)
-            {
-                writer.WritePropertyName("anomalyDetectionConfigurationId");
-                writer.WriteStringValue(AnomalyDetectionConfigurationId.Value);
-            }
             writer.WritePropertyName("name");
             writer.WriteStringValue(Name);
             writer.WritePropertyName("description");
@@ -49,7 +44,7 @@ namespace AnomalyDetector.Models
 
         internal static AnomalyDetectionConfiguration DeserializeAnomalyDetectionConfiguration(JsonElement element)
         {
-            Guid? anomalyDetectionConfigurationId = default;
+            Optional<Guid> anomalyDetectionConfigurationId = default;
             string name = default;
             string description = default;
             Guid metricId = default;
@@ -60,10 +55,6 @@ namespace AnomalyDetector.Models
             {
                 if (property.NameEquals("anomalyDetectionConfigurationId"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     anomalyDetectionConfigurationId = property.Value.GetGuid();
                     continue;
                 }
@@ -92,14 +83,7 @@ namespace AnomalyDetector.Models
                     List<DimensionGroupConfiguration> array = new List<DimensionGroupConfiguration>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        if (item.ValueKind == JsonValueKind.Null)
-                        {
-                            array.Add(null);
-                        }
-                        else
-                        {
-                            array.Add(DimensionGroupConfiguration.DeserializeDimensionGroupConfiguration(item));
-                        }
+                        array.Add(DimensionGroupConfiguration.DeserializeDimensionGroupConfiguration(item));
                     }
                     dimensionGroupOverrideConfigurations = array;
                     continue;
@@ -109,20 +93,13 @@ namespace AnomalyDetector.Models
                     List<SeriesConfiguration> array = new List<SeriesConfiguration>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        if (item.ValueKind == JsonValueKind.Null)
-                        {
-                            array.Add(null);
-                        }
-                        else
-                        {
-                            array.Add(SeriesConfiguration.DeserializeSeriesConfiguration(item));
-                        }
+                        array.Add(SeriesConfiguration.DeserializeSeriesConfiguration(item));
                     }
                     seriesOverrideConfigurations = array;
                     continue;
                 }
             }
-            return new AnomalyDetectionConfiguration(anomalyDetectionConfigurationId, name, description, metricId, wholeMetricConfiguration, dimensionGroupOverrideConfigurations, seriesOverrideConfigurations);
+            return new AnomalyDetectionConfiguration(Optional.ToNullable(anomalyDetectionConfigurationId), name, description, metricId, wholeMetricConfiguration, dimensionGroupOverrideConfigurations, seriesOverrideConfigurations);
         }
     }
 }

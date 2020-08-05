@@ -19,21 +19,28 @@ namespace AnomalyDetector.Models
             writer.WriteStringValue(StartTime, "O");
             writer.WritePropertyName("endTime");
             writer.WriteStringValue(EndTime, "O");
-            if (Series != null)
+            if (Optional.IsCollectionDefined(Series))
             {
-                writer.WritePropertyName("series");
-                writer.WriteStartArray();
-                foreach (var item in Series)
+                if (Series != null)
                 {
-                    writer.WriteStartObject();
-                    foreach (var item0 in item)
+                    writer.WritePropertyName("series");
+                    writer.WriteStartArray();
+                    foreach (var item in Series)
                     {
-                        writer.WritePropertyName(item0.Key);
-                        writer.WriteStringValue(item0.Value);
+                        writer.WriteStartObject();
+                        foreach (var item0 in item)
+                        {
+                            writer.WritePropertyName(item0.Key);
+                            writer.WriteStringValue(item0.Value);
+                        }
+                        writer.WriteEndObject();
                     }
-                    writer.WriteEndObject();
+                    writer.WriteEndArray();
                 }
-                writer.WriteEndArray();
+                else
+                {
+                    writer.WriteNull("series");
+                }
             }
             writer.WriteEndObject();
         }

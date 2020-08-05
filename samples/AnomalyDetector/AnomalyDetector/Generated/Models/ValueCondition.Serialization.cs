@@ -16,24 +16,45 @@ namespace AnomalyDetector.Models
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
-            if (Lower != null)
+            if (Optional.IsDefined(Lower))
             {
-                writer.WritePropertyName("lower");
-                writer.WriteNumberValue(Lower.Value);
+                if (Lower != null)
+                {
+                    writer.WritePropertyName("lower");
+                    writer.WriteNumberValue(Lower.Value);
+                }
+                else
+                {
+                    writer.WriteNull("lower");
+                }
             }
-            if (Upper != null)
+            if (Optional.IsDefined(Upper))
             {
-                writer.WritePropertyName("upper");
-                writer.WriteNumberValue(Upper.Value);
+                if (Upper != null)
+                {
+                    writer.WritePropertyName("upper");
+                    writer.WriteNumberValue(Upper.Value);
+                }
+                else
+                {
+                    writer.WriteNull("upper");
+                }
             }
             writer.WritePropertyName("direction");
             writer.WriteStringValue(Direction.ToString());
-            if (MetricId != null)
+            if (Optional.IsDefined(MetricId))
             {
-                writer.WritePropertyName("metricId");
-                writer.WriteStringValue(MetricId.Value);
+                if (MetricId != null)
+                {
+                    writer.WritePropertyName("metricId");
+                    writer.WriteStringValue(MetricId.Value);
+                }
+                else
+                {
+                    writer.WriteNull("metricId");
+                }
             }
-            if (TriggerForMissing != null)
+            if (Optional.IsDefined(TriggerForMissing))
             {
                 writer.WritePropertyName("triggerForMissing");
                 writer.WriteBooleanValue(TriggerForMissing.Value);
@@ -43,17 +64,18 @@ namespace AnomalyDetector.Models
 
         internal static ValueCondition DeserializeValueCondition(JsonElement element)
         {
-            double? lower = default;
-            double? upper = default;
+            Optional<double?> lower = default;
+            Optional<double?> upper = default;
             Direction direction = default;
-            Guid? metricId = default;
-            bool? triggerForMissing = default;
+            Optional<Guid?> metricId = default;
+            Optional<bool> triggerForMissing = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("lower"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
+                        lower = null;
                         continue;
                     }
                     lower = property.Value.GetDouble();
@@ -63,6 +85,7 @@ namespace AnomalyDetector.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
+                        upper = null;
                         continue;
                     }
                     upper = property.Value.GetDouble();
@@ -77,6 +100,7 @@ namespace AnomalyDetector.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
+                        metricId = null;
                         continue;
                     }
                     metricId = property.Value.GetGuid();
@@ -84,15 +108,11 @@ namespace AnomalyDetector.Models
                 }
                 if (property.NameEquals("triggerForMissing"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
                     triggerForMissing = property.Value.GetBoolean();
                     continue;
                 }
             }
-            return new ValueCondition(lower, upper, direction, metricId, triggerForMissing);
+            return new ValueCondition(Optional.ToNullable(lower), Optional.ToNullable(upper), direction, Optional.ToNullable(metricId), Optional.ToNullable(triggerForMissing));
         }
     }
 }

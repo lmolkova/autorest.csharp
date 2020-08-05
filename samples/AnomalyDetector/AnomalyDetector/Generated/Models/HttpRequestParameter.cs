@@ -17,6 +17,7 @@ namespace AnomalyDetector.Models
         /// <param name="httpHeader"> HTTP header. </param>
         /// <param name="httpMethod"> HTTP method. </param>
         /// <param name="payload"> HTTP reuqest body. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="url"/>, <paramref name="httpHeader"/>, <paramref name="httpMethod"/>, or <paramref name="payload"/> is null. </exception>
         internal HttpRequestParameter(string url, string httpHeader, string httpMethod, string payload)
         {
             if (url == null)

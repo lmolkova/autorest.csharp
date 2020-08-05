@@ -18,6 +18,7 @@ namespace AnomalyDetector.Models
         /// <param name="startTime"> start time. </param>
         /// <param name="endTime"> end time. </param>
         /// <param name="series"> series. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="series"/> is null. </exception>
         public DetectionSeriesQuery(DateTimeOffset startTime, DateTimeOffset endTime, IEnumerable<SeriesIdentity> series)
         {
             if (series == null)
@@ -28,17 +29,6 @@ namespace AnomalyDetector.Models
             StartTime = startTime;
             EndTime = endTime;
             Series = series.ToList();
-        }
-
-        /// <summary> Initializes a new instance of DetectionSeriesQuery. </summary>
-        /// <param name="startTime"> start time. </param>
-        /// <param name="endTime"> end time. </param>
-        /// <param name="series"> series. </param>
-        internal DetectionSeriesQuery(DateTimeOffset startTime, DateTimeOffset endTime, IList<SeriesIdentity> series)
-        {
-            StartTime = startTime;
-            EndTime = endTime;
-            Series = series ?? new List<SeriesIdentity>();
         }
 
         /// <summary> start time. </summary>

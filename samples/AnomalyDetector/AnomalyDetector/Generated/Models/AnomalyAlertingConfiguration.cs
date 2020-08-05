@@ -19,6 +19,7 @@ namespace AnomalyDetector.Models
         /// <param name="crossMetricsOperator"> . </param>
         /// <param name="hookIds"> hook unique ids. </param>
         /// <param name="metricAlertingConfigurations"> Anomaly alerting configurations. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/>, <paramref name="hookIds"/>, or <paramref name="metricAlertingConfigurations"/> is null. </exception>
         public AnomalyAlertingConfiguration(string name, AnomalyAlertingConfigurationLogicType crossMetricsOperator, IEnumerable<Guid> hookIds, IEnumerable<MetricAlertingConfiguration> metricAlertingConfigurations)
         {
             if (name == null)
@@ -51,8 +52,8 @@ namespace AnomalyDetector.Models
             AnomalyAlertingConfigurationId = anomalyAlertingConfigurationId;
             Name = name;
             CrossMetricsOperator = crossMetricsOperator;
-            HookIds = hookIds ?? new List<Guid>();
-            MetricAlertingConfigurations = metricAlertingConfigurations ?? new List<MetricAlertingConfiguration>();
+            HookIds = hookIds;
+            MetricAlertingConfigurations = metricAlertingConfigurations;
         }
 
         /// <summary> Anomaly alerting configuration unique id. </summary>

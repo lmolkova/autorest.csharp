@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using Azure.Core;
 
 namespace AnomalyDetector.Models
 {
@@ -16,6 +17,14 @@ namespace AnomalyDetector.Models
         /// <summary> Initializes a new instance of SeriesResult. </summary>
         internal SeriesResult()
         {
+            TimestampList = new ChangeTrackingList<DateTimeOffset>();
+            ValueList = new ChangeTrackingList<double>();
+            IsAnomalyList = new ChangeTrackingList<bool>();
+            TrendChangeList = new ChangeTrackingList<bool>();
+            PeriodList = new ChangeTrackingList<int>();
+            ExpectedValueList = new ChangeTrackingList<double>();
+            LowerBoundaryList = new ChangeTrackingList<double>();
+            UpperBoundaryList = new ChangeTrackingList<double>();
         }
 
         /// <summary> Initializes a new instance of SeriesResult. </summary>

@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using Azure.Core;
 
 namespace AnomalyDetector.Models
 {
@@ -16,19 +17,8 @@ namespace AnomalyDetector.Models
         /// <summary> Initializes a new instance of AnomalyAlertingConfigurationPatch. </summary>
         internal AnomalyAlertingConfigurationPatch()
         {
-        }
-
-        /// <summary> Initializes a new instance of AnomalyAlertingConfigurationPatch. </summary>
-        /// <param name="name"> Anomaly alerting configuration name. </param>
-        /// <param name="crossMetricsOperator"> . </param>
-        /// <param name="hookIds"> hook unique ids. </param>
-        /// <param name="metricAlertingConfigurations"> Anomaly alerting configurations. </param>
-        internal AnomalyAlertingConfigurationPatch(string name, AnomalyAlertingConfigurationLogicType? crossMetricsOperator, IReadOnlyList<Guid> hookIds, IReadOnlyList<MetricAlertingConfiguration> metricAlertingConfigurations)
-        {
-            Name = name;
-            CrossMetricsOperator = crossMetricsOperator;
-            HookIds = hookIds;
-            MetricAlertingConfigurations = metricAlertingConfigurations;
+            HookIds = new ChangeTrackingList<Guid>();
+            MetricAlertingConfigurations = new ChangeTrackingList<MetricAlertingConfiguration>();
         }
 
         /// <summary> Anomaly alerting configuration name. </summary>

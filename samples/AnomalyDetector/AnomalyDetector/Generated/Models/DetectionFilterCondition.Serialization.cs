@@ -15,17 +15,24 @@ namespace AnomalyDetector.Models
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
-            if (DimensionFilter != null)
+            if (Optional.IsCollectionDefined(DimensionFilter))
             {
-                writer.WritePropertyName("dimensionFilter");
-                writer.WriteStartArray();
-                foreach (var item in DimensionFilter)
+                if (DimensionFilter != null)
                 {
-                    writer.WriteObjectValue(item);
+                    writer.WritePropertyName("dimensionFilter");
+                    writer.WriteStartArray();
+                    foreach (var item in DimensionFilter)
+                    {
+                        writer.WriteObjectValue(item);
+                    }
+                    writer.WriteEndArray();
                 }
-                writer.WriteEndArray();
+                else
+                {
+                    writer.WriteNull("dimensionFilter");
+                }
             }
-            if (SeverityFilter != null)
+            if (Optional.IsDefined(SeverityFilter))
             {
                 writer.WritePropertyName("severityFilter");
                 writer.WriteObjectValue(SeverityFilter);

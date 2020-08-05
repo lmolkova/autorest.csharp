@@ -16,6 +16,7 @@ namespace AnomalyDetector.Models
         /// <param name="sensitivity"> sensitivity, value range : (0, 100]. </param>
         /// <param name="anomalyDetectorDirection"> . </param>
         /// <param name="suppressCondition"> . </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="suppressCondition"/> is null. </exception>
         public SmartDetectionCondition(double sensitivity, AnomalyDetectorDirection anomalyDetectorDirection, SuppressCondition suppressCondition)
         {
             if (suppressCondition == null)

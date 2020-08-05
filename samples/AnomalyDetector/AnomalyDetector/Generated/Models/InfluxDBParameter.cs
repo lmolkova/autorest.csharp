@@ -18,6 +18,7 @@ namespace AnomalyDetector.Models
         /// <param name="userName"> Database access user. </param>
         /// <param name="password"> Database access password. </param>
         /// <param name="query"> Query script. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="connectionString"/>, <paramref name="database"/>, <paramref name="userName"/>, <paramref name="password"/>, or <paramref name="query"/> is null. </exception>
         internal InfluxDBParameter(string connectionString, string database, string userName, string password, string query)
         {
             if (connectionString == null)

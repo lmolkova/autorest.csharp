@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using Azure.Core;
 
 namespace AnomalyDetector.Models
 {
@@ -15,6 +16,7 @@ namespace AnomalyDetector.Models
     {
         /// <summary> Initializes a new instance of WebhookHookParameter. </summary>
         /// <param name="endpoint"> API address, will be called when alert is triggered, only support POST method via SSL. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="endpoint"/> is null. </exception>
         internal WebhookHookParameter(string endpoint)
         {
             if (endpoint == null)
@@ -23,23 +25,7 @@ namespace AnomalyDetector.Models
             }
 
             Endpoint = endpoint;
-        }
-
-        /// <summary> Initializes a new instance of WebhookHookParameter. </summary>
-        /// <param name="endpoint"> API address, will be called when alert is triggered, only support POST method via SSL. </param>
-        /// <param name="username"> basic authentication. </param>
-        /// <param name="password"> basic authentication. </param>
-        /// <param name="headers"> custom headers in api call. </param>
-        /// <param name="certificateKey"> client certificate. </param>
-        /// <param name="certificatePassword"> client certificate password. </param>
-        internal WebhookHookParameter(string endpoint, string username, string password, IReadOnlyDictionary<string, string> headers, string certificateKey, string certificatePassword)
-        {
-            Endpoint = endpoint;
-            Username = username;
-            Password = password;
-            Headers = headers;
-            CertificateKey = certificateKey;
-            CertificatePassword = certificatePassword;
+            Headers = new ChangeTrackingDictionary<string, string>();
         }
 
         /// <summary> API address, will be called when alert is triggered, only support POST method via SSL. </summary>

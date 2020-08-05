@@ -16,6 +16,7 @@ namespace AnomalyDetector.Models
     {
         /// <summary> Initializes a new instance of EmailHookParameter. </summary>
         /// <param name="toList"> Email TO: list. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="toList"/> is null. </exception>
         internal EmailHookParameter(IEnumerable<string> toList)
         {
             if (toList == null)
@@ -23,14 +24,7 @@ namespace AnomalyDetector.Models
                 throw new ArgumentNullException(nameof(toList));
             }
 
-            ToList = toList.ToArray();
-        }
-
-        /// <summary> Initializes a new instance of EmailHookParameter. </summary>
-        /// <param name="toList"> Email TO: list. </param>
-        internal EmailHookParameter(IReadOnlyList<string> toList)
-        {
-            ToList = toList ?? new List<string>();
+            ToList = toList.ToList();
         }
 
         /// <summary> Email TO: list. </summary>

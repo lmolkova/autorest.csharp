@@ -15,6 +15,7 @@ namespace AnomalyDetector.Models
         /// <summary> Initializes a new instance of SeriesConfiguration. </summary>
         /// <param name="series"> . </param>
         /// <param name="conditionOperator"> . </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="series"/> is null. </exception>
         public SeriesConfiguration(SeriesIdentity series, AnomalyDetectionConfigurationLogicType conditionOperator)
         {
             if (series == null)

@@ -18,17 +18,5 @@ namespace AnomalyDetector.Models
         {
             FeedbackType = new FeedbackType("CommentFeedbackFilter");
         }
-
-        /// <summary> Initializes a new instance of CommentFeedbackFilter. </summary>
-        /// <param name="feedbackType"> . </param>
-        /// <param name="metricId"> filter feedbacks by metric id. </param>
-        /// <param name="dimensionFilter"> . </param>
-        /// <param name="startTime"> filter feedbacks which startTime equals or larger than this timestamp. </param>
-        /// <param name="endTime"> filter feedbacks which endTime equals or smaller than this timestamp. </param>
-        /// <param name="userPrincipal"> filter feedbacks given by this user. </param>
-        internal CommentFeedbackFilter(FeedbackType feedbackType, Guid metricId, FeedbackDimensionFilter dimensionFilter, DateTimeOffset? startTime, DateTimeOffset? endTime, string userPrincipal) : base(feedbackType, metricId, dimensionFilter, startTime, endTime, userPrincipal)
-        {
-            FeedbackType = feedbackType;
-        }
     }
 }

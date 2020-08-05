@@ -16,6 +16,7 @@ namespace AnomalyDetector.Models
         private readonly string _value;
 
         /// <summary> Determines if two <see cref="AnomalyAlertingConfigurationLogicType"/> values are the same. </summary>
+        /// <exception cref="ArgumentNullException"> <paramref name="value"/> is null. </exception>
         public AnomalyAlertingConfigurationLogicType(string value)
         {
             _value = value ?? throw new ArgumentNullException(nameof(value));

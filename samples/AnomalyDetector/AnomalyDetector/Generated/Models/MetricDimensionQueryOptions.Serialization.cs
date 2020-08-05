@@ -17,10 +17,17 @@ namespace AnomalyDetector.Models
             writer.WriteStartObject();
             writer.WritePropertyName("dimensionName");
             writer.WriteStringValue(DimensionName);
-            if (DimensionValueFilter != null)
+            if (Optional.IsDefined(DimensionValueFilter))
             {
-                writer.WritePropertyName("dimensionValueFilter");
-                writer.WriteStringValue(DimensionValueFilter);
+                if (DimensionValueFilter != null)
+                {
+                    writer.WritePropertyName("dimensionValueFilter");
+                    writer.WriteStringValue(DimensionValueFilter);
+                }
+                else
+                {
+                    writer.WriteNull("dimensionValueFilter");
+                }
             }
             writer.WriteEndObject();
         }

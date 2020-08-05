@@ -14,6 +14,7 @@ namespace AnomalyDetector.Models
     {
         /// <summary> Initializes a new instance of Dimension. </summary>
         /// <param name="dimensionName"> dimension name. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="dimensionName"/> is null. </exception>
         internal Dimension(string dimensionName)
         {
             if (dimensionName == null)
@@ -22,15 +23,6 @@ namespace AnomalyDetector.Models
             }
 
             DimensionName = dimensionName;
-        }
-
-        /// <summary> Initializes a new instance of Dimension. </summary>
-        /// <param name="dimensionName"> dimension name. </param>
-        /// <param name="dimensionDisplayName"> dimension display name. </param>
-        internal Dimension(string dimensionName, string dimensionDisplayName)
-        {
-            DimensionName = dimensionName;
-            DimensionDisplayName = dimensionDisplayName;
         }
 
         /// <summary> dimension name. </summary>

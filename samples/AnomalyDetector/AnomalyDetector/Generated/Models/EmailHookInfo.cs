@@ -6,7 +6,6 @@
 #nullable disable
 
 using System;
-using System.Collections.Generic;
 
 namespace AnomalyDetector.Models
 {
@@ -16,6 +15,7 @@ namespace AnomalyDetector.Models
         /// <summary> Initializes a new instance of EmailHookInfo. </summary>
         /// <param name="hookName"> hook unique name. </param>
         /// <param name="hookParameter"> . </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="hookName"/> or <paramref name="hookParameter"/> is null. </exception>
         internal EmailHookInfo(string hookName, EmailHookParameter hookParameter) : base(hookName)
         {
             if (hookName == null)
@@ -29,20 +29,6 @@ namespace AnomalyDetector.Models
 
             HookParameter = hookParameter;
             HookType = new HookType("EmailHookInfo");
-        }
-
-        /// <summary> Initializes a new instance of EmailHookInfo. </summary>
-        /// <param name="hookType"> . </param>
-        /// <param name="hookId"> Hook unique id. </param>
-        /// <param name="hookName"> hook unique name. </param>
-        /// <param name="description"> hook description. </param>
-        /// <param name="externalLink"> hook external link. </param>
-        /// <param name="admins"> hook administrators. </param>
-        /// <param name="hookParameter"> . </param>
-        internal EmailHookInfo(HookType hookType, Guid? hookId, string hookName, string description, string externalLink, IReadOnlyList<string> admins, EmailHookParameter hookParameter) : base(hookType, hookId, hookName, description, externalLink, admins)
-        {
-            HookParameter = hookParameter;
-            HookType = hookType;
         }
 
         public EmailHookParameter HookParameter { get; }

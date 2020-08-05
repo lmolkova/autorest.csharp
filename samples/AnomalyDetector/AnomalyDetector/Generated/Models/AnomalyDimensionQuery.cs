@@ -16,6 +16,7 @@ namespace AnomalyDetector.Models
         /// <param name="startTime"> start time. </param>
         /// <param name="endTime"> end time. </param>
         /// <param name="dimensionName"> dimension to query. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="dimensionName"/> is null. </exception>
         public AnomalyDimensionQuery(DateTimeOffset startTime, DateTimeOffset endTime, string dimensionName)
         {
             if (dimensionName == null)
@@ -26,19 +27,6 @@ namespace AnomalyDetector.Models
             StartTime = startTime;
             EndTime = endTime;
             DimensionName = dimensionName;
-        }
-
-        /// <summary> Initializes a new instance of AnomalyDimensionQuery. </summary>
-        /// <param name="startTime"> start time. </param>
-        /// <param name="endTime"> end time. </param>
-        /// <param name="dimensionName"> dimension to query. </param>
-        /// <param name="dimensionFilter"> . </param>
-        internal AnomalyDimensionQuery(DateTimeOffset startTime, DateTimeOffset endTime, string dimensionName, DimensionGroupIdentity dimensionFilter)
-        {
-            StartTime = startTime;
-            EndTime = endTime;
-            DimensionName = dimensionName;
-            DimensionFilter = dimensionFilter;
         }
 
         /// <summary> start time. </summary>
