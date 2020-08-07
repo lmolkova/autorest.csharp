@@ -5,7 +5,7 @@
 ``` yaml
 title: AnomalyDetector
 require: $(this-folder)/../../readme.md
-#branch:anomaly-detector-preview-2.0
-input-file: $(this-folder)/anomaly-detector-2.0.json
+#input-file: $(this-folder)/anomaly-detector-2.0.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/master/specification/cognitiveservices/data-plane/AnomalyDetector/preview/v1.0/AnomalyDetector.json
 namespace: Azure.AnomalyDetector
 ```

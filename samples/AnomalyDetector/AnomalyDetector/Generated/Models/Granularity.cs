@@ -5,65 +5,24 @@
 
 #nullable disable
 
-using System;
-using System.ComponentModel;
-
 namespace AnomalyDetector.Models
 {
-    /// <summary> The Granularity. </summary>
-    public readonly partial struct Granularity : IEquatable<Granularity>
+    /// <summary> Can only be one of yearly, monthly, weekly, daily, hourly, minutely or secondly. Granularity is used for verify whether input series is valid. </summary>
+    public enum Granularity
     {
-        private readonly string _value;
-
-        /// <summary> Determines if two <see cref="Granularity"/> values are the same. </summary>
-        /// <exception cref="ArgumentNullException"> <paramref name="value"/> is null. </exception>
-        public Granularity(string value)
-        {
-            _value = value ?? throw new ArgumentNullException(nameof(value));
-        }
-
-        private const string YearlyValue = "Yearly";
-        private const string MonthlyValue = "Monthly";
-        private const string WeeklyValue = "Weekly";
-        private const string DailyValue = "Daily";
-        private const string HourlyValue = "Hourly";
-        private const string MinutelyValue = "Minutely";
-        private const string SecondlyValue = "Secondly";
-        private const string CustomValue = "Custom";
-
-        /// <summary> Yearly. </summary>
-        public static Granularity Yearly { get; } = new Granularity(YearlyValue);
-        /// <summary> Monthly. </summary>
-        public static Granularity Monthly { get; } = new Granularity(MonthlyValue);
-        /// <summary> Weekly. </summary>
-        public static Granularity Weekly { get; } = new Granularity(WeeklyValue);
-        /// <summary> Daily. </summary>
-        public static Granularity Daily { get; } = new Granularity(DailyValue);
-        /// <summary> Hourly. </summary>
-        public static Granularity Hourly { get; } = new Granularity(HourlyValue);
-        /// <summary> Minutely. </summary>
-        public static Granularity Minutely { get; } = new Granularity(MinutelyValue);
-        /// <summary> Secondly. </summary>
-        public static Granularity Secondly { get; } = new Granularity(SecondlyValue);
-        /// <summary> Custom. </summary>
-        public static Granularity Custom { get; } = new Granularity(CustomValue);
-        /// <summary> Determines if two <see cref="Granularity"/> values are the same. </summary>
-        public static bool operator ==(Granularity left, Granularity right) => left.Equals(right);
-        /// <summary> Determines if two <see cref="Granularity"/> values are not the same. </summary>
-        public static bool operator !=(Granularity left, Granularity right) => !left.Equals(right);
-        /// <summary> Converts a string to a <see cref="Granularity"/>. </summary>
-        public static implicit operator Granularity(string value) => new Granularity(value);
-
-        /// <inheritdoc />
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public override bool Equals(object obj) => obj is Granularity other && Equals(other);
-        /// <inheritdoc />
-        public bool Equals(Granularity other) => string.Equals(_value, other._value, StringComparison.InvariantCultureIgnoreCase);
-
-        /// <inheritdoc />
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public override int GetHashCode() => _value?.GetHashCode() ?? 0;
-        /// <inheritdoc />
-        public override string ToString() => _value;
+        /// <summary> yearly. </summary>
+        Yearly,
+        /// <summary> monthly. </summary>
+        Monthly,
+        /// <summary> weekly. </summary>
+        Weekly,
+        /// <summary> daily. </summary>
+        Daily,
+        /// <summary> hourly. </summary>
+        Hourly,
+        /// <summary> minutely. </summary>
+        Minutely,
+        /// <summary> secondly. </summary>
+        Secondly
     }
 }
