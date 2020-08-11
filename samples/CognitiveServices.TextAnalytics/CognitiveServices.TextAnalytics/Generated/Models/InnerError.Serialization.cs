@@ -19,12 +19,12 @@ namespace CognitiveServices.TextAnalytics.Models
             string message = default;
             Optional<IReadOnlyDictionary<string, string>> details = default;
             Optional<string> target = default;
-            Optional<InnerError> innerError = default;
+            Optional<InnerError> innererror = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("code"))
                 {
-                    code = property.Value.GetString().ToInnerErrorCodeValue();
+                    code = new InnerErrorCodeValue(property.Value.GetString());
                     continue;
                 }
                 if (property.NameEquals("message"))
@@ -47,13 +47,13 @@ namespace CognitiveServices.TextAnalytics.Models
                     target = property.Value.GetString();
                     continue;
                 }
-                if (property.NameEquals("innerError"))
+                if (property.NameEquals("innererror"))
                 {
-                    innerError = DeserializeInnerError(property.Value);
+                    innererror = DeserializeInnerError(property.Value);
                     continue;
                 }
             }
-            return new InnerError(code, message, Optional.ToDictionary(details), target.Value, innerError.Value);
+            return new InnerError(code, message, Optional.ToDictionary(details), target.Value, innererror.Value);
         }
     }
 }

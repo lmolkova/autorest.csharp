@@ -46,7 +46,7 @@ namespace CognitiveServices.TextAnalytics
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
             uri.AppendRaw(endpoint, false);
-            uri.AppendRaw("/text/analytics/v3.0-preview.1", false);
+            uri.AppendRaw("/text/analytics/v3.1-preview.1", false);
             uri.AppendPath("/entities/recognition/general", false);
             if (modelVersion != null)
             {
@@ -67,10 +67,10 @@ namespace CognitiveServices.TextAnalytics
         /// <summary> The API returns a list of general named entities in a given document. For the list of supported entity types, check &lt;a href=&quot;https://aka.ms/taner&quot;&gt;Supported Entity Types in Text Analytics API&lt;/a&gt;. See the &lt;a href=&quot;https://aka.ms/talangs&quot;&gt;Supported languages in Text Analytics API&lt;/a&gt; for the list of enabled languages. </summary>
         /// <param name="input"> Collection of documents to analyze. </param>
         /// <param name="modelVersion"> (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. </param>
-        /// <param name="showStats"> (Optional) if set to true, response will contain input and document level statistics. </param>
+        /// <param name="showStats"> (Optional) if set to true, response will contain request and document level statistics. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="input"/> is null. </exception>
-        public async Task<Response<EntitiesResult>> EntitiesRecognitionGeneralAsync(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> EntitiesRecognitionGeneralAsync(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, CancellationToken cancellationToken = default)
         {
             if (input == null)
             {
@@ -86,7 +86,15 @@ namespace CognitiveServices.TextAnalytics
                         EntitiesResult value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
                         value = EntitiesResult.DeserializeEntitiesResult(document.RootElement);
-                        return Response.FromValue(value, message.Response);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 500:
+                    {
+                        ErrorResponse value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ErrorResponse.DeserializeErrorResponse(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
                     }
                 default:
                     throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
@@ -96,10 +104,10 @@ namespace CognitiveServices.TextAnalytics
         /// <summary> The API returns a list of general named entities in a given document. For the list of supported entity types, check &lt;a href=&quot;https://aka.ms/taner&quot;&gt;Supported Entity Types in Text Analytics API&lt;/a&gt;. See the &lt;a href=&quot;https://aka.ms/talangs&quot;&gt;Supported languages in Text Analytics API&lt;/a&gt; for the list of enabled languages. </summary>
         /// <param name="input"> Collection of documents to analyze. </param>
         /// <param name="modelVersion"> (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. </param>
-        /// <param name="showStats"> (Optional) if set to true, response will contain input and document level statistics. </param>
+        /// <param name="showStats"> (Optional) if set to true, response will contain request and document level statistics. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="input"/> is null. </exception>
-        public Response<EntitiesResult> EntitiesRecognitionGeneral(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, CancellationToken cancellationToken = default)
+        public Response<object> EntitiesRecognitionGeneral(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, CancellationToken cancellationToken = default)
         {
             if (input == null)
             {
@@ -115,21 +123,29 @@ namespace CognitiveServices.TextAnalytics
                         EntitiesResult value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
                         value = EntitiesResult.DeserializeEntitiesResult(document.RootElement);
-                        return Response.FromValue(value, message.Response);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 500:
+                    {
+                        ErrorResponse value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ErrorResponse.DeserializeErrorResponse(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
                     }
                 default:
                     throw _clientDiagnostics.CreateRequestFailedException(message.Response);
             }
         }
 
-        internal HttpMessage CreateEntitiesRecognitionPiiRequest(MultiLanguageBatchInput input, string modelVersion, bool? showStats)
+        internal HttpMessage CreateEntitiesRecognitionPiiRequest(MultiLanguageBatchInput input, string modelVersion, bool? showStats, string domain)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
             uri.AppendRaw(endpoint, false);
-            uri.AppendRaw("/text/analytics/v3.0-preview.1", false);
+            uri.AppendRaw("/text/analytics/v3.1-preview.1", false);
             uri.AppendPath("/entities/recognition/pii", false);
             if (modelVersion != null)
             {
@@ -138,6 +154,10 @@ namespace CognitiveServices.TextAnalytics
             if (showStats != null)
             {
                 uri.AppendQuery("showStats", showStats.Value, true);
+            }
+            if (domain != null)
+            {
+                uri.AppendQuery("domain", domain, true);
             }
             request.Uri = uri;
             request.Headers.Add("Content-Type", "application/json");
@@ -153,17 +173,18 @@ namespace CognitiveServices.TextAnalytics
         /// </summary>
         /// <param name="input"> Collection of documents to analyze. </param>
         /// <param name="modelVersion"> (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. </param>
-        /// <param name="showStats"> (Optional) if set to true, response will contain input and document level statistics. </param>
+        /// <param name="showStats"> (Optional) if set to true, response will contain request and document level statistics. </param>
+        /// <param name="domain"> (Optional) if set to &apos;PHI&apos;, response will contain only PHI entities. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="input"/> is null. </exception>
-        public async Task<Response<EntitiesResult>> EntitiesRecognitionPiiAsync(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> EntitiesRecognitionPiiAsync(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, string domain = null, CancellationToken cancellationToken = default)
         {
             if (input == null)
             {
                 throw new ArgumentNullException(nameof(input));
             }
 
-            using var message = CreateEntitiesRecognitionPiiRequest(input, modelVersion, showStats);
+            using var message = CreateEntitiesRecognitionPiiRequest(input, modelVersion, showStats, domain);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -172,7 +193,15 @@ namespace CognitiveServices.TextAnalytics
                         EntitiesResult value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
                         value = EntitiesResult.DeserializeEntitiesResult(document.RootElement);
-                        return Response.FromValue(value, message.Response);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 500:
+                    {
+                        ErrorResponse value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ErrorResponse.DeserializeErrorResponse(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
                     }
                 default:
                     throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
@@ -185,17 +214,18 @@ namespace CognitiveServices.TextAnalytics
         /// </summary>
         /// <param name="input"> Collection of documents to analyze. </param>
         /// <param name="modelVersion"> (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. </param>
-        /// <param name="showStats"> (Optional) if set to true, response will contain input and document level statistics. </param>
+        /// <param name="showStats"> (Optional) if set to true, response will contain request and document level statistics. </param>
+        /// <param name="domain"> (Optional) if set to &apos;PHI&apos;, response will contain only PHI entities. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="input"/> is null. </exception>
-        public Response<EntitiesResult> EntitiesRecognitionPii(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, CancellationToken cancellationToken = default)
+        public Response<object> EntitiesRecognitionPii(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, string domain = null, CancellationToken cancellationToken = default)
         {
             if (input == null)
             {
                 throw new ArgumentNullException(nameof(input));
             }
 
-            using var message = CreateEntitiesRecognitionPiiRequest(input, modelVersion, showStats);
+            using var message = CreateEntitiesRecognitionPiiRequest(input, modelVersion, showStats, domain);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -204,7 +234,15 @@ namespace CognitiveServices.TextAnalytics
                         EntitiesResult value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
                         value = EntitiesResult.DeserializeEntitiesResult(document.RootElement);
-                        return Response.FromValue(value, message.Response);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 500:
+                    {
+                        ErrorResponse value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ErrorResponse.DeserializeErrorResponse(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
                     }
                 default:
                     throw _clientDiagnostics.CreateRequestFailedException(message.Response);
@@ -218,7 +256,7 @@ namespace CognitiveServices.TextAnalytics
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
             uri.AppendRaw(endpoint, false);
-            uri.AppendRaw("/text/analytics/v3.0-preview.1", false);
+            uri.AppendRaw("/text/analytics/v3.1-preview.1", false);
             uri.AppendPath("/entities/linking", false);
             if (modelVersion != null)
             {
@@ -239,10 +277,10 @@ namespace CognitiveServices.TextAnalytics
         /// <summary> The API returns a list of recognized entities with links to a well-known knowledge base. See the &lt;a href=&quot;https://aka.ms/talangs&quot;&gt;Supported languages in Text Analytics API&lt;/a&gt; for the list of enabled languages. </summary>
         /// <param name="input"> Collection of documents to analyze. </param>
         /// <param name="modelVersion"> (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. </param>
-        /// <param name="showStats"> (Optional) if set to true, response will contain input and document level statistics. </param>
+        /// <param name="showStats"> (Optional) if set to true, response will contain request and document level statistics. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="input"/> is null. </exception>
-        public async Task<Response<EntityLinkingResult>> EntitiesLinkingAsync(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> EntitiesLinkingAsync(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, CancellationToken cancellationToken = default)
         {
             if (input == null)
             {
@@ -258,7 +296,15 @@ namespace CognitiveServices.TextAnalytics
                         EntityLinkingResult value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
                         value = EntityLinkingResult.DeserializeEntityLinkingResult(document.RootElement);
-                        return Response.FromValue(value, message.Response);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 500:
+                    {
+                        ErrorResponse value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ErrorResponse.DeserializeErrorResponse(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
                     }
                 default:
                     throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
@@ -268,10 +314,10 @@ namespace CognitiveServices.TextAnalytics
         /// <summary> The API returns a list of recognized entities with links to a well-known knowledge base. See the &lt;a href=&quot;https://aka.ms/talangs&quot;&gt;Supported languages in Text Analytics API&lt;/a&gt; for the list of enabled languages. </summary>
         /// <param name="input"> Collection of documents to analyze. </param>
         /// <param name="modelVersion"> (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. </param>
-        /// <param name="showStats"> (Optional) if set to true, response will contain input and document level statistics. </param>
+        /// <param name="showStats"> (Optional) if set to true, response will contain request and document level statistics. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="input"/> is null. </exception>
-        public Response<EntityLinkingResult> EntitiesLinking(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, CancellationToken cancellationToken = default)
+        public Response<object> EntitiesLinking(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, CancellationToken cancellationToken = default)
         {
             if (input == null)
             {
@@ -287,7 +333,15 @@ namespace CognitiveServices.TextAnalytics
                         EntityLinkingResult value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
                         value = EntityLinkingResult.DeserializeEntityLinkingResult(document.RootElement);
-                        return Response.FromValue(value, message.Response);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 500:
+                    {
+                        ErrorResponse value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ErrorResponse.DeserializeErrorResponse(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
                     }
                 default:
                     throw _clientDiagnostics.CreateRequestFailedException(message.Response);
@@ -301,7 +355,7 @@ namespace CognitiveServices.TextAnalytics
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
             uri.AppendRaw(endpoint, false);
-            uri.AppendRaw("/text/analytics/v3.0-preview.1", false);
+            uri.AppendRaw("/text/analytics/v3.1-preview.1", false);
             uri.AppendPath("/keyPhrases", false);
             if (modelVersion != null)
             {
@@ -320,12 +374,12 @@ namespace CognitiveServices.TextAnalytics
         }
 
         /// <summary> The API returns a list of strings denoting the key phrases in the input text. See the &lt;a href=&quot;https://aka.ms/talangs&quot;&gt;Supported languages in Text Analytics API&lt;/a&gt; for the list of enabled languages. </summary>
-        /// <param name="input"> Collection of documents to analyze. Documents can now contain a language field to indicate the text language. </param>
+        /// <param name="input"> Collection of documents to analyze. </param>
         /// <param name="modelVersion"> (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. </param>
-        /// <param name="showStats"> (Optional) if set to true, response will contain input and document level statistics. </param>
+        /// <param name="showStats"> (Optional) if set to true, response will contain request and document level statistics. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="input"/> is null. </exception>
-        public async Task<Response<KeyPhraseResult>> KeyPhrasesAsync(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> KeyPhrasesAsync(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, CancellationToken cancellationToken = default)
         {
             if (input == null)
             {
@@ -341,7 +395,15 @@ namespace CognitiveServices.TextAnalytics
                         KeyPhraseResult value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
                         value = KeyPhraseResult.DeserializeKeyPhraseResult(document.RootElement);
-                        return Response.FromValue(value, message.Response);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 500:
+                    {
+                        ErrorResponse value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ErrorResponse.DeserializeErrorResponse(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
                     }
                 default:
                     throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
@@ -349,12 +411,12 @@ namespace CognitiveServices.TextAnalytics
         }
 
         /// <summary> The API returns a list of strings denoting the key phrases in the input text. See the &lt;a href=&quot;https://aka.ms/talangs&quot;&gt;Supported languages in Text Analytics API&lt;/a&gt; for the list of enabled languages. </summary>
-        /// <param name="input"> Collection of documents to analyze. Documents can now contain a language field to indicate the text language. </param>
+        /// <param name="input"> Collection of documents to analyze. </param>
         /// <param name="modelVersion"> (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. </param>
-        /// <param name="showStats"> (Optional) if set to true, response will contain input and document level statistics. </param>
+        /// <param name="showStats"> (Optional) if set to true, response will contain request and document level statistics. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="input"/> is null. </exception>
-        public Response<KeyPhraseResult> KeyPhrases(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, CancellationToken cancellationToken = default)
+        public Response<object> KeyPhrases(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, CancellationToken cancellationToken = default)
         {
             if (input == null)
             {
@@ -370,21 +432,29 @@ namespace CognitiveServices.TextAnalytics
                         KeyPhraseResult value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
                         value = KeyPhraseResult.DeserializeKeyPhraseResult(document.RootElement);
-                        return Response.FromValue(value, message.Response);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 500:
+                    {
+                        ErrorResponse value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ErrorResponse.DeserializeErrorResponse(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
                     }
                 default:
                     throw _clientDiagnostics.CreateRequestFailedException(message.Response);
             }
         }
 
-        internal HttpMessage CreateLanguagesRequest(LanguageBatchInput input, string modelVersion, bool? showStats)
+        internal HttpMessage CreateLanguagesRequest(MultiLanguageBatchInput input, string modelVersion, bool? showStats)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
             uri.AppendRaw(endpoint, false);
-            uri.AppendRaw("/text/analytics/v3.0-preview.1", false);
+            uri.AppendRaw("/text/analytics/v3.1-preview.1", false);
             uri.AppendPath("/languages", false);
             if (modelVersion != null)
             {
@@ -405,10 +475,10 @@ namespace CognitiveServices.TextAnalytics
         /// <summary> The API returns the detected language and a numeric score between 0 and 1. Scores close to 1 indicate 100% certainty that the identified language is true. See the &lt;a href=&quot;https://aka.ms/talangs&quot;&gt;Supported languages in Text Analytics API&lt;/a&gt; for the list of enabled languages. </summary>
         /// <param name="input"> Collection of documents to analyze. </param>
         /// <param name="modelVersion"> (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. </param>
-        /// <param name="showStats"> (Optional) if set to true, response will contain input and document level statistics. </param>
+        /// <param name="showStats"> (Optional) if set to true, response will contain request and document level statistics. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="input"/> is null. </exception>
-        public async Task<Response<LanguageResult>> LanguagesAsync(LanguageBatchInput input, string modelVersion = null, bool? showStats = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> LanguagesAsync(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, CancellationToken cancellationToken = default)
         {
             if (input == null)
             {
@@ -424,7 +494,15 @@ namespace CognitiveServices.TextAnalytics
                         LanguageResult value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
                         value = LanguageResult.DeserializeLanguageResult(document.RootElement);
-                        return Response.FromValue(value, message.Response);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 500:
+                    {
+                        ErrorResponse value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ErrorResponse.DeserializeErrorResponse(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
                     }
                 default:
                     throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
@@ -434,10 +512,10 @@ namespace CognitiveServices.TextAnalytics
         /// <summary> The API returns the detected language and a numeric score between 0 and 1. Scores close to 1 indicate 100% certainty that the identified language is true. See the &lt;a href=&quot;https://aka.ms/talangs&quot;&gt;Supported languages in Text Analytics API&lt;/a&gt; for the list of enabled languages. </summary>
         /// <param name="input"> Collection of documents to analyze. </param>
         /// <param name="modelVersion"> (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. </param>
-        /// <param name="showStats"> (Optional) if set to true, response will contain input and document level statistics. </param>
+        /// <param name="showStats"> (Optional) if set to true, response will contain request and document level statistics. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="input"/> is null. </exception>
-        public Response<LanguageResult> Languages(LanguageBatchInput input, string modelVersion = null, bool? showStats = null, CancellationToken cancellationToken = default)
+        public Response<object> Languages(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, CancellationToken cancellationToken = default)
         {
             if (input == null)
             {
@@ -453,21 +531,29 @@ namespace CognitiveServices.TextAnalytics
                         LanguageResult value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
                         value = LanguageResult.DeserializeLanguageResult(document.RootElement);
-                        return Response.FromValue(value, message.Response);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 500:
+                    {
+                        ErrorResponse value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ErrorResponse.DeserializeErrorResponse(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
                     }
                 default:
                     throw _clientDiagnostics.CreateRequestFailedException(message.Response);
             }
         }
 
-        internal HttpMessage CreateSentimentRequest(MultiLanguageBatchInput input, string modelVersion, bool? showStats)
+        internal HttpMessage CreateSentimentRequest(MultiLanguageBatchInput input, string modelVersion, bool? showStats, bool? opinionMining)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
             uri.AppendRaw(endpoint, false);
-            uri.AppendRaw("/text/analytics/v3.0-preview.1", false);
+            uri.AppendRaw("/text/analytics/v3.1-preview.1", false);
             uri.AppendPath("/sentiment", false);
             if (modelVersion != null)
             {
@@ -477,6 +563,10 @@ namespace CognitiveServices.TextAnalytics
             {
                 uri.AppendQuery("showStats", showStats.Value, true);
             }
+            if (opinionMining != null)
+            {
+                uri.AppendQuery("opinionMining", opinionMining.Value, true);
+            }
             request.Uri = uri;
             request.Headers.Add("Content-Type", "application/json");
             var content = new Utf8JsonRequestContent();
@@ -485,20 +575,21 @@ namespace CognitiveServices.TextAnalytics
             return message;
         }
 
-        /// <summary> The API returns a sentiment prediction, as well as sentiment scores for each sentiment class (Positive, Negative, and Neutral) for the document and each sentence within it. See the &lt;a href=&quot;https://aka.ms/talangs&quot;&gt;Supported languages in Text Analytics API&lt;/a&gt; for the list of enabled languages. </summary>
+        /// <summary> The API returns a detailed sentiment analysis for the input text. The analysis is done in multiple levels of granularity, start from the a document level, down to sentence and key terms (aspects) and opinions. </summary>
         /// <param name="input"> Collection of documents to analyze. </param>
         /// <param name="modelVersion"> (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. </param>
-        /// <param name="showStats"> (Optional) if set to true, response will contain input and document level statistics. </param>
+        /// <param name="showStats"> (Optional) if set to true, response will contain request and document level statistics. </param>
+        /// <param name="opinionMining"> (Optional) if set to true, response will contain input and document level statistics including aspect-based sentiment analysis results. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="input"/> is null. </exception>
-        public async Task<Response<SentimentResponse>> SentimentAsync(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> SentimentAsync(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, bool? opinionMining = null, CancellationToken cancellationToken = default)
         {
             if (input == null)
             {
                 throw new ArgumentNullException(nameof(input));
             }
 
-            using var message = CreateSentimentRequest(input, modelVersion, showStats);
+            using var message = CreateSentimentRequest(input, modelVersion, showStats, opinionMining);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -507,27 +598,36 @@ namespace CognitiveServices.TextAnalytics
                         SentimentResponse value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
                         value = SentimentResponse.DeserializeSentimentResponse(document.RootElement);
-                        return Response.FromValue(value, message.Response);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 500:
+                    {
+                        ErrorResponse value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ErrorResponse.DeserializeErrorResponse(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
                     }
                 default:
                     throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
             }
         }
 
-        /// <summary> The API returns a sentiment prediction, as well as sentiment scores for each sentiment class (Positive, Negative, and Neutral) for the document and each sentence within it. See the &lt;a href=&quot;https://aka.ms/talangs&quot;&gt;Supported languages in Text Analytics API&lt;/a&gt; for the list of enabled languages. </summary>
+        /// <summary> The API returns a detailed sentiment analysis for the input text. The analysis is done in multiple levels of granularity, start from the a document level, down to sentence and key terms (aspects) and opinions. </summary>
         /// <param name="input"> Collection of documents to analyze. </param>
         /// <param name="modelVersion"> (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. </param>
-        /// <param name="showStats"> (Optional) if set to true, response will contain input and document level statistics. </param>
+        /// <param name="showStats"> (Optional) if set to true, response will contain request and document level statistics. </param>
+        /// <param name="opinionMining"> (Optional) if set to true, response will contain input and document level statistics including aspect-based sentiment analysis results. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="input"/> is null. </exception>
-        public Response<SentimentResponse> Sentiment(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, CancellationToken cancellationToken = default)
+        public Response<object> Sentiment(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, bool? opinionMining = null, CancellationToken cancellationToken = default)
         {
             if (input == null)
             {
                 throw new ArgumentNullException(nameof(input));
             }
 
-            using var message = CreateSentimentRequest(input, modelVersion, showStats);
+            using var message = CreateSentimentRequest(input, modelVersion, showStats, opinionMining);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -536,7 +636,15 @@ namespace CognitiveServices.TextAnalytics
                         SentimentResponse value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
                         value = SentimentResponse.DeserializeSentimentResponse(document.RootElement);
-                        return Response.FromValue(value, message.Response);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 500:
+                    {
+                        ErrorResponse value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ErrorResponse.DeserializeErrorResponse(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
                     }
                 default:
                     throw _clientDiagnostics.CreateRequestFailedException(message.Response);

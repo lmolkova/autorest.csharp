@@ -10,13 +10,13 @@ using System;
 namespace CognitiveServices.TextAnalytics.Models
 {
     /// <summary> The LanguageInput. </summary>
-    public partial class LanguageInput
+    internal partial class LanguageInput
     {
         /// <summary> Initializes a new instance of LanguageInput. </summary>
         /// <param name="id"> Unique, non-empty document identifier. </param>
         /// <param name="text"> . </param>
         /// <exception cref="ArgumentNullException"> <paramref name="id"/> or <paramref name="text"/> is null. </exception>
-        public LanguageInput(string id, string text)
+        internal LanguageInput(string id, string text)
         {
             if (id == null)
             {
@@ -34,6 +34,6 @@ namespace CognitiveServices.TextAnalytics.Models
         /// <summary> Unique, non-empty document identifier. </summary>
         public string Id { get; }
         public string Text { get; }
-        public string CountryHint { get; set; }
+        public string CountryHint { get; }
     }
 }

@@ -10,13 +10,13 @@ namespace CognitiveServices.TextAnalytics.Models
     /// <summary> Error code. </summary>
     public enum ErrorCodeValue
     {
-        /// <summary> invalidRequest. </summary>
+        /// <summary> InvalidRequest. </summary>
         InvalidRequest,
-        /// <summary> invalidArgument. </summary>
+        /// <summary> InvalidArgument. </summary>
         InvalidArgument,
-        /// <summary> internalServerError. </summary>
+        /// <summary> InternalServerError. </summary>
         InternalServerError,
-        /// <summary> serviceUnavailable. </summary>
+        /// <summary> ServiceUnavailable. </summary>
         ServiceUnavailable
     }
 }
