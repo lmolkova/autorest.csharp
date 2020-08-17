@@ -159,7 +159,12 @@ namespace AutoRest.CSharp.V3.Generation.Writers
 
                 foreach (var header in clientMethod.Request.Headers)
                 {
-                    WriteHeader(writer, request, header);
+                    if (clientMethod.Request.Body != null
+                        && clientMethod.Request.Body.GetType() == typeof(MultipartRequestBody)
+                        && header.Name != "Content-Type")
+                    {
+                        WriteHeader(writer, request, header);
+                    }
                 }
 
                 switch (clientMethod.Request.Body)
@@ -178,6 +183,7 @@ namespace AutoRest.CSharp.V3.Generation.Writers
                     case BinaryRequestBody binaryBody:
                         using (WriteValueNullCheck(writer, binaryBody.Value))
                         {
+                            var content = new CodeWriterDeclaration("content");
                             writer.Append($"{request}.Content = {typeof(RequestContent)}.Create(");
                             WriteConstantOrParameter(writer, binaryBody.Value);
                             writer.Line($");");
@@ -189,6 +195,29 @@ namespace AutoRest.CSharp.V3.Generation.Writers
                             writer.Append($"{request}.Content = new {typeof(StringRequestContent)}(");
                             WriteConstantOrParameter(writer, textBody.Value);
                             writer.Line($");");
+                        }
+                        break;
+                    case MultipartRequestBody multipartRequestBody:
+                        using (WriteValueNullCheck(writer, multipartRequestBody.Value))
+                        {
+                            var content = new CodeWriterDeclaration("content");
+                            writer.Line($"var {content:D} = new MultipartFormDataContent();");
+                            writer.Line($"{content}.ApplyToRequest({request});");
+
+                            writer.Append($"{content}.Add({typeof(RequestContent)}.Create(");
+                            WriteConstantOrParameter(writer, multipartRequestBody.Value);
+                            writer.Append($", \"{multipartRequestBody.Value.Reference.Name}\"");
+                            writer.Line($", null));");
+
+                            if (multipartRequestBody.Name != null)
+                            {
+                                writer.Append($"{content}.Add(new {typeof(StringRequestContent)}(");
+                                // WriteConstantOrP(writer, multipartRequestBody.Name);
+                                writer.Append($"{multipartRequestBody.Name}");
+                                writer.Append($", \"{multipartRequestBody.Name?.Reference.Name}\"");
+                                writer.Line($", null);");
+                            }
+                            writer.Line($"{request}.Content = {content};");
                         }
                         break;
                     case FlattenedSchemaRequestBody flattenedSchemaRequestBody:
@@ -226,29 +255,29 @@ namespace AutoRest.CSharp.V3.Generation.Writers
             switch (bodySerialization)
             {
                 case JsonSerialization jsonSerialization:
-                {
-                    var content = new CodeWriterDeclaration("content");
+                    {
+                        var content = new CodeWriterDeclaration("content");
 
-                    writer.Line($"var {content:D} = new {typeof(Utf8JsonRequestContent)}();");
-                    writer.ToSerializeCall(
-                        jsonSerialization,
-                        valueDelegate,
-                        writerName: w => w.Append($"{content}.{nameof(Utf8JsonRequestContent.JsonWriter)}"));
-                    writer.Line($"{request}.Content = {content};");
-                    break;
-                }
+                        writer.Line($"var {content:D} = new {typeof(Utf8JsonRequestContent)}();");
+                        writer.ToSerializeCall(
+                            jsonSerialization,
+                            valueDelegate,
+                            writerName: w => w.Append($"{content}.{nameof(Utf8JsonRequestContent.JsonWriter)}"));
+                        writer.Line($"{request}.Content = {content};");
+                        break;
+                    }
                 case XmlElementSerialization xmlSerialization:
-                {
-                    var content = new CodeWriterDeclaration("content");
+                    {
+                        var content = new CodeWriterDeclaration("content");
 
-                    writer.Line($"var {content:D} = new {typeof(XmlWriterContent)}();");
-                    writer.ToSerializeCall(
-                        xmlSerialization,
-                        valueDelegate,
-                        writerName: w => w.Append($"{content}.{nameof(XmlWriterContent.XmlWriter)}"));
-                    writer.Line($"{request}.Content = {content};");
-                    break;
-                }
+                        writer.Line($"var {content:D} = new {typeof(XmlWriterContent)}();");
+                        writer.ToSerializeCall(
+                            xmlSerialization,
+                            valueDelegate,
+                            writerName: w => w.Append($"{content}.{nameof(XmlWriterContent.XmlWriter)}"));
+                        writer.Line($"{request}.Content = {content};");
+                        break;
+                    }
                 default:
                     throw new NotImplementedException(bodySerialization.ToString());
             }
