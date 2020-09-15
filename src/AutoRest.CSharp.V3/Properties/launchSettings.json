@@ -8,6 +8,10 @@
       "commandName": "Project",
       "commandLineArgs": "--standalone $(SolutionDir)\\test\\TestProjects\\AdditionalPropertiesEx"
     },
+    "AnomalyDetector": {
+      "commandName": "Project",
+      "commandLineArgs": "--standalone $(SolutionDir)\\samples\\AnomalyDetector\\AnomalyDetector"
+    },
     "AppConfiguration": {
       "commandName": "Project",
       "commandLineArgs": "--standalone $(SolutionDir)\\samples\\AppConfiguration\\AppConfiguration"

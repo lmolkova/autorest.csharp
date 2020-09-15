@@ -6,20 +6,23 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
+using Azure.Core;
 
 namespace CognitiveServices.TextAnalytics.Models
 {
-    /// <summary> The Entity. </summary>
-    public partial class Entity
+    /// <summary> The HealthcareEntity. </summary>
+    public partial class HealthcareEntity : Entity
     {
-        /// <summary> Initializes a new instance of Entity. </summary>
+        /// <summary> Initializes a new instance of HealthcareEntity. </summary>
         /// <param name="text"> Entity text as appears in the request. </param>
         /// <param name="category"> Entity type. </param>
         /// <param name="offset"> Start position for the entity text. Use of different &apos;stringIndexType&apos; values can affect the offset returned. </param>
         /// <param name="length"> Length for the entity text. Use of different &apos;stringIndexType&apos; values can affect the length returned. </param>
         /// <param name="confidenceScore"> Confidence score between 0 and 1 of the extracted entity. </param>
+        /// <param name="isNegated"> . </param>
         /// <exception cref="ArgumentNullException"> <paramref name="text"/> or <paramref name="category"/> is null. </exception>
-        internal Entity(string text, string category, int offset, int length, double confidenceScore)
+        internal HealthcareEntity(string text, string category, int offset, int length, double confidenceScore, bool isNegated) : base(text, category, offset, length, confidenceScore)
         {
             if (text == null)
             {
@@ -30,41 +33,27 @@ namespace CognitiveServices.TextAnalytics.Models
                 throw new ArgumentNullException(nameof(category));
             }
 
-            Text = text;
-            Category = category;
-            Offset = offset;
-            Length = length;
-            ConfidenceScore = confidenceScore;
+            IsNegated = isNegated;
+            Links = new ChangeTrackingList<HealthcareEntityLink>();
         }
 
-        /// <summary> Initializes a new instance of Entity. </summary>
+        /// <summary> Initializes a new instance of HealthcareEntity. </summary>
         /// <param name="text"> Entity text as appears in the request. </param>
         /// <param name="category"> Entity type. </param>
         /// <param name="subcategory"> (Optional) Entity sub type. </param>
         /// <param name="offset"> Start position for the entity text. Use of different &apos;stringIndexType&apos; values can affect the offset returned. </param>
         /// <param name="length"> Length for the entity text. Use of different &apos;stringIndexType&apos; values can affect the length returned. </param>
         /// <param name="confidenceScore"> Confidence score between 0 and 1 of the extracted entity. </param>
-        internal Entity(string text, string category, string subcategory, int offset, int length, double confidenceScore)
+        /// <param name="isNegated"> . </param>
+        /// <param name="links"> Entity references in known data sources. </param>
+        internal HealthcareEntity(string text, string category, string subcategory, int offset, int length, double confidenceScore, bool isNegated, IReadOnlyList<HealthcareEntityLink> links) : base(text, category, subcategory, offset, length, confidenceScore)
         {
-            Text = text;
-            Category = category;
-            Subcategory = subcategory;
-            Offset = offset;
-            Length = length;
-            ConfidenceScore = confidenceScore;
+            IsNegated = isNegated;
+            Links = links;
         }
 
-        /// <summary> Entity text as appears in the request. </summary>
-        public string Text { get; }
-        /// <summary> Entity type. </summary>
-        public string Category { get; }
-        /// <summary> (Optional) Entity sub type. </summary>
-        public string Subcategory { get; }
-        /// <summary> Start position for the entity text. Use of different &apos;stringIndexType&apos; values can affect the offset returned. </summary>
-        public int Offset { get; }
-        /// <summary> Length for the entity text. Use of different &apos;stringIndexType&apos; values can affect the length returned. </summary>
-        public int Length { get; }
-        /// <summary> Confidence score between 0 and 1 of the extracted entity. </summary>
-        public double ConfidenceScore { get; }
+        public bool IsNegated { get; }
+        /// <summary> Entity references in known data sources. </summary>
+        public IReadOnlyList<HealthcareEntityLink> Links { get; }
     }
 }

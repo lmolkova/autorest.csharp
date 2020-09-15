@@ -28,11 +28,96 @@ namespace CognitiveServices.TextAnalytics
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
         /// <param name="endpoint"> Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com). </param>
-        internal ServiceClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string endpoint)
+        /// <param name="stringIndexType"> (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets. </param>
+        internal ServiceClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string endpoint, StringIndexType? stringIndexType = null)
         {
-            RestClient = new ServiceRestClient(clientDiagnostics, pipeline, endpoint);
+            RestClient = new ServiceRestClient(clientDiagnostics, pipeline, endpoint, stringIndexType);
             _clientDiagnostics = clientDiagnostics;
             _pipeline = pipeline;
+        }
+
+        /// <summary> Get the status of an analysis job.  A job may consist of one or more tasks.  Once all tasks are completed, the job will transition to the completed state and results will be available for each task. </summary>
+        /// <param name="jobId"> Job ID. </param>
+        /// <param name="showStats"> (Optional) if set to true, response will contain request and document level statistics. </param>
+        /// <param name="top"> (Optional) Set the maximum number of results per task. When both $top and $skip are specified, $skip is applied first. </param>
+        /// <param name="skip"> (Optional) Set the number of elements to offset in the response. When both $top and $skip are specified, $skip is applied first. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<object>> AnalyzeStatusAsync(Guid jobId, bool? showStats = null, int? top = null, int? skip = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.AnalyzeStatus");
+            scope.Start();
+            try
+            {
+                return await RestClient.AnalyzeStatusAsync(jobId, showStats, top, skip, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get the status of an analysis job.  A job may consist of one or more tasks.  Once all tasks are completed, the job will transition to the completed state and results will be available for each task. </summary>
+        /// <param name="jobId"> Job ID. </param>
+        /// <param name="showStats"> (Optional) if set to true, response will contain request and document level statistics. </param>
+        /// <param name="top"> (Optional) Set the maximum number of results per task. When both $top and $skip are specified, $skip is applied first. </param>
+        /// <param name="skip"> (Optional) Set the number of elements to offset in the response. When both $top and $skip are specified, $skip is applied first. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<object> AnalyzeStatus(Guid jobId, bool? showStats = null, int? top = null, int? skip = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.AnalyzeStatus");
+            scope.Start();
+            try
+            {
+                return RestClient.AnalyzeStatus(jobId, showStats, top, skip, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get details of the healthcare prediction job specified by the jobId. </summary>
+        /// <param name="jobId"> Job ID. </param>
+        /// <param name="top"> (Optional) Set the maximum number of results per task. When both $top and $skip are specified, $skip is applied first. </param>
+        /// <param name="skip"> (Optional) Set the number of elements to offset in the response. When both $top and $skip are specified, $skip is applied first. </param>
+        /// <param name="showStats"> (Optional) if set to true, response will contain request and document level statistics. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<object>> HealthStatusAsync(Guid jobId, int? top = null, int? skip = null, bool? showStats = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.HealthStatus");
+            scope.Start();
+            try
+            {
+                return await RestClient.HealthStatusAsync(jobId, top, skip, showStats, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get details of the healthcare prediction job specified by the jobId. </summary>
+        /// <param name="jobId"> Job ID. </param>
+        /// <param name="top"> (Optional) Set the maximum number of results per task. When both $top and $skip are specified, $skip is applied first. </param>
+        /// <param name="skip"> (Optional) Set the number of elements to offset in the response. When both $top and $skip are specified, $skip is applied first. </param>
+        /// <param name="showStats"> (Optional) if set to true, response will contain request and document level statistics. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<object> HealthStatus(Guid jobId, int? top = null, int? skip = null, bool? showStats = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.HealthStatus");
+            scope.Start();
+            try
+            {
+                return RestClient.HealthStatus(jobId, top, skip, showStats, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
         }
 
         /// <summary> The API returns a list of general named entities in a given document. For the list of supported entity types, check &lt;a href=&quot;https://aka.ms/taner&quot;&gt;Supported Entity Types in Text Analytics API&lt;/a&gt;. See the &lt;a href=&quot;https://aka.ms/talangs&quot;&gt;Supported languages in Text Analytics API&lt;/a&gt; for the list of enabled languages. </summary>
@@ -82,7 +167,7 @@ namespace CognitiveServices.TextAnalytics
         /// <param name="input"> Collection of documents to analyze. </param>
         /// <param name="modelVersion"> (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. </param>
         /// <param name="showStats"> (Optional) if set to true, response will contain request and document level statistics. </param>
-        /// <param name="domain"> (Optional) if set to &apos;PHI&apos;, response will contain only PHI entities. </param>
+        /// <param name="domain"> (Optional) if specified, will set the PII domain to include only a subset of the entity categories. Possible values include: &apos;PHI&apos;, &apos;none&apos;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual async Task<Response<object>> EntitiesRecognitionPiiAsync(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, string domain = null, CancellationToken cancellationToken = default)
         {
@@ -106,7 +191,7 @@ namespace CognitiveServices.TextAnalytics
         /// <param name="input"> Collection of documents to analyze. </param>
         /// <param name="modelVersion"> (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. </param>
         /// <param name="showStats"> (Optional) if set to true, response will contain request and document level statistics. </param>
-        /// <param name="domain"> (Optional) if set to &apos;PHI&apos;, response will contain only PHI entities. </param>
+        /// <param name="domain"> (Optional) if specified, will set the PII domain to include only a subset of the entity categories. Possible values include: &apos;PHI&apos;, &apos;none&apos;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response<object> EntitiesRecognitionPii(MultiLanguageBatchInput input, string modelVersion = null, bool? showStats = null, string domain = null, CancellationToken cancellationToken = default)
         {
@@ -277,6 +362,134 @@ namespace CognitiveServices.TextAnalytics
             try
             {
                 return RestClient.Sentiment(input, modelVersion, showStats, opinionMining, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Submit a collection of text documents for analysis. Specify one or more unique tasks to be executed. </summary>
+        /// <param name="body"> Collection of documents to analyze and tasks to execute. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<ServiceAnalyzeOperation> StartAnalyzeAsync(AnalyzeBatchInput body = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.StartAnalyze");
+            scope.Start();
+            try
+            {
+                var originalResponse = await RestClient.AnalyzeAsync(body, cancellationToken).ConfigureAwait(false);
+                return new ServiceAnalyzeOperation(_clientDiagnostics, _pipeline, RestClient.CreateAnalyzeRequest(body).Request, originalResponse);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Submit a collection of text documents for analysis. Specify one or more unique tasks to be executed. </summary>
+        /// <param name="body"> Collection of documents to analyze and tasks to execute. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual ServiceAnalyzeOperation StartAnalyze(AnalyzeBatchInput body = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.StartAnalyze");
+            scope.Start();
+            try
+            {
+                var originalResponse = RestClient.Analyze(body, cancellationToken);
+                return new ServiceAnalyzeOperation(_clientDiagnostics, _pipeline, RestClient.CreateAnalyzeRequest(body).Request, originalResponse);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Cancel healthcare prediction job. </summary>
+        /// <param name="jobId"> Job ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<ServiceCancelHealthJobOperation> StartCancelHealthJobAsync(Guid jobId, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.StartCancelHealthJob");
+            scope.Start();
+            try
+            {
+                var originalResponse = await RestClient.CancelHealthJobAsync(jobId, cancellationToken).ConfigureAwait(false);
+                return new ServiceCancelHealthJobOperation(_clientDiagnostics, _pipeline, RestClient.CreateCancelHealthJobRequest(jobId).Request, originalResponse);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Cancel healthcare prediction job. </summary>
+        /// <param name="jobId"> Job ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual ServiceCancelHealthJobOperation StartCancelHealthJob(Guid jobId, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.StartCancelHealthJob");
+            scope.Start();
+            try
+            {
+                var originalResponse = RestClient.CancelHealthJob(jobId, cancellationToken);
+                return new ServiceCancelHealthJobOperation(_clientDiagnostics, _pipeline, RestClient.CreateCancelHealthJobRequest(jobId).Request, originalResponse);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Start a healthcare analysis job to recognize healthcare related entities (drugs, conditions, symptoms, etc) and their relations. </summary>
+        /// <param name="input"> Collection of documents to analyze. </param>
+        /// <param name="modelVersion"> (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="input"/> is null. </exception>
+        public virtual async Task<ServiceHealthOperation> StartHealthAsync(MultiLanguageBatchInput input, string modelVersion = null, CancellationToken cancellationToken = default)
+        {
+            if (input == null)
+            {
+                throw new ArgumentNullException(nameof(input));
+            }
+
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.StartHealth");
+            scope.Start();
+            try
+            {
+                var originalResponse = await RestClient.HealthAsync(input, modelVersion, cancellationToken).ConfigureAwait(false);
+                return new ServiceHealthOperation(_clientDiagnostics, _pipeline, RestClient.CreateHealthRequest(input, modelVersion).Request, originalResponse);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Start a healthcare analysis job to recognize healthcare related entities (drugs, conditions, symptoms, etc) and their relations. </summary>
+        /// <param name="input"> Collection of documents to analyze. </param>
+        /// <param name="modelVersion"> (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="input"/> is null. </exception>
+        public virtual ServiceHealthOperation StartHealth(MultiLanguageBatchInput input, string modelVersion = null, CancellationToken cancellationToken = default)
+        {
+            if (input == null)
+            {
+                throw new ArgumentNullException(nameof(input));
+            }
+
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.StartHealth");
+            scope.Start();
+            try
+            {
+                var originalResponse = RestClient.Health(input, modelVersion, cancellationToken);
+                return new ServiceHealthOperation(_clientDiagnostics, _pipeline, RestClient.CreateHealthRequest(input, modelVersion).Request, originalResponse);
             }
             catch (Exception e)
             {

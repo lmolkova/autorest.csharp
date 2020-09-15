@@ -17,6 +17,8 @@ namespace CognitiveServices.TextAnalytics.Models
         /// <summary> InternalServerError. </summary>
         InternalServerError,
         /// <summary> ServiceUnavailable. </summary>
-        ServiceUnavailable
+        ServiceUnavailable,
+        /// <summary> NotFound. </summary>
+        NotFound
     }
 }
