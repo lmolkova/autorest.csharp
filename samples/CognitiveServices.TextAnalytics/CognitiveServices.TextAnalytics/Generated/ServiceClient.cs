@@ -84,7 +84,7 @@ namespace CognitiveServices.TextAnalytics
         /// <param name="skip"> (Optional) Set the number of elements to offset in the response. When both $top and $skip are specified, $skip is applied first. </param>
         /// <param name="showStats"> (Optional) if set to true, response will contain request and document level statistics. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response<object>> HealthStatusAsync(Guid jobId, int? top = null, int? skip = null, bool? showStats = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<HealthcareJobState>> HealthStatusAsync(Guid jobId, int? top = null, int? skip = null, bool? showStats = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("ServiceClient.HealthStatus");
             scope.Start();
@@ -105,7 +105,7 @@ namespace CognitiveServices.TextAnalytics
         /// <param name="skip"> (Optional) Set the number of elements to offset in the response. When both $top and $skip are specified, $skip is applied first. </param>
         /// <param name="showStats"> (Optional) if set to true, response will contain request and document level statistics. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response<object> HealthStatus(Guid jobId, int? top = null, int? skip = null, bool? showStats = null, CancellationToken cancellationToken = default)
+        public virtual Response<HealthcareJobState> HealthStatus(Guid jobId, int? top = null, int? skip = null, bool? showStats = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("ServiceClient.HealthStatus");
             scope.Start();

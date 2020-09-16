@@ -2327,6 +2327,7 @@ schemas: !<!Schemas>
                     - json
                   usage:
                     - output
+                    - exception
                   language: !<!Languages> 
                     default:
                       name: InnerError
@@ -2363,6 +2364,7 @@ schemas: !<!Schemas>
               - json
             usage:
               - output
+              - exception
             language: !<!Languages> 
               default:
                 name: TextAnalyticsError
@@ -2380,6 +2382,7 @@ schemas: !<!Schemas>
         - json
       usage:
         - output
+        - exception
       language: !<!Languages> 
         default:
           name: ErrorResponse
@@ -5965,8 +5968,11 @@ operationGroups:
                   - text/json
                 statusCodes:
                   - '200'
+        exceptions:
           - !<!SchemaResponse> 
             schema: *ref_253
+            extensions:
+              x-ms-error-response: true
             language: !<!Languages> 
               default:
                 name: ''
@@ -5981,6 +5987,8 @@ operationGroups:
                   - '404'
           - !<!SchemaResponse> 
             schema: *ref_253
+            extensions:
+              x-ms-error-response: true
             language: !<!Languages> 
               default:
                 name: ''

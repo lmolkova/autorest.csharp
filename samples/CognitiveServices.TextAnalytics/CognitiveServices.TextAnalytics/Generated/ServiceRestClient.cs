@@ -222,7 +222,7 @@ namespace CognitiveServices.TextAnalytics
         /// <param name="skip"> (Optional) Set the number of elements to offset in the response. When both $top and $skip are specified, $skip is applied first. </param>
         /// <param name="showStats"> (Optional) if set to true, response will contain request and document level statistics. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> HealthStatusAsync(Guid jobId, int? top = null, int? skip = null, bool? showStats = null, CancellationToken cancellationToken = default)
+        public async Task<Response<HealthcareJobState>> HealthStatusAsync(Guid jobId, int? top = null, int? skip = null, bool? showStats = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateHealthStatusRequest(jobId, top, skip, showStats);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
@@ -233,15 +233,7 @@ namespace CognitiveServices.TextAnalytics
                         HealthcareJobState value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
                         value = HealthcareJobState.DeserializeHealthcareJobState(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                case 404:
-                case 500:
-                    {
-                        ErrorResponse value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = ErrorResponse.DeserializeErrorResponse(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
+                        return Response.FromValue(value, message.Response);
                     }
                 default:
                     throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
@@ -254,7 +246,7 @@ namespace CognitiveServices.TextAnalytics
         /// <param name="skip"> (Optional) Set the number of elements to offset in the response. When both $top and $skip are specified, $skip is applied first. </param>
         /// <param name="showStats"> (Optional) if set to true, response will contain request and document level statistics. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> HealthStatus(Guid jobId, int? top = null, int? skip = null, bool? showStats = null, CancellationToken cancellationToken = default)
+        public Response<HealthcareJobState> HealthStatus(Guid jobId, int? top = null, int? skip = null, bool? showStats = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateHealthStatusRequest(jobId, top, skip, showStats);
             _pipeline.Send(message, cancellationToken);
@@ -265,15 +257,7 @@ namespace CognitiveServices.TextAnalytics
                         HealthcareJobState value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
                         value = HealthcareJobState.DeserializeHealthcareJobState(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                case 404:
-                case 500:
-                    {
-                        ErrorResponse value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = ErrorResponse.DeserializeErrorResponse(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
+                        return Response.FromValue(value, message.Response);
                     }
                 default:
                     throw _clientDiagnostics.CreateRequestFailedException(message.Response);

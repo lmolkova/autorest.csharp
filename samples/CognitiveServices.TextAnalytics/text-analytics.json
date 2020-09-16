@@ -193,13 +193,15 @@
             "description": "Job ID not found.",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
-            }
+            },
+            "x-ms-error-response": true
           },
           "500": {
             "description": "Internal error response",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
-            }
+            },
+            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
