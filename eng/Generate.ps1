@@ -96,7 +96,8 @@ $projectNames =
     'Azure.AI.FormRecognizer',
     'Azure.Storage.Tables',
     'Azure.Management.Storage',
-    'Azure.Network.Management.Interface'
+    'Azure.Network.Management.Interface',
+    'ComputerVision'
 
 if (!($Exclude -contains "Samples"))
 {
