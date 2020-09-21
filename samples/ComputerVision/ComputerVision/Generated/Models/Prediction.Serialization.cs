@@ -80,7 +80,7 @@ namespace ComputerVision.Models
             }
             if (element.Element("tagId") is XElement tagIdElement)
             {
-                tagId = new Guid(tagIdElement.Value);
+                tagId = tagIdElement.(null);
             }
             if (element.Element("tagName") is XElement tagNameElement)
             {
