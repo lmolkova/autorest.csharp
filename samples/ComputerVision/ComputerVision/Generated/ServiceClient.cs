@@ -6,6 +6,7 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,19 +37,26 @@ namespace ComputerVision
             _pipeline = pipeline;
         }
 
-        /// <summary> Classify an image and saves the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageData"> Binary image data. Supported formats are JPEG, GIF, PNG, and BMP. Supports images up to 4MB. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// This operation extracts a rich set of visual features based on the image content.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL. Within your request, there is an optional parameter to allow you to choose which features to return. By default, image categories are returned in the response.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="visualFeatures"> A string indicating what visual feature types to return. Multiple values should be comma-separated. Valid visual feature types include: Categories - categorizes image content according to a taxonomy defined in documentation. Tags - tags the image with a detailed list of words related to the image content. Description - describes the image content with a complete English sentence. Faces - detects if faces are present. If present, generate coordinates, gender and age. ImageType - detects if image is clipart or a line drawing. Color - determines the accent color, dominant color, and whether an image is black&amp;white. Adult - detects if the image is pornographic in nature (depicts nudity or a sex act), or is gory (depicts extreme violence or blood). Sexually suggestive content (aka racy content) is also detected. Objects - detects various objects within an image, including the approximate location. The Objects argument is only available in English. Brands - detects various brands within an image, including the approximate location. The Brands argument is only available in English. </param>
+        /// <param name="details"> A string indicating which domain-specific details to return. Multiple values should be comma-separated. Valid visual feature types include: Celebrities - identifies celebrities if detected in the image, Landmarks - identifies notable landmarks in the image. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response<ImagePrediction>> ClassifyImageAsync(Guid projectId, string publishedName, Stream imageData, string application = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<ImageAnalysis>> AnalyzeImageAsync(string url, IEnumerable<VisualFeatureTypes> visualFeatures = null, IEnumerable<Details> details = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ServiceClient.ClassifyImage");
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.AnalyzeImage");
             scope.Start();
             try
             {
-                return await RestClient.ClassifyImageAsync(projectId, publishedName, imageData, application, cancellationToken).ConfigureAwait(false);
+                return await RestClient.AnalyzeImageAsync(url, visualFeatures, details, language, descriptionExclude, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -57,19 +65,26 @@ namespace ComputerVision
             }
         }
 
-        /// <summary> Classify an image and saves the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageData"> Binary image data. Supported formats are JPEG, GIF, PNG, and BMP. Supports images up to 4MB. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// This operation extracts a rich set of visual features based on the image content.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL. Within your request, there is an optional parameter to allow you to choose which features to return. By default, image categories are returned in the response.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="visualFeatures"> A string indicating what visual feature types to return. Multiple values should be comma-separated. Valid visual feature types include: Categories - categorizes image content according to a taxonomy defined in documentation. Tags - tags the image with a detailed list of words related to the image content. Description - describes the image content with a complete English sentence. Faces - detects if faces are present. If present, generate coordinates, gender and age. ImageType - detects if image is clipart or a line drawing. Color - determines the accent color, dominant color, and whether an image is black&amp;white. Adult - detects if the image is pornographic in nature (depicts nudity or a sex act), or is gory (depicts extreme violence or blood). Sexually suggestive content (aka racy content) is also detected. Objects - detects various objects within an image, including the approximate location. The Objects argument is only available in English. Brands - detects various brands within an image, including the approximate location. The Brands argument is only available in English. </param>
+        /// <param name="details"> A string indicating which domain-specific details to return. Multiple values should be comma-separated. Valid visual feature types include: Celebrities - identifies celebrities if detected in the image, Landmarks - identifies notable landmarks in the image. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response<ImagePrediction> ClassifyImage(Guid projectId, string publishedName, Stream imageData, string application = null, CancellationToken cancellationToken = default)
+        public virtual Response<ImageAnalysis> AnalyzeImage(string url, IEnumerable<VisualFeatureTypes> visualFeatures = null, IEnumerable<Details> details = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ServiceClient.ClassifyImage");
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.AnalyzeImage");
             scope.Start();
             try
             {
-                return RestClient.ClassifyImage(projectId, publishedName, imageData, application, cancellationToken);
+                return RestClient.AnalyzeImage(url, visualFeatures, details, language, descriptionExclude, cancellationToken);
             }
             catch (Exception e)
             {
@@ -78,19 +93,25 @@ namespace ComputerVision
             }
         }
 
-        /// <summary> Classify an image without saving the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageData"> Binary image data. Supported formats are JPEG, GIF, PNG, and BMP. Supports images up to 4MB. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// This operation generates a description of an image in human readable language with complete sentences. The description is based on a collection of content tags, which are also returned by the operation. More than one description can be generated for each image. Descriptions are ordered by their confidence score. Descriptions may include results from celebrity and landmark domain models, if applicable.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="maxCandidates"> Maximum number of candidate descriptions to be returned.  The default is 1. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response<ImagePrediction>> ClassifyImageWithNoStoreAsync(Guid projectId, string publishedName, Stream imageData, string application = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<ImageDescription>> DescribeImageAsync(string url, int? maxCandidates = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ServiceClient.ClassifyImageWithNoStore");
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.DescribeImage");
             scope.Start();
             try
             {
-                return await RestClient.ClassifyImageWithNoStoreAsync(projectId, publishedName, imageData, application, cancellationToken).ConfigureAwait(false);
+                return await RestClient.DescribeImageAsync(url, maxCandidates, language, descriptionExclude, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -99,19 +120,25 @@ namespace ComputerVision
             }
         }
 
-        /// <summary> Classify an image without saving the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageData"> Binary image data. Supported formats are JPEG, GIF, PNG, and BMP. Supports images up to 4MB. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// This operation generates a description of an image in human readable language with complete sentences. The description is based on a collection of content tags, which are also returned by the operation. More than one description can be generated for each image. Descriptions are ordered by their confidence score. Descriptions may include results from celebrity and landmark domain models, if applicable.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="maxCandidates"> Maximum number of candidate descriptions to be returned.  The default is 1. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response<ImagePrediction> ClassifyImageWithNoStore(Guid projectId, string publishedName, Stream imageData, string application = null, CancellationToken cancellationToken = default)
+        public virtual Response<ImageDescription> DescribeImage(string url, int? maxCandidates = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ServiceClient.ClassifyImageWithNoStore");
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.DescribeImage");
             scope.Start();
             try
             {
-                return RestClient.ClassifyImageWithNoStore(projectId, publishedName, imageData, application, cancellationToken);
+                return RestClient.DescribeImage(url, maxCandidates, language, descriptionExclude, cancellationToken);
             }
             catch (Exception e)
             {
@@ -120,19 +147,22 @@ namespace ComputerVision
             }
         }
 
-        /// <summary> Classify an image url and saves the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageUrl"> An ImageUrl that contains the url of the image to be evaluated. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// Performs object detection on the specified image.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response<ImagePrediction>> ClassifyImageUrlAsync(Guid projectId, string publishedName, ImageUrl imageUrl, string application = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<DetectResult>> DetectObjectsAsync(string url, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ServiceClient.ClassifyImageUrl");
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.DetectObjects");
             scope.Start();
             try
             {
-                return await RestClient.ClassifyImageUrlAsync(projectId, publishedName, imageUrl, application, cancellationToken).ConfigureAwait(false);
+                return await RestClient.DetectObjectsAsync(url, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -141,19 +171,22 @@ namespace ComputerVision
             }
         }
 
-        /// <summary> Classify an image url and saves the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageUrl"> An ImageUrl that contains the url of the image to be evaluated. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// Performs object detection on the specified image.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response<ImagePrediction> ClassifyImageUrl(Guid projectId, string publishedName, ImageUrl imageUrl, string application = null, CancellationToken cancellationToken = default)
+        public virtual Response<DetectResult> DetectObjects(string url, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ServiceClient.ClassifyImageUrl");
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.DetectObjects");
             scope.Start();
             try
             {
-                return RestClient.ClassifyImageUrl(projectId, publishedName, imageUrl, application, cancellationToken);
+                return RestClient.DetectObjects(url, cancellationToken);
             }
             catch (Exception e)
             {
@@ -162,19 +195,19 @@ namespace ComputerVision
             }
         }
 
-        /// <summary> Classify an image url without saving the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageUrl"> An {Iris.Web.Api.Models.ImageUrl} that contains the url of the image to be evaluated. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// This operation returns the list of domain-specific models that are supported by the Computer Vision API. Currently, the API supports following domain-specific models: celebrity recognizer, landmark recognizer.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response<ImagePrediction>> ClassifyImageUrlWithNoStoreAsync(Guid projectId, string publishedName, ImageUrl imageUrl, string application = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<ListModelsResult>> ListModelsAsync(CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ServiceClient.ClassifyImageUrlWithNoStore");
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.ListModels");
             scope.Start();
             try
             {
-                return await RestClient.ClassifyImageUrlWithNoStoreAsync(projectId, publishedName, imageUrl, application, cancellationToken).ConfigureAwait(false);
+                return await RestClient.ListModelsAsync(cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -183,19 +216,19 @@ namespace ComputerVision
             }
         }
 
-        /// <summary> Classify an image url without saving the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageUrl"> An {Iris.Web.Api.Models.ImageUrl} that contains the url of the image to be evaluated. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// This operation returns the list of domain-specific models that are supported by the Computer Vision API. Currently, the API supports following domain-specific models: celebrity recognizer, landmark recognizer.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response<ImagePrediction> ClassifyImageUrlWithNoStore(Guid projectId, string publishedName, ImageUrl imageUrl, string application = null, CancellationToken cancellationToken = default)
+        public virtual Response<ListModelsResult> ListModels(CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ServiceClient.ClassifyImageUrlWithNoStore");
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.ListModels");
             scope.Start();
             try
             {
-                return RestClient.ClassifyImageUrlWithNoStore(projectId, publishedName, imageUrl, application, cancellationToken);
+                return RestClient.ListModels(cancellationToken);
             }
             catch (Exception e)
             {
@@ -204,19 +237,26 @@ namespace ComputerVision
             }
         }
 
-        /// <summary> Detect objects in an image and saves the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageData"> Binary image data. Supported formats are JPEG, GIF, PNG, and BMP. Supports images up to 4MB. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// This operation recognizes content within an image by applying a domain-specific model. The list of domain-specific models that are supported by the Computer Vision API can be retrieved using the /models GET request. Currently, the API provides following domain-specific models: celebrities, landmarks.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON.
+        /// 
+        /// If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="model"> The domain-specific content to recognize. </param>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response<ImagePrediction>> DetectImageAsync(Guid projectId, string publishedName, Stream imageData, string application = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<DomainModelResults>> AnalyzeImageByDomainAsync(string model, string url, Enum0? language = null, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ServiceClient.DetectImage");
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.AnalyzeImageByDomain");
             scope.Start();
             try
             {
-                return await RestClient.DetectImageAsync(projectId, publishedName, imageData, application, cancellationToken).ConfigureAwait(false);
+                return await RestClient.AnalyzeImageByDomainAsync(model, url, language, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -225,19 +265,26 @@ namespace ComputerVision
             }
         }
 
-        /// <summary> Detect objects in an image and saves the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageData"> Binary image data. Supported formats are JPEG, GIF, PNG, and BMP. Supports images up to 4MB. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// This operation recognizes content within an image by applying a domain-specific model. The list of domain-specific models that are supported by the Computer Vision API can be retrieved using the /models GET request. Currently, the API provides following domain-specific models: celebrities, landmarks.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON.
+        /// 
+        /// If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="model"> The domain-specific content to recognize. </param>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response<ImagePrediction> DetectImage(Guid projectId, string publishedName, Stream imageData, string application = null, CancellationToken cancellationToken = default)
+        public virtual Response<DomainModelResults> AnalyzeImageByDomain(string model, string url, Enum0? language = null, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ServiceClient.DetectImage");
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.AnalyzeImageByDomain");
             scope.Start();
             try
             {
-                return RestClient.DetectImage(projectId, publishedName, imageData, application, cancellationToken);
+                return RestClient.AnalyzeImageByDomain(model, url, language, cancellationToken);
             }
             catch (Exception e)
             {
@@ -246,19 +293,24 @@ namespace ComputerVision
             }
         }
 
-        /// <summary> Detect objects in an image without saving the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageData"> Binary image data. Supported formats are JPEG, GIF, PNG, and BMP. Supports images up to 4MB. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// Optical Character Recognition (OCR) detects text in an image and extracts the recognized characters into a machine-usable character stream.
+        /// 
+        /// Upon success, the OCR results will be returned.
+        /// 
+        /// Upon failure, the error code together with an error message will be returned. The error code can be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, NotSupportedLanguage, or InternalServerError.
+        /// </summary>
+        /// <param name="detectOrientation"> Whether detect the text orientation in the image. With detectOrientation=true the OCR service tries to detect the image orientation and correct it before further processing (e.g. if it&apos;s upside-down). </param>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="language"> The BCP-47 language code of the text to be detected in the image. The default value is &apos;unk&apos;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response<ImagePrediction>> DetectImageWithNoStoreAsync(Guid projectId, string publishedName, Stream imageData, string application = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<OcrResult>> RecognizePrintedTextAsync(bool detectOrientation, string url, OcrLanguages? language = null, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ServiceClient.DetectImageWithNoStore");
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.RecognizePrintedText");
             scope.Start();
             try
             {
-                return await RestClient.DetectImageWithNoStoreAsync(projectId, publishedName, imageData, application, cancellationToken).ConfigureAwait(false);
+                return await RestClient.RecognizePrintedTextAsync(detectOrientation, url, language, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -267,19 +319,24 @@ namespace ComputerVision
             }
         }
 
-        /// <summary> Detect objects in an image without saving the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageData"> Binary image data. Supported formats are JPEG, GIF, PNG, and BMP. Supports images up to 4MB. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// Optical Character Recognition (OCR) detects text in an image and extracts the recognized characters into a machine-usable character stream.
+        /// 
+        /// Upon success, the OCR results will be returned.
+        /// 
+        /// Upon failure, the error code together with an error message will be returned. The error code can be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, NotSupportedLanguage, or InternalServerError.
+        /// </summary>
+        /// <param name="detectOrientation"> Whether detect the text orientation in the image. With detectOrientation=true the OCR service tries to detect the image orientation and correct it before further processing (e.g. if it&apos;s upside-down). </param>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="language"> The BCP-47 language code of the text to be detected in the image. The default value is &apos;unk&apos;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response<ImagePrediction> DetectImageWithNoStore(Guid projectId, string publishedName, Stream imageData, string application = null, CancellationToken cancellationToken = default)
+        public virtual Response<OcrResult> RecognizePrintedText(bool detectOrientation, string url, OcrLanguages? language = null, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ServiceClient.DetectImageWithNoStore");
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.RecognizePrintedText");
             scope.Start();
             try
             {
-                return RestClient.DetectImageWithNoStore(projectId, publishedName, imageData, application, cancellationToken);
+                return RestClient.RecognizePrintedText(detectOrientation, url, language, cancellationToken);
             }
             catch (Exception e)
             {
@@ -288,19 +345,23 @@ namespace ComputerVision
             }
         }
 
-        /// <summary> Detect objects in an image url and saves the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageUrl"> An ImageUrl that contains the url of the image to be evaluated. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// This operation generates a list of words, or tags, that are relevant to the content of the supplied image. The Computer Vision API can return tags based on objects, living beings, scenery or actions found in images. Unlike categories, tags are not organized according to a hierarchical classification system, but correspond to image content. Tags may contain hints to avoid ambiguity or provide context, for example the tag &quot;ascomycete&quot; may be accompanied by the hint &quot;fungus&quot;.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response<ImagePrediction>> DetectImageUrlAsync(Guid projectId, string publishedName, ImageUrl imageUrl, string application = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<TagResult>> TagImageAsync(string url, Enum0? language = null, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ServiceClient.DetectImageUrl");
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.TagImage");
             scope.Start();
             try
             {
-                return await RestClient.DetectImageUrlAsync(projectId, publishedName, imageUrl, application, cancellationToken).ConfigureAwait(false);
+                return await RestClient.TagImageAsync(url, language, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -309,19 +370,23 @@ namespace ComputerVision
             }
         }
 
-        /// <summary> Detect objects in an image url and saves the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageUrl"> An ImageUrl that contains the url of the image to be evaluated. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// This operation generates a list of words, or tags, that are relevant to the content of the supplied image. The Computer Vision API can return tags based on objects, living beings, scenery or actions found in images. Unlike categories, tags are not organized according to a hierarchical classification system, but correspond to image content. Tags may contain hints to avoid ambiguity or provide context, for example the tag &quot;ascomycete&quot; may be accompanied by the hint &quot;fungus&quot;.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response<ImagePrediction> DetectImageUrl(Guid projectId, string publishedName, ImageUrl imageUrl, string application = null, CancellationToken cancellationToken = default)
+        public virtual Response<TagResult> TagImage(string url, Enum0? language = null, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ServiceClient.DetectImageUrl");
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.TagImage");
             scope.Start();
             try
             {
-                return RestClient.DetectImageUrl(projectId, publishedName, imageUrl, application, cancellationToken);
+                return RestClient.TagImage(url, language, cancellationToken);
             }
             catch (Exception e)
             {
@@ -330,19 +395,25 @@ namespace ComputerVision
             }
         }
 
-        /// <summary> Detect objects in an image url without saving the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageUrl"> An {Iris.Web.Api.Models.ImageUrl} that contains the url of the image to be evaluated. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// This operation generates a thumbnail image with the user-specified width and height. By default, the service analyzes the image, identifies the region of interest (ROI), and generates smart cropping coordinates based on the ROI. Smart cropping helps when you specify an aspect ratio that differs from that of the input image.
+        /// 
+        /// A successful response contains the thumbnail image binary. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, InvalidThumbnailSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="width"> Width of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="height"> Height of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="smartCropping"> Boolean flag for enabling smart cropping. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response<ImagePrediction>> DetectImageUrlWithNoStoreAsync(Guid projectId, string publishedName, ImageUrl imageUrl, string application = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<Stream>> GenerateThumbnailAsync(int width, int height, string url, bool? smartCropping = null, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ServiceClient.DetectImageUrlWithNoStore");
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.GenerateThumbnail");
             scope.Start();
             try
             {
-                return await RestClient.DetectImageUrlWithNoStoreAsync(projectId, publishedName, imageUrl, application, cancellationToken).ConfigureAwait(false);
+                return await RestClient.GenerateThumbnailAsync(width, height, url, smartCropping, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -351,19 +422,893 @@ namespace ComputerVision
             }
         }
 
-        /// <summary> Detect objects in an image url without saving the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageUrl"> An {Iris.Web.Api.Models.ImageUrl} that contains the url of the image to be evaluated. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// This operation generates a thumbnail image with the user-specified width and height. By default, the service analyzes the image, identifies the region of interest (ROI), and generates smart cropping coordinates based on the ROI. Smart cropping helps when you specify an aspect ratio that differs from that of the input image.
+        /// 
+        /// A successful response contains the thumbnail image binary. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, InvalidThumbnailSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="width"> Width of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="height"> Height of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="smartCropping"> Boolean flag for enabling smart cropping. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response<ImagePrediction> DetectImageUrlWithNoStore(Guid projectId, string publishedName, ImageUrl imageUrl, string application = null, CancellationToken cancellationToken = default)
+        public virtual Response<Stream> GenerateThumbnail(int width, int height, string url, bool? smartCropping = null, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ServiceClient.DetectImageUrlWithNoStore");
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.GenerateThumbnail");
             scope.Start();
             try
             {
-                return RestClient.DetectImageUrlWithNoStore(projectId, publishedName, imageUrl, application, cancellationToken);
+                return RestClient.GenerateThumbnail(width, height, url, smartCropping, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation returns a bounding box around the most important area of the image.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<AreaOfInterestResult>> GetAreaOfInterestAsync(string url, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.GetAreaOfInterest");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetAreaOfInterestAsync(url, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation returns a bounding box around the most important area of the image.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<AreaOfInterestResult> GetAreaOfInterest(string url, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.GetAreaOfInterest");
+            scope.Start();
+            try
+            {
+                return RestClient.GetAreaOfInterest(url, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation extracts a rich set of visual features based on the image content.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL. Within your request, there is an optional parameter to allow you to choose which features to return. By default, image categories are returned in the response.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="visualFeatures"> A string indicating what visual feature types to return. Multiple values should be comma-separated. Valid visual feature types include: Categories - categorizes image content according to a taxonomy defined in documentation. Tags - tags the image with a detailed list of words related to the image content. Description - describes the image content with a complete English sentence. Faces - detects if faces are present. If present, generate coordinates, gender and age. ImageType - detects if image is clipart or a line drawing. Color - determines the accent color, dominant color, and whether an image is black&amp;white. Adult - detects if the image is pornographic in nature (depicts nudity or a sex act), or is gory (depicts extreme violence or blood). Sexually suggestive content (aka racy content) is also detected. Objects - detects various objects within an image, including the approximate location. The Objects argument is only available in English. Brands - detects various brands within an image, including the approximate location. The Brands argument is only available in English. </param>
+        /// <param name="details"> A string indicating which domain-specific details to return. Multiple values should be comma-separated. Valid visual feature types include: Celebrities - identifies celebrities if detected in the image, Landmarks - identifies notable landmarks in the image. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<ImageAnalysis>> AnalyzeImageInStreamAsync(Stream image, IEnumerable<VisualFeatureTypes> visualFeatures = null, IEnumerable<Details> details = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.AnalyzeImageInStream");
+            scope.Start();
+            try
+            {
+                return await RestClient.AnalyzeImageInStreamAsync(image, visualFeatures, details, language, descriptionExclude, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation extracts a rich set of visual features based on the image content.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL. Within your request, there is an optional parameter to allow you to choose which features to return. By default, image categories are returned in the response.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="visualFeatures"> A string indicating what visual feature types to return. Multiple values should be comma-separated. Valid visual feature types include: Categories - categorizes image content according to a taxonomy defined in documentation. Tags - tags the image with a detailed list of words related to the image content. Description - describes the image content with a complete English sentence. Faces - detects if faces are present. If present, generate coordinates, gender and age. ImageType - detects if image is clipart or a line drawing. Color - determines the accent color, dominant color, and whether an image is black&amp;white. Adult - detects if the image is pornographic in nature (depicts nudity or a sex act), or is gory (depicts extreme violence or blood). Sexually suggestive content (aka racy content) is also detected. Objects - detects various objects within an image, including the approximate location. The Objects argument is only available in English. Brands - detects various brands within an image, including the approximate location. The Brands argument is only available in English. </param>
+        /// <param name="details"> A string indicating which domain-specific details to return. Multiple values should be comma-separated. Valid visual feature types include: Celebrities - identifies celebrities if detected in the image, Landmarks - identifies notable landmarks in the image. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<ImageAnalysis> AnalyzeImageInStream(Stream image, IEnumerable<VisualFeatureTypes> visualFeatures = null, IEnumerable<Details> details = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.AnalyzeImageInStream");
+            scope.Start();
+            try
+            {
+                return RestClient.AnalyzeImageInStream(image, visualFeatures, details, language, descriptionExclude, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation extracts a rich set of visual features based on the image content.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL. Within your request, there is an optional parameter to allow you to choose which features to return. By default, image categories are returned in the response.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="visualFeatures"> A string indicating what visual feature types to return. Multiple values should be comma-separated. Valid visual feature types include: Categories - categorizes image content according to a taxonomy defined in documentation. Tags - tags the image with a detailed list of words related to the image content. Description - describes the image content with a complete English sentence. Faces - detects if faces are present. If present, generate coordinates, gender and age. ImageType - detects if image is clipart or a line drawing. Color - determines the accent color, dominant color, and whether an image is black&amp;white. Adult - detects if the image is pornographic in nature (depicts nudity or a sex act), or is gory (depicts extreme violence or blood). Sexually suggestive content (aka racy content) is also detected. Objects - detects various objects within an image, including the approximate location. The Objects argument is only available in English. Brands - detects various brands within an image, including the approximate location. The Brands argument is only available in English. </param>
+        /// <param name="details"> A string indicating which domain-specific details to return. Multiple values should be comma-separated. Valid visual feature types include: Celebrities - identifies celebrities if detected in the image, Landmarks - identifies notable landmarks in the image. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<ImageAnalysis>> AnalyzeImageInStreamAsync(IEnumerable<VisualFeatureTypes> visualFeatures = null, IEnumerable<Details> details = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.AnalyzeImageInStream");
+            scope.Start();
+            try
+            {
+                return await RestClient.AnalyzeImageInStreamAsync(visualFeatures, details, language, descriptionExclude, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation extracts a rich set of visual features based on the image content.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL. Within your request, there is an optional parameter to allow you to choose which features to return. By default, image categories are returned in the response.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="visualFeatures"> A string indicating what visual feature types to return. Multiple values should be comma-separated. Valid visual feature types include: Categories - categorizes image content according to a taxonomy defined in documentation. Tags - tags the image with a detailed list of words related to the image content. Description - describes the image content with a complete English sentence. Faces - detects if faces are present. If present, generate coordinates, gender and age. ImageType - detects if image is clipart or a line drawing. Color - determines the accent color, dominant color, and whether an image is black&amp;white. Adult - detects if the image is pornographic in nature (depicts nudity or a sex act), or is gory (depicts extreme violence or blood). Sexually suggestive content (aka racy content) is also detected. Objects - detects various objects within an image, including the approximate location. The Objects argument is only available in English. Brands - detects various brands within an image, including the approximate location. The Brands argument is only available in English. </param>
+        /// <param name="details"> A string indicating which domain-specific details to return. Multiple values should be comma-separated. Valid visual feature types include: Celebrities - identifies celebrities if detected in the image, Landmarks - identifies notable landmarks in the image. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<ImageAnalysis> AnalyzeImageInStream(IEnumerable<VisualFeatureTypes> visualFeatures = null, IEnumerable<Details> details = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.AnalyzeImageInStream");
+            scope.Start();
+            try
+            {
+                return RestClient.AnalyzeImageInStream(visualFeatures, details, language, descriptionExclude, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation returns a bounding box around the most important area of the image.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<AreaOfInterestResult>> GetAreaOfInterestInStreamAsync(Stream image, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.GetAreaOfInterestInStream");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetAreaOfInterestInStreamAsync(image, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation returns a bounding box around the most important area of the image.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<AreaOfInterestResult> GetAreaOfInterestInStream(Stream image, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.GetAreaOfInterestInStream");
+            scope.Start();
+            try
+            {
+                return RestClient.GetAreaOfInterestInStream(image, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation returns a bounding box around the most important area of the image.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<AreaOfInterestResult>> GetAreaOfInterestInStreamAsync(CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.GetAreaOfInterestInStream");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetAreaOfInterestInStreamAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation returns a bounding box around the most important area of the image.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<AreaOfInterestResult> GetAreaOfInterestInStream(CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.GetAreaOfInterestInStream");
+            scope.Start();
+            try
+            {
+                return RestClient.GetAreaOfInterestInStream(cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation generates a description of an image in human readable language with complete sentences. The description is based on a collection of content tags, which are also returned by the operation. More than one description can be generated for each image. Descriptions are ordered by their confidence score. Descriptions may include results from celebrity and landmark domain models, if applicable.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="maxCandidates"> Maximum number of candidate descriptions to be returned.  The default is 1. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<ImageDescription>> DescribeImageInStreamAsync(Stream image, int? maxCandidates = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.DescribeImageInStream");
+            scope.Start();
+            try
+            {
+                return await RestClient.DescribeImageInStreamAsync(image, maxCandidates, language, descriptionExclude, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation generates a description of an image in human readable language with complete sentences. The description is based on a collection of content tags, which are also returned by the operation. More than one description can be generated for each image. Descriptions are ordered by their confidence score. Descriptions may include results from celebrity and landmark domain models, if applicable.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="maxCandidates"> Maximum number of candidate descriptions to be returned.  The default is 1. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<ImageDescription> DescribeImageInStream(Stream image, int? maxCandidates = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.DescribeImageInStream");
+            scope.Start();
+            try
+            {
+                return RestClient.DescribeImageInStream(image, maxCandidates, language, descriptionExclude, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation generates a description of an image in human readable language with complete sentences. The description is based on a collection of content tags, which are also returned by the operation. More than one description can be generated for each image. Descriptions are ordered by their confidence score. Descriptions may include results from celebrity and landmark domain models, if applicable.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="maxCandidates"> Maximum number of candidate descriptions to be returned.  The default is 1. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<ImageDescription>> DescribeImageInStreamAsync(int? maxCandidates = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.DescribeImageInStream");
+            scope.Start();
+            try
+            {
+                return await RestClient.DescribeImageInStreamAsync(maxCandidates, language, descriptionExclude, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation generates a description of an image in human readable language with complete sentences. The description is based on a collection of content tags, which are also returned by the operation. More than one description can be generated for each image. Descriptions are ordered by their confidence score. Descriptions may include results from celebrity and landmark domain models, if applicable.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="maxCandidates"> Maximum number of candidate descriptions to be returned.  The default is 1. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<ImageDescription> DescribeImageInStream(int? maxCandidates = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.DescribeImageInStream");
+            scope.Start();
+            try
+            {
+                return RestClient.DescribeImageInStream(maxCandidates, language, descriptionExclude, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Performs object detection on the specified image.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<DetectResult>> DetectObjectsInStreamAsync(Stream image, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.DetectObjectsInStream");
+            scope.Start();
+            try
+            {
+                return await RestClient.DetectObjectsInStreamAsync(image, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Performs object detection on the specified image.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<DetectResult> DetectObjectsInStream(Stream image, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.DetectObjectsInStream");
+            scope.Start();
+            try
+            {
+                return RestClient.DetectObjectsInStream(image, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Performs object detection on the specified image.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<DetectResult>> DetectObjectsInStreamAsync(CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.DetectObjectsInStream");
+            scope.Start();
+            try
+            {
+                return await RestClient.DetectObjectsInStreamAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Performs object detection on the specified image.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<DetectResult> DetectObjectsInStream(CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.DetectObjectsInStream");
+            scope.Start();
+            try
+            {
+                return RestClient.DetectObjectsInStream(cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation generates a thumbnail image with the user-specified width and height. By default, the service analyzes the image, identifies the region of interest (ROI), and generates smart cropping coordinates based on the ROI. Smart cropping helps when you specify an aspect ratio that differs from that of the input image.
+        /// 
+        /// A successful response contains the thumbnail image binary. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, InvalidThumbnailSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="width"> Width of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="height"> Height of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="smartCropping"> Boolean flag for enabling smart cropping. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<Stream>> GenerateThumbnailInStreamAsync(int width, int height, Stream image, bool? smartCropping = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.GenerateThumbnailInStream");
+            scope.Start();
+            try
+            {
+                return await RestClient.GenerateThumbnailInStreamAsync(width, height, image, smartCropping, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation generates a thumbnail image with the user-specified width and height. By default, the service analyzes the image, identifies the region of interest (ROI), and generates smart cropping coordinates based on the ROI. Smart cropping helps when you specify an aspect ratio that differs from that of the input image.
+        /// 
+        /// A successful response contains the thumbnail image binary. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, InvalidThumbnailSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="width"> Width of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="height"> Height of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="smartCropping"> Boolean flag for enabling smart cropping. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<Stream> GenerateThumbnailInStream(int width, int height, Stream image, bool? smartCropping = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.GenerateThumbnailInStream");
+            scope.Start();
+            try
+            {
+                return RestClient.GenerateThumbnailInStream(width, height, image, smartCropping, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation generates a thumbnail image with the user-specified width and height. By default, the service analyzes the image, identifies the region of interest (ROI), and generates smart cropping coordinates based on the ROI. Smart cropping helps when you specify an aspect ratio that differs from that of the input image.
+        /// 
+        /// A successful response contains the thumbnail image binary. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, InvalidThumbnailSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="width"> Width of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="height"> Height of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="smartCropping"> Boolean flag for enabling smart cropping. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<Stream>> GenerateThumbnailInStreamAsync(int width, int height, bool? smartCropping = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.GenerateThumbnailInStream");
+            scope.Start();
+            try
+            {
+                return await RestClient.GenerateThumbnailInStreamAsync(width, height, smartCropping, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation generates a thumbnail image with the user-specified width and height. By default, the service analyzes the image, identifies the region of interest (ROI), and generates smart cropping coordinates based on the ROI. Smart cropping helps when you specify an aspect ratio that differs from that of the input image.
+        /// 
+        /// A successful response contains the thumbnail image binary. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, InvalidThumbnailSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="width"> Width of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="height"> Height of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="smartCropping"> Boolean flag for enabling smart cropping. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<Stream> GenerateThumbnailInStream(int width, int height, bool? smartCropping = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.GenerateThumbnailInStream");
+            scope.Start();
+            try
+            {
+                return RestClient.GenerateThumbnailInStream(width, height, smartCropping, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation recognizes content within an image by applying a domain-specific model. The list of domain-specific models that are supported by the Computer Vision API can be retrieved using the /models GET request. Currently, the API provides following domain-specific models: celebrities, landmarks.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON.
+        /// 
+        /// If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="model"> The domain-specific content to recognize. </param>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<DomainModelResults>> AnalyzeImageByDomainInStreamAsync(string model, Stream image, Enum0? language = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.AnalyzeImageByDomainInStream");
+            scope.Start();
+            try
+            {
+                return await RestClient.AnalyzeImageByDomainInStreamAsync(model, image, language, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation recognizes content within an image by applying a domain-specific model. The list of domain-specific models that are supported by the Computer Vision API can be retrieved using the /models GET request. Currently, the API provides following domain-specific models: celebrities, landmarks.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON.
+        /// 
+        /// If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="model"> The domain-specific content to recognize. </param>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<DomainModelResults> AnalyzeImageByDomainInStream(string model, Stream image, Enum0? language = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.AnalyzeImageByDomainInStream");
+            scope.Start();
+            try
+            {
+                return RestClient.AnalyzeImageByDomainInStream(model, image, language, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation recognizes content within an image by applying a domain-specific model. The list of domain-specific models that are supported by the Computer Vision API can be retrieved using the /models GET request. Currently, the API provides following domain-specific models: celebrities, landmarks.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON.
+        /// 
+        /// If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="model"> The domain-specific content to recognize. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<DomainModelResults>> AnalyzeImageByDomainInStreamAsync(string model, Enum0? language = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.AnalyzeImageByDomainInStream");
+            scope.Start();
+            try
+            {
+                return await RestClient.AnalyzeImageByDomainInStreamAsync(model, language, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation recognizes content within an image by applying a domain-specific model. The list of domain-specific models that are supported by the Computer Vision API can be retrieved using the /models GET request. Currently, the API provides following domain-specific models: celebrities, landmarks.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON.
+        /// 
+        /// If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="model"> The domain-specific content to recognize. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<DomainModelResults> AnalyzeImageByDomainInStream(string model, Enum0? language = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.AnalyzeImageByDomainInStream");
+            scope.Start();
+            try
+            {
+                return RestClient.AnalyzeImageByDomainInStream(model, language, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Optical Character Recognition (OCR) detects text in an image and extracts the recognized characters into a machine-usable character stream.
+        /// 
+        /// Upon success, the OCR results will be returned.
+        /// 
+        /// Upon failure, the error code together with an error message will be returned. The error code can be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, NotSupportedLanguage, or InternalServerError.
+        /// </summary>
+        /// <param name="detectOrientation"> Whether detect the text orientation in the image. With detectOrientation=true the OCR service tries to detect the image orientation and correct it before further processing (e.g. if it&apos;s upside-down). </param>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="language"> The BCP-47 language code of the text to be detected in the image. The default value is &apos;unk&apos;. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<OcrResult>> RecognizePrintedTextInStreamAsync(bool detectOrientation, Stream image, OcrLanguages? language = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.RecognizePrintedTextInStream");
+            scope.Start();
+            try
+            {
+                return await RestClient.RecognizePrintedTextInStreamAsync(detectOrientation, image, language, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Optical Character Recognition (OCR) detects text in an image and extracts the recognized characters into a machine-usable character stream.
+        /// 
+        /// Upon success, the OCR results will be returned.
+        /// 
+        /// Upon failure, the error code together with an error message will be returned. The error code can be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, NotSupportedLanguage, or InternalServerError.
+        /// </summary>
+        /// <param name="detectOrientation"> Whether detect the text orientation in the image. With detectOrientation=true the OCR service tries to detect the image orientation and correct it before further processing (e.g. if it&apos;s upside-down). </param>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="language"> The BCP-47 language code of the text to be detected in the image. The default value is &apos;unk&apos;. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<OcrResult> RecognizePrintedTextInStream(bool detectOrientation, Stream image, OcrLanguages? language = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.RecognizePrintedTextInStream");
+            scope.Start();
+            try
+            {
+                return RestClient.RecognizePrintedTextInStream(detectOrientation, image, language, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Optical Character Recognition (OCR) detects text in an image and extracts the recognized characters into a machine-usable character stream.
+        /// 
+        /// Upon success, the OCR results will be returned.
+        /// 
+        /// Upon failure, the error code together with an error message will be returned. The error code can be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, NotSupportedLanguage, or InternalServerError.
+        /// </summary>
+        /// <param name="detectOrientation"> Whether detect the text orientation in the image. With detectOrientation=true the OCR service tries to detect the image orientation and correct it before further processing (e.g. if it&apos;s upside-down). </param>
+        /// <param name="language"> The BCP-47 language code of the text to be detected in the image. The default value is &apos;unk&apos;. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<OcrResult>> RecognizePrintedTextInStreamAsync(bool detectOrientation, OcrLanguages? language = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.RecognizePrintedTextInStream");
+            scope.Start();
+            try
+            {
+                return await RestClient.RecognizePrintedTextInStreamAsync(detectOrientation, language, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Optical Character Recognition (OCR) detects text in an image and extracts the recognized characters into a machine-usable character stream.
+        /// 
+        /// Upon success, the OCR results will be returned.
+        /// 
+        /// Upon failure, the error code together with an error message will be returned. The error code can be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, NotSupportedLanguage, or InternalServerError.
+        /// </summary>
+        /// <param name="detectOrientation"> Whether detect the text orientation in the image. With detectOrientation=true the OCR service tries to detect the image orientation and correct it before further processing (e.g. if it&apos;s upside-down). </param>
+        /// <param name="language"> The BCP-47 language code of the text to be detected in the image. The default value is &apos;unk&apos;. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<OcrResult> RecognizePrintedTextInStream(bool detectOrientation, OcrLanguages? language = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.RecognizePrintedTextInStream");
+            scope.Start();
+            try
+            {
+                return RestClient.RecognizePrintedTextInStream(detectOrientation, language, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation generates a list of words, or tags, that are relevant to the content of the supplied image. The Computer Vision API can return tags based on objects, living beings, scenery or actions found in images. Unlike categories, tags are not organized according to a hierarchical classification system, but correspond to image content. Tags may contain hints to avoid ambiguity or provide context, for example the tag &quot;ascomycete&quot; may be accompanied by the hint &quot;fungus&quot;.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<TagResult>> TagImageInStreamAsync(Stream image, Enum0? language = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.TagImageInStream");
+            scope.Start();
+            try
+            {
+                return await RestClient.TagImageInStreamAsync(image, language, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation generates a list of words, or tags, that are relevant to the content of the supplied image. The Computer Vision API can return tags based on objects, living beings, scenery or actions found in images. Unlike categories, tags are not organized according to a hierarchical classification system, but correspond to image content. Tags may contain hints to avoid ambiguity or provide context, for example the tag &quot;ascomycete&quot; may be accompanied by the hint &quot;fungus&quot;.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<TagResult> TagImageInStream(Stream image, Enum0? language = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.TagImageInStream");
+            scope.Start();
+            try
+            {
+                return RestClient.TagImageInStream(image, language, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation generates a list of words, or tags, that are relevant to the content of the supplied image. The Computer Vision API can return tags based on objects, living beings, scenery or actions found in images. Unlike categories, tags are not organized according to a hierarchical classification system, but correspond to image content. Tags may contain hints to avoid ambiguity or provide context, for example the tag &quot;ascomycete&quot; may be accompanied by the hint &quot;fungus&quot;.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<TagResult>> TagImageInStreamAsync(Enum0? language = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.TagImageInStream");
+            scope.Start();
+            try
+            {
+                return await RestClient.TagImageInStreamAsync(language, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This operation generates a list of words, or tags, that are relevant to the content of the supplied image. The Computer Vision API can return tags based on objects, living beings, scenery or actions found in images. Unlike categories, tags are not organized according to a hierarchical classification system, but correspond to image content. Tags may contain hints to avoid ambiguity or provide context, for example the tag &quot;ascomycete&quot; may be accompanied by the hint &quot;fungus&quot;.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<TagResult> TagImageInStream(Enum0? language = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("ServiceClient.TagImageInStream");
+            scope.Start();
+            try
+            {
+                return RestClient.TagImageInStream(language, cancellationToken);
             }
             catch (Exception e)
             {

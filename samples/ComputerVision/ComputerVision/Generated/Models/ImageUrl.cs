@@ -9,11 +9,11 @@ using System;
 
 namespace ComputerVision.Models
 {
-    /// <summary> Image url. </summary>
-    public partial class ImageUrl
+    /// <summary> The ImageUrl. </summary>
+    internal partial class ImageUrl
     {
         /// <summary> Initializes a new instance of ImageUrl. </summary>
-        /// <param name="url"> Url of the image. </param>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="url"/> is null. </exception>
         public ImageUrl(string url)
         {
@@ -25,7 +25,7 @@ namespace ComputerVision.Models
             Url = url;
         }
 
-        /// <summary> Url of the image. </summary>
+        /// <summary> Publicly reachable URL of an image. </summary>
         public string Url { get; }
     }
 }

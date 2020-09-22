@@ -6,6 +6,7 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Threading;
@@ -40,247 +41,78 @@ namespace ComputerVision
             _pipeline = pipeline;
         }
 
-        internal HttpMessage CreateClassifyImageRequest(Guid projectId, string publishedName, Stream imageData, string application)
+        internal HttpMessage CreateAnalyzeImageRequest(string url, IEnumerable<VisualFeatureTypes> visualFeatures, IEnumerable<Details> details, Enum0? language, IEnumerable<DescriptionExclude> descriptionExclude)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
             uri.AppendRaw(endpoint, false);
-            uri.AppendRaw("/customvision/v3.1/prediction", false);
-            uri.AppendPath("/", false);
-            uri.AppendPath(projectId, true);
-            uri.AppendPath("/classify/iterations/", false);
-            uri.AppendPath(publishedName, true);
-            uri.AppendPath("/image", false);
-            if (application != null)
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/analyze", false);
+            if (visualFeatures != null)
             {
-                uri.AppendQuery("application", application, true);
+                uri.AppendQueryDelimited("visualFeatures", visualFeatures, ",", true);
             }
-            request.Uri = uri;
-            request.Headers.Add("Content-Type", "multipart/form-data");
-            request.Headers.Add("Accept", "application/json, application/xml, text/xml");
-            var content = new MultipartFormDataContent();
-            content.Add(RequestContent.Create(imageData), "imageData", null);
-            content.ApplyToRequest(request);
-            return message;
-        }
-
-        /// <summary> Classify an image and saves the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageData"> Binary image data. Supported formats are JPEG, GIF, PNG, and BMP. Supports images up to 4MB. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="publishedName"/> or <paramref name="imageData"/> is null. </exception>
-        public async Task<Response<ImagePrediction>> ClassifyImageAsync(Guid projectId, string publishedName, Stream imageData, string application = null, CancellationToken cancellationToken = default)
-        {
-            if (publishedName == null)
+            if (details != null)
             {
-                throw new ArgumentNullException(nameof(publishedName));
+                uri.AppendQueryDelimited("details", details, ",", true);
             }
-            if (imageData == null)
+            if (language != null)
             {
-                throw new ArgumentNullException(nameof(imageData));
+                uri.AppendQuery("language", language.Value.ToString(), true);
             }
-
-            using var message = CreateClassifyImageRequest(projectId, publishedName, imageData, application);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
+            if (descriptionExclude != null)
             {
-                case 200:
-                    {
-                        ImagePrediction value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = ImagePrediction.DeserializeImagePrediction(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Classify an image and saves the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageData"> Binary image data. Supported formats are JPEG, GIF, PNG, and BMP. Supports images up to 4MB. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="publishedName"/> or <paramref name="imageData"/> is null. </exception>
-        public Response<ImagePrediction> ClassifyImage(Guid projectId, string publishedName, Stream imageData, string application = null, CancellationToken cancellationToken = default)
-        {
-            if (publishedName == null)
-            {
-                throw new ArgumentNullException(nameof(publishedName));
-            }
-            if (imageData == null)
-            {
-                throw new ArgumentNullException(nameof(imageData));
-            }
-
-            using var message = CreateClassifyImageRequest(projectId, publishedName, imageData, application);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        ImagePrediction value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = ImagePrediction.DeserializeImagePrediction(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateClassifyImageWithNoStoreRequest(Guid projectId, string publishedName, Stream imageData, string application)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Post;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw(endpoint, false);
-            uri.AppendRaw("/customvision/v3.1/prediction", false);
-            uri.AppendPath("/", false);
-            uri.AppendPath(projectId, true);
-            uri.AppendPath("/classify/iterations/", false);
-            uri.AppendPath(publishedName, true);
-            uri.AppendPath("/image/nostore", false);
-            if (application != null)
-            {
-                uri.AppendQuery("application", application, true);
-            }
-            request.Uri = uri;
-            request.Headers.Add("Content-Type", "multipart/form-data");
-            request.Headers.Add("Accept", "application/json, application/xml, text/xml");
-            var content = new MultipartFormDataContent();
-            content.Add(RequestContent.Create(imageData), "imageData", null);
-            content.ApplyToRequest(request);
-            return message;
-        }
-
-        /// <summary> Classify an image without saving the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageData"> Binary image data. Supported formats are JPEG, GIF, PNG, and BMP. Supports images up to 4MB. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="publishedName"/> or <paramref name="imageData"/> is null. </exception>
-        public async Task<Response<ImagePrediction>> ClassifyImageWithNoStoreAsync(Guid projectId, string publishedName, Stream imageData, string application = null, CancellationToken cancellationToken = default)
-        {
-            if (publishedName == null)
-            {
-                throw new ArgumentNullException(nameof(publishedName));
-            }
-            if (imageData == null)
-            {
-                throw new ArgumentNullException(nameof(imageData));
-            }
-
-            using var message = CreateClassifyImageWithNoStoreRequest(projectId, publishedName, imageData, application);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        ImagePrediction value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = ImagePrediction.DeserializeImagePrediction(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Classify an image without saving the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageData"> Binary image data. Supported formats are JPEG, GIF, PNG, and BMP. Supports images up to 4MB. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="publishedName"/> or <paramref name="imageData"/> is null. </exception>
-        public Response<ImagePrediction> ClassifyImageWithNoStore(Guid projectId, string publishedName, Stream imageData, string application = null, CancellationToken cancellationToken = default)
-        {
-            if (publishedName == null)
-            {
-                throw new ArgumentNullException(nameof(publishedName));
-            }
-            if (imageData == null)
-            {
-                throw new ArgumentNullException(nameof(imageData));
-            }
-
-            using var message = CreateClassifyImageWithNoStoreRequest(projectId, publishedName, imageData, application);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        ImagePrediction value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = ImagePrediction.DeserializeImagePrediction(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateClassifyImageUrlRequest(Guid projectId, string publishedName, ImageUrl imageUrl, string application)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Post;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw(endpoint, false);
-            uri.AppendRaw("/customvision/v3.1/prediction", false);
-            uri.AppendPath("/", false);
-            uri.AppendPath(projectId, true);
-            uri.AppendPath("/classify/iterations/", false);
-            uri.AppendPath(publishedName, true);
-            uri.AppendPath("/url", false);
-            if (application != null)
-            {
-                uri.AppendQuery("application", application, true);
+                uri.AppendQueryDelimited("descriptionExclude", descriptionExclude, ",", true);
             }
             request.Uri = uri;
             request.Headers.Add("Content-Type", "application/json");
-            request.Headers.Add("Accept", "application/json, application/xml, text/xml");
+            request.Headers.Add("Accept", "application/json");
+            var model = new ImageUrl(url);
             var content = new Utf8JsonRequestContent();
-            content.JsonWriter.WriteObjectValue(imageUrl);
+            content.JsonWriter.WriteObjectValue(model);
             request.Content = content;
             return message;
         }
 
-        /// <summary> Classify an image url and saves the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageUrl"> An ImageUrl that contains the url of the image to be evaluated. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// This operation extracts a rich set of visual features based on the image content.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL. Within your request, there is an optional parameter to allow you to choose which features to return. By default, image categories are returned in the response.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="visualFeatures"> A string indicating what visual feature types to return. Multiple values should be comma-separated. Valid visual feature types include: Categories - categorizes image content according to a taxonomy defined in documentation. Tags - tags the image with a detailed list of words related to the image content. Description - describes the image content with a complete English sentence. Faces - detects if faces are present. If present, generate coordinates, gender and age. ImageType - detects if image is clipart or a line drawing. Color - determines the accent color, dominant color, and whether an image is black&amp;white. Adult - detects if the image is pornographic in nature (depicts nudity or a sex act), or is gory (depicts extreme violence or blood). Sexually suggestive content (aka racy content) is also detected. Objects - detects various objects within an image, including the approximate location. The Objects argument is only available in English. Brands - detects various brands within an image, including the approximate location. The Brands argument is only available in English. </param>
+        /// <param name="details"> A string indicating which domain-specific details to return. Multiple values should be comma-separated. Valid visual feature types include: Celebrities - identifies celebrities if detected in the image, Landmarks - identifies notable landmarks in the image. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="publishedName"/> or <paramref name="imageUrl"/> is null. </exception>
-        public async Task<Response<ImagePrediction>> ClassifyImageUrlAsync(Guid projectId, string publishedName, ImageUrl imageUrl, string application = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="url"/> is null. </exception>
+        public async Task<Response<ImageAnalysis>> AnalyzeImageAsync(string url, IEnumerable<VisualFeatureTypes> visualFeatures = null, IEnumerable<Details> details = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
         {
-            if (publishedName == null)
+            if (url == null)
             {
-                throw new ArgumentNullException(nameof(publishedName));
-            }
-            if (imageUrl == null)
-            {
-                throw new ArgumentNullException(nameof(imageUrl));
+                throw new ArgumentNullException(nameof(url));
             }
 
-            using var message = CreateClassifyImageUrlRequest(projectId, publishedName, imageUrl, application);
+            using var message = CreateAnalyzeImageRequest(url, visualFeatures, details, language, descriptionExclude);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
                 case 200:
                     {
-                        ImagePrediction value = default;
+                        ImageAnalysis value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = ImagePrediction.DeserializeImagePrediction(document.RootElement);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = ImageAnalysis.DeserializeImageAnalysis(document.RootElement);
+                        }
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -288,33 +120,43 @@ namespace ComputerVision
             }
         }
 
-        /// <summary> Classify an image url and saves the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageUrl"> An ImageUrl that contains the url of the image to be evaluated. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// This operation extracts a rich set of visual features based on the image content.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL. Within your request, there is an optional parameter to allow you to choose which features to return. By default, image categories are returned in the response.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="visualFeatures"> A string indicating what visual feature types to return. Multiple values should be comma-separated. Valid visual feature types include: Categories - categorizes image content according to a taxonomy defined in documentation. Tags - tags the image with a detailed list of words related to the image content. Description - describes the image content with a complete English sentence. Faces - detects if faces are present. If present, generate coordinates, gender and age. ImageType - detects if image is clipart or a line drawing. Color - determines the accent color, dominant color, and whether an image is black&amp;white. Adult - detects if the image is pornographic in nature (depicts nudity or a sex act), or is gory (depicts extreme violence or blood). Sexually suggestive content (aka racy content) is also detected. Objects - detects various objects within an image, including the approximate location. The Objects argument is only available in English. Brands - detects various brands within an image, including the approximate location. The Brands argument is only available in English. </param>
+        /// <param name="details"> A string indicating which domain-specific details to return. Multiple values should be comma-separated. Valid visual feature types include: Celebrities - identifies celebrities if detected in the image, Landmarks - identifies notable landmarks in the image. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="publishedName"/> or <paramref name="imageUrl"/> is null. </exception>
-        public Response<ImagePrediction> ClassifyImageUrl(Guid projectId, string publishedName, ImageUrl imageUrl, string application = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="url"/> is null. </exception>
+        public Response<ImageAnalysis> AnalyzeImage(string url, IEnumerable<VisualFeatureTypes> visualFeatures = null, IEnumerable<Details> details = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
         {
-            if (publishedName == null)
+            if (url == null)
             {
-                throw new ArgumentNullException(nameof(publishedName));
-            }
-            if (imageUrl == null)
-            {
-                throw new ArgumentNullException(nameof(imageUrl));
+                throw new ArgumentNullException(nameof(url));
             }
 
-            using var message = CreateClassifyImageUrlRequest(projectId, publishedName, imageUrl, application);
+            using var message = CreateAnalyzeImageRequest(url, visualFeatures, details, language, descriptionExclude);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
                 case 200:
                     {
-                        ImagePrediction value = default;
+                        ImageAnalysis value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = ImagePrediction.DeserializeImagePrediction(document.RootElement);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = ImageAnalysis.DeserializeImageAnalysis(document.RootElement);
+                        }
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -322,59 +164,73 @@ namespace ComputerVision
             }
         }
 
-        internal HttpMessage CreateClassifyImageUrlWithNoStoreRequest(Guid projectId, string publishedName, ImageUrl imageUrl, string application)
+        internal HttpMessage CreateDescribeImageRequest(string url, int? maxCandidates, Enum0? language, IEnumerable<DescriptionExclude> descriptionExclude)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
             uri.AppendRaw(endpoint, false);
-            uri.AppendRaw("/customvision/v3.1/prediction", false);
-            uri.AppendPath("/", false);
-            uri.AppendPath(projectId, true);
-            uri.AppendPath("/classify/iterations/", false);
-            uri.AppendPath(publishedName, true);
-            uri.AppendPath("/url/nostore", false);
-            if (application != null)
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/describe", false);
+            if (maxCandidates != null)
             {
-                uri.AppendQuery("application", application, true);
+                uri.AppendQuery("maxCandidates", maxCandidates.Value, true);
+            }
+            if (language != null)
+            {
+                uri.AppendQuery("language", language.Value.ToString(), true);
+            }
+            if (descriptionExclude != null)
+            {
+                uri.AppendQueryDelimited("descriptionExclude", descriptionExclude, ",", true);
             }
             request.Uri = uri;
             request.Headers.Add("Content-Type", "application/json");
-            request.Headers.Add("Accept", "application/json, application/xml, text/xml");
+            request.Headers.Add("Accept", "application/json");
+            var model = new ImageUrl(url);
             var content = new Utf8JsonRequestContent();
-            content.JsonWriter.WriteObjectValue(imageUrl);
+            content.JsonWriter.WriteObjectValue(model);
             request.Content = content;
             return message;
         }
 
-        /// <summary> Classify an image url without saving the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageUrl"> An {Iris.Web.Api.Models.ImageUrl} that contains the url of the image to be evaluated. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// This operation generates a description of an image in human readable language with complete sentences. The description is based on a collection of content tags, which are also returned by the operation. More than one description can be generated for each image. Descriptions are ordered by their confidence score. Descriptions may include results from celebrity and landmark domain models, if applicable.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="maxCandidates"> Maximum number of candidate descriptions to be returned.  The default is 1. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="publishedName"/> or <paramref name="imageUrl"/> is null. </exception>
-        public async Task<Response<ImagePrediction>> ClassifyImageUrlWithNoStoreAsync(Guid projectId, string publishedName, ImageUrl imageUrl, string application = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="url"/> is null. </exception>
+        public async Task<Response<ImageDescription>> DescribeImageAsync(string url, int? maxCandidates = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
         {
-            if (publishedName == null)
+            if (url == null)
             {
-                throw new ArgumentNullException(nameof(publishedName));
-            }
-            if (imageUrl == null)
-            {
-                throw new ArgumentNullException(nameof(imageUrl));
+                throw new ArgumentNullException(nameof(url));
             }
 
-            using var message = CreateClassifyImageUrlWithNoStoreRequest(projectId, publishedName, imageUrl, application);
+            using var message = CreateDescribeImageRequest(url, maxCandidates, language, descriptionExclude);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
                 case 200:
                     {
-                        ImagePrediction value = default;
+                        ImageDescription value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = ImagePrediction.DeserializeImagePrediction(document.RootElement);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = ImageDescription.DeserializeImageDescription(document.RootElement);
+                        }
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -382,33 +238,42 @@ namespace ComputerVision
             }
         }
 
-        /// <summary> Classify an image url without saving the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageUrl"> An {Iris.Web.Api.Models.ImageUrl} that contains the url of the image to be evaluated. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// This operation generates a description of an image in human readable language with complete sentences. The description is based on a collection of content tags, which are also returned by the operation. More than one description can be generated for each image. Descriptions are ordered by their confidence score. Descriptions may include results from celebrity and landmark domain models, if applicable.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="maxCandidates"> Maximum number of candidate descriptions to be returned.  The default is 1. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="publishedName"/> or <paramref name="imageUrl"/> is null. </exception>
-        public Response<ImagePrediction> ClassifyImageUrlWithNoStore(Guid projectId, string publishedName, ImageUrl imageUrl, string application = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="url"/> is null. </exception>
+        public Response<ImageDescription> DescribeImage(string url, int? maxCandidates = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
         {
-            if (publishedName == null)
+            if (url == null)
             {
-                throw new ArgumentNullException(nameof(publishedName));
-            }
-            if (imageUrl == null)
-            {
-                throw new ArgumentNullException(nameof(imageUrl));
+                throw new ArgumentNullException(nameof(url));
             }
 
-            using var message = CreateClassifyImageUrlWithNoStoreRequest(projectId, publishedName, imageUrl, application);
+            using var message = CreateDescribeImageRequest(url, maxCandidates, language, descriptionExclude);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
                 case 200:
                     {
-                        ImagePrediction value = default;
+                        ImageDescription value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = ImagePrediction.DeserializeImagePrediction(document.RootElement);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = ImageDescription.DeserializeImageDescription(document.RootElement);
+                        }
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -416,59 +281,888 @@ namespace ComputerVision
             }
         }
 
-        internal HttpMessage CreateDetectImageRequest(Guid projectId, string publishedName, Stream imageData, string application)
+        internal HttpMessage CreateDetectObjectsRequest(string url)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
             uri.AppendRaw(endpoint, false);
-            uri.AppendRaw("/customvision/v3.1/prediction", false);
-            uri.AppendPath("/", false);
-            uri.AppendPath(projectId, true);
-            uri.AppendPath("/detect/iterations/", false);
-            uri.AppendPath(publishedName, true);
-            uri.AppendPath("/image", false);
-            if (application != null)
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/detect", false);
+            request.Uri = uri;
+            request.Headers.Add("Content-Type", "application/json");
+            request.Headers.Add("Accept", "application/json");
+            var model = new ImageUrl(url);
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(model);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary>
+        /// Performs object detection on the specified image.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="url"/> is null. </exception>
+        public async Task<Response<DetectResult>> DetectObjectsAsync(string url, CancellationToken cancellationToken = default)
+        {
+            if (url == null)
             {
-                uri.AppendQuery("application", application, true);
+                throw new ArgumentNullException(nameof(url));
+            }
+
+            using var message = CreateDetectObjectsRequest(url);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        DetectResult value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = DetectResult.DeserializeDetectResult(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// Performs object detection on the specified image.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="url"/> is null. </exception>
+        public Response<DetectResult> DetectObjects(string url, CancellationToken cancellationToken = default)
+        {
+            if (url == null)
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
+
+            using var message = CreateDetectObjectsRequest(url);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        DetectResult value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = DetectResult.DeserializeDetectResult(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateListModelsRequest()
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw(endpoint, false);
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/models", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary>
+        /// This operation returns the list of domain-specific models that are supported by the Computer Vision API. Currently, the API supports following domain-specific models: celebrity recognizer, landmark recognizer.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public async Task<Response<ListModelsResult>> ListModelsAsync(CancellationToken cancellationToken = default)
+        {
+            using var message = CreateListModelsRequest();
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ListModelsResult value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = ListModelsResult.DeserializeListModelsResult(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// This operation returns the list of domain-specific models that are supported by the Computer Vision API. Currently, the API supports following domain-specific models: celebrity recognizer, landmark recognizer.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public Response<ListModelsResult> ListModels(CancellationToken cancellationToken = default)
+        {
+            using var message = CreateListModelsRequest();
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ListModelsResult value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = ListModelsResult.DeserializeListModelsResult(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateAnalyzeImageByDomainRequest(string model, string url, Enum0? language)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw(endpoint, false);
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/models/", false);
+            uri.AppendPath(model, true);
+            uri.AppendPath("/analyze", false);
+            if (language != null)
+            {
+                uri.AppendQuery("language", language.Value.ToString(), true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Content-Type", "application/json");
+            request.Headers.Add("Accept", "application/json");
+            var model0 = new ImageUrl(url);
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(model0);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary>
+        /// This operation recognizes content within an image by applying a domain-specific model. The list of domain-specific models that are supported by the Computer Vision API can be retrieved using the /models GET request. Currently, the API provides following domain-specific models: celebrities, landmarks.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON.
+        /// 
+        /// If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="model"> The domain-specific content to recognize. </param>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="model"/> or <paramref name="url"/> is null. </exception>
+        public async Task<Response<DomainModelResults>> AnalyzeImageByDomainAsync(string model, string url, Enum0? language = null, CancellationToken cancellationToken = default)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+            if (url == null)
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
+
+            using var message = CreateAnalyzeImageByDomainRequest(model, url, language);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        DomainModelResults value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = DomainModelResults.DeserializeDomainModelResults(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// This operation recognizes content within an image by applying a domain-specific model. The list of domain-specific models that are supported by the Computer Vision API can be retrieved using the /models GET request. Currently, the API provides following domain-specific models: celebrities, landmarks.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON.
+        /// 
+        /// If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="model"> The domain-specific content to recognize. </param>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="model"/> or <paramref name="url"/> is null. </exception>
+        public Response<DomainModelResults> AnalyzeImageByDomain(string model, string url, Enum0? language = null, CancellationToken cancellationToken = default)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+            if (url == null)
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
+
+            using var message = CreateAnalyzeImageByDomainRequest(model, url, language);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        DomainModelResults value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = DomainModelResults.DeserializeDomainModelResults(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateRecognizePrintedTextRequest(bool detectOrientation, string url, OcrLanguages? language)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw(endpoint, false);
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/ocr", false);
+            uri.AppendQuery("detectOrientation", detectOrientation, true);
+            if (language != null)
+            {
+                uri.AppendQuery("language", language.Value.ToSerialString(), true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Content-Type", "application/json");
+            request.Headers.Add("Accept", "application/json");
+            var model = new ImageUrl(url);
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(model);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary>
+        /// Optical Character Recognition (OCR) detects text in an image and extracts the recognized characters into a machine-usable character stream.
+        /// 
+        /// Upon success, the OCR results will be returned.
+        /// 
+        /// Upon failure, the error code together with an error message will be returned. The error code can be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, NotSupportedLanguage, or InternalServerError.
+        /// </summary>
+        /// <param name="detectOrientation"> Whether detect the text orientation in the image. With detectOrientation=true the OCR service tries to detect the image orientation and correct it before further processing (e.g. if it&apos;s upside-down). </param>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="language"> The BCP-47 language code of the text to be detected in the image. The default value is &apos;unk&apos;. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="url"/> is null. </exception>
+        public async Task<Response<OcrResult>> RecognizePrintedTextAsync(bool detectOrientation, string url, OcrLanguages? language = null, CancellationToken cancellationToken = default)
+        {
+            if (url == null)
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
+
+            using var message = CreateRecognizePrintedTextRequest(detectOrientation, url, language);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        OcrResult value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = OcrResult.DeserializeOcrResult(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// Optical Character Recognition (OCR) detects text in an image and extracts the recognized characters into a machine-usable character stream.
+        /// 
+        /// Upon success, the OCR results will be returned.
+        /// 
+        /// Upon failure, the error code together with an error message will be returned. The error code can be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, NotSupportedLanguage, or InternalServerError.
+        /// </summary>
+        /// <param name="detectOrientation"> Whether detect the text orientation in the image. With detectOrientation=true the OCR service tries to detect the image orientation and correct it before further processing (e.g. if it&apos;s upside-down). </param>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="language"> The BCP-47 language code of the text to be detected in the image. The default value is &apos;unk&apos;. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="url"/> is null. </exception>
+        public Response<OcrResult> RecognizePrintedText(bool detectOrientation, string url, OcrLanguages? language = null, CancellationToken cancellationToken = default)
+        {
+            if (url == null)
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
+
+            using var message = CreateRecognizePrintedTextRequest(detectOrientation, url, language);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        OcrResult value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = OcrResult.DeserializeOcrResult(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateTagImageRequest(string url, Enum0? language)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw(endpoint, false);
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/tag", false);
+            if (language != null)
+            {
+                uri.AppendQuery("language", language.Value.ToString(), true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Content-Type", "application/json");
+            request.Headers.Add("Accept", "application/json");
+            var model = new ImageUrl(url);
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(model);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary>
+        /// This operation generates a list of words, or tags, that are relevant to the content of the supplied image. The Computer Vision API can return tags based on objects, living beings, scenery or actions found in images. Unlike categories, tags are not organized according to a hierarchical classification system, but correspond to image content. Tags may contain hints to avoid ambiguity or provide context, for example the tag &quot;ascomycete&quot; may be accompanied by the hint &quot;fungus&quot;.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="url"/> is null. </exception>
+        public async Task<Response<TagResult>> TagImageAsync(string url, Enum0? language = null, CancellationToken cancellationToken = default)
+        {
+            if (url == null)
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
+
+            using var message = CreateTagImageRequest(url, language);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        TagResult value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = TagResult.DeserializeTagResult(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// This operation generates a list of words, or tags, that are relevant to the content of the supplied image. The Computer Vision API can return tags based on objects, living beings, scenery or actions found in images. Unlike categories, tags are not organized according to a hierarchical classification system, but correspond to image content. Tags may contain hints to avoid ambiguity or provide context, for example the tag &quot;ascomycete&quot; may be accompanied by the hint &quot;fungus&quot;.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="url"/> is null. </exception>
+        public Response<TagResult> TagImage(string url, Enum0? language = null, CancellationToken cancellationToken = default)
+        {
+            if (url == null)
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
+
+            using var message = CreateTagImageRequest(url, language);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        TagResult value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = TagResult.DeserializeTagResult(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGenerateThumbnailRequest(int width, int height, string url, bool? smartCropping)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw(endpoint, false);
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/generateThumbnail", false);
+            uri.AppendQuery("width", width, true);
+            uri.AppendQuery("height", height, true);
+            if (smartCropping != null)
+            {
+                uri.AppendQuery("smartCropping", smartCropping.Value, true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Content-Type", "application/json");
+            request.Headers.Add("Accept", "application/octet-stream");
+            var model = new ImageUrl(url);
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(model);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary>
+        /// This operation generates a thumbnail image with the user-specified width and height. By default, the service analyzes the image, identifies the region of interest (ROI), and generates smart cropping coordinates based on the ROI. Smart cropping helps when you specify an aspect ratio that differs from that of the input image.
+        /// 
+        /// A successful response contains the thumbnail image binary. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, InvalidThumbnailSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="width"> Width of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="height"> Height of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="smartCropping"> Boolean flag for enabling smart cropping. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="url"/> is null. </exception>
+        public async Task<Response<Stream>> GenerateThumbnailAsync(int width, int height, string url, bool? smartCropping = null, CancellationToken cancellationToken = default)
+        {
+            if (url == null)
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
+
+            using var message = CreateGenerateThumbnailRequest(width, height, url, smartCropping);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        var value = message.ExtractResponseContent();
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// This operation generates a thumbnail image with the user-specified width and height. By default, the service analyzes the image, identifies the region of interest (ROI), and generates smart cropping coordinates based on the ROI. Smart cropping helps when you specify an aspect ratio that differs from that of the input image.
+        /// 
+        /// A successful response contains the thumbnail image binary. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, InvalidThumbnailSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="width"> Width of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="height"> Height of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="smartCropping"> Boolean flag for enabling smart cropping. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="url"/> is null. </exception>
+        public Response<Stream> GenerateThumbnail(int width, int height, string url, bool? smartCropping = null, CancellationToken cancellationToken = default)
+        {
+            if (url == null)
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
+
+            using var message = CreateGenerateThumbnailRequest(width, height, url, smartCropping);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        var value = message.ExtractResponseContent();
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetAreaOfInterestRequest(string url)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw(endpoint, false);
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/areaOfInterest", false);
+            request.Uri = uri;
+            request.Headers.Add("Content-Type", "application/json");
+            request.Headers.Add("Accept", "application/json");
+            var model = new ImageUrl(url);
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(model);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary>
+        /// This operation returns a bounding box around the most important area of the image.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="url"/> is null. </exception>
+        public async Task<Response<AreaOfInterestResult>> GetAreaOfInterestAsync(string url, CancellationToken cancellationToken = default)
+        {
+            if (url == null)
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
+
+            using var message = CreateGetAreaOfInterestRequest(url);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        AreaOfInterestResult value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = AreaOfInterestResult.DeserializeAreaOfInterestResult(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// This operation returns a bounding box around the most important area of the image.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="url"> Publicly reachable URL of an image. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="url"/> is null. </exception>
+        public Response<AreaOfInterestResult> GetAreaOfInterest(string url, CancellationToken cancellationToken = default)
+        {
+            if (url == null)
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
+
+            using var message = CreateGetAreaOfInterestRequest(url);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        AreaOfInterestResult value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = AreaOfInterestResult.DeserializeAreaOfInterestResult(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateAnalyzeImageInStreamRequest(Stream image, IEnumerable<VisualFeatureTypes> visualFeatures, IEnumerable<Details> details, Enum0? language, IEnumerable<DescriptionExclude> descriptionExclude)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw(endpoint, false);
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/analyze", false);
+            if (visualFeatures != null)
+            {
+                uri.AppendQueryDelimited("visualFeatures", visualFeatures, ",", true);
+            }
+            if (details != null)
+            {
+                uri.AppendQueryDelimited("details", details, ",", true);
+            }
+            if (language != null)
+            {
+                uri.AppendQuery("language", language.Value.ToString(), true);
+            }
+            if (descriptionExclude != null)
+            {
+                uri.AppendQueryDelimited("descriptionExclude", descriptionExclude, ",", true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Content-Type", "application/octet-stream");
+            request.Headers.Add("Accept", "application/json");
+            request.Content = RequestContent.Create(image);
+            return message;
+        }
+
+        /// <summary>
+        /// This operation extracts a rich set of visual features based on the image content.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL. Within your request, there is an optional parameter to allow you to choose which features to return. By default, image categories are returned in the response.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="visualFeatures"> A string indicating what visual feature types to return. Multiple values should be comma-separated. Valid visual feature types include: Categories - categorizes image content according to a taxonomy defined in documentation. Tags - tags the image with a detailed list of words related to the image content. Description - describes the image content with a complete English sentence. Faces - detects if faces are present. If present, generate coordinates, gender and age. ImageType - detects if image is clipart or a line drawing. Color - determines the accent color, dominant color, and whether an image is black&amp;white. Adult - detects if the image is pornographic in nature (depicts nudity or a sex act), or is gory (depicts extreme violence or blood). Sexually suggestive content (aka racy content) is also detected. Objects - detects various objects within an image, including the approximate location. The Objects argument is only available in English. Brands - detects various brands within an image, including the approximate location. The Brands argument is only available in English. </param>
+        /// <param name="details"> A string indicating which domain-specific details to return. Multiple values should be comma-separated. Valid visual feature types include: Celebrities - identifies celebrities if detected in the image, Landmarks - identifies notable landmarks in the image. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="image"/> is null. </exception>
+        public async Task<Response<ImageAnalysis>> AnalyzeImageInStreamAsync(Stream image, IEnumerable<VisualFeatureTypes> visualFeatures = null, IEnumerable<Details> details = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
+        {
+            if (image == null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
+            using var message = CreateAnalyzeImageInStreamRequest(image, visualFeatures, details, language, descriptionExclude);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ImageAnalysis value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = ImageAnalysis.DeserializeImageAnalysis(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// This operation extracts a rich set of visual features based on the image content.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL. Within your request, there is an optional parameter to allow you to choose which features to return. By default, image categories are returned in the response.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="visualFeatures"> A string indicating what visual feature types to return. Multiple values should be comma-separated. Valid visual feature types include: Categories - categorizes image content according to a taxonomy defined in documentation. Tags - tags the image with a detailed list of words related to the image content. Description - describes the image content with a complete English sentence. Faces - detects if faces are present. If present, generate coordinates, gender and age. ImageType - detects if image is clipart or a line drawing. Color - determines the accent color, dominant color, and whether an image is black&amp;white. Adult - detects if the image is pornographic in nature (depicts nudity or a sex act), or is gory (depicts extreme violence or blood). Sexually suggestive content (aka racy content) is also detected. Objects - detects various objects within an image, including the approximate location. The Objects argument is only available in English. Brands - detects various brands within an image, including the approximate location. The Brands argument is only available in English. </param>
+        /// <param name="details"> A string indicating which domain-specific details to return. Multiple values should be comma-separated. Valid visual feature types include: Celebrities - identifies celebrities if detected in the image, Landmarks - identifies notable landmarks in the image. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="image"/> is null. </exception>
+        public Response<ImageAnalysis> AnalyzeImageInStream(Stream image, IEnumerable<VisualFeatureTypes> visualFeatures = null, IEnumerable<Details> details = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
+        {
+            if (image == null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
+            using var message = CreateAnalyzeImageInStreamRequest(image, visualFeatures, details, language, descriptionExclude);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ImageAnalysis value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = ImageAnalysis.DeserializeImageAnalysis(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateAnalyzeImageInStreamRequest(IEnumerable<VisualFeatureTypes> visualFeatures, IEnumerable<Details> details, Enum0? language, IEnumerable<DescriptionExclude> descriptionExclude)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw(endpoint, false);
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/analyze", false);
+            if (visualFeatures != null)
+            {
+                uri.AppendQueryDelimited("visualFeatures", visualFeatures, ",", true);
+            }
+            if (details != null)
+            {
+                uri.AppendQueryDelimited("details", details, ",", true);
+            }
+            if (language != null)
+            {
+                uri.AppendQuery("language", language.Value.ToString(), true);
+            }
+            if (descriptionExclude != null)
+            {
+                uri.AppendQueryDelimited("descriptionExclude", descriptionExclude, ",", true);
             }
             request.Uri = uri;
             request.Headers.Add("Content-Type", "multipart/form-data");
-            request.Headers.Add("Accept", "application/json, application/xml, text/xml");
-            var content = new MultipartFormDataContent();
-            content.Add(RequestContent.Create(imageData), "imageData", null);
-            content.ApplyToRequest(request);
+            request.Headers.Add("Accept", "application/json");
             return message;
         }
 
-        /// <summary> Detect objects in an image and saves the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageData"> Binary image data. Supported formats are JPEG, GIF, PNG, and BMP. Supports images up to 4MB. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// This operation extracts a rich set of visual features based on the image content.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL. Within your request, there is an optional parameter to allow you to choose which features to return. By default, image categories are returned in the response.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="visualFeatures"> A string indicating what visual feature types to return. Multiple values should be comma-separated. Valid visual feature types include: Categories - categorizes image content according to a taxonomy defined in documentation. Tags - tags the image with a detailed list of words related to the image content. Description - describes the image content with a complete English sentence. Faces - detects if faces are present. If present, generate coordinates, gender and age. ImageType - detects if image is clipart or a line drawing. Color - determines the accent color, dominant color, and whether an image is black&amp;white. Adult - detects if the image is pornographic in nature (depicts nudity or a sex act), or is gory (depicts extreme violence or blood). Sexually suggestive content (aka racy content) is also detected. Objects - detects various objects within an image, including the approximate location. The Objects argument is only available in English. Brands - detects various brands within an image, including the approximate location. The Brands argument is only available in English. </param>
+        /// <param name="details"> A string indicating which domain-specific details to return. Multiple values should be comma-separated. Valid visual feature types include: Celebrities - identifies celebrities if detected in the image, Landmarks - identifies notable landmarks in the image. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="publishedName"/> or <paramref name="imageData"/> is null. </exception>
-        public async Task<Response<ImagePrediction>> DetectImageAsync(Guid projectId, string publishedName, Stream imageData, string application = null, CancellationToken cancellationToken = default)
+        public async Task<Response<ImageAnalysis>> AnalyzeImageInStreamAsync(IEnumerable<VisualFeatureTypes> visualFeatures = null, IEnumerable<Details> details = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
         {
-            if (publishedName == null)
-            {
-                throw new ArgumentNullException(nameof(publishedName));
-            }
-            if (imageData == null)
-            {
-                throw new ArgumentNullException(nameof(imageData));
-            }
-
-            using var message = CreateDetectImageRequest(projectId, publishedName, imageData, application);
+            using var message = CreateAnalyzeImageInStreamRequest(visualFeatures, details, language, descriptionExclude);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
                 case 200:
                     {
-                        ImagePrediction value = default;
+                        ImageAnalysis value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = ImagePrediction.DeserializeImagePrediction(document.RootElement);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = ImageAnalysis.DeserializeImageAnalysis(document.RootElement);
+                        }
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -476,33 +1170,36 @@ namespace ComputerVision
             }
         }
 
-        /// <summary> Detect objects in an image and saves the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageData"> Binary image data. Supported formats are JPEG, GIF, PNG, and BMP. Supports images up to 4MB. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// This operation extracts a rich set of visual features based on the image content.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL. Within your request, there is an optional parameter to allow you to choose which features to return. By default, image categories are returned in the response.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="visualFeatures"> A string indicating what visual feature types to return. Multiple values should be comma-separated. Valid visual feature types include: Categories - categorizes image content according to a taxonomy defined in documentation. Tags - tags the image with a detailed list of words related to the image content. Description - describes the image content with a complete English sentence. Faces - detects if faces are present. If present, generate coordinates, gender and age. ImageType - detects if image is clipart or a line drawing. Color - determines the accent color, dominant color, and whether an image is black&amp;white. Adult - detects if the image is pornographic in nature (depicts nudity or a sex act), or is gory (depicts extreme violence or blood). Sexually suggestive content (aka racy content) is also detected. Objects - detects various objects within an image, including the approximate location. The Objects argument is only available in English. Brands - detects various brands within an image, including the approximate location. The Brands argument is only available in English. </param>
+        /// <param name="details"> A string indicating which domain-specific details to return. Multiple values should be comma-separated. Valid visual feature types include: Celebrities - identifies celebrities if detected in the image, Landmarks - identifies notable landmarks in the image. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="publishedName"/> or <paramref name="imageData"/> is null. </exception>
-        public Response<ImagePrediction> DetectImage(Guid projectId, string publishedName, Stream imageData, string application = null, CancellationToken cancellationToken = default)
+        public Response<ImageAnalysis> AnalyzeImageInStream(IEnumerable<VisualFeatureTypes> visualFeatures = null, IEnumerable<Details> details = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
         {
-            if (publishedName == null)
-            {
-                throw new ArgumentNullException(nameof(publishedName));
-            }
-            if (imageData == null)
-            {
-                throw new ArgumentNullException(nameof(imageData));
-            }
-
-            using var message = CreateDetectImageRequest(projectId, publishedName, imageData, application);
+            using var message = CreateAnalyzeImageInStreamRequest(visualFeatures, details, language, descriptionExclude);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
                 case 200:
                     {
-                        ImagePrediction value = default;
+                        ImageAnalysis value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = ImagePrediction.DeserializeImagePrediction(document.RootElement);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = ImageAnalysis.DeserializeImageAnalysis(document.RootElement);
+                        }
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -510,59 +1207,353 @@ namespace ComputerVision
             }
         }
 
-        internal HttpMessage CreateDetectImageWithNoStoreRequest(Guid projectId, string publishedName, Stream imageData, string application)
+        internal HttpMessage CreateGetAreaOfInterestInStreamRequest(Stream image)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
             uri.AppendRaw(endpoint, false);
-            uri.AppendRaw("/customvision/v3.1/prediction", false);
-            uri.AppendPath("/", false);
-            uri.AppendPath(projectId, true);
-            uri.AppendPath("/detect/iterations/", false);
-            uri.AppendPath(publishedName, true);
-            uri.AppendPath("/image/nostore", false);
-            if (application != null)
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/areaOfInterest", false);
+            request.Uri = uri;
+            request.Headers.Add("Content-Type", "application/octet-stream");
+            request.Headers.Add("Accept", "application/json");
+            request.Content = RequestContent.Create(image);
+            return message;
+        }
+
+        /// <summary>
+        /// This operation returns a bounding box around the most important area of the image.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="image"/> is null. </exception>
+        public async Task<Response<AreaOfInterestResult>> GetAreaOfInterestInStreamAsync(Stream image, CancellationToken cancellationToken = default)
+        {
+            if (image == null)
             {
-                uri.AppendQuery("application", application, true);
+                throw new ArgumentNullException(nameof(image));
+            }
+
+            using var message = CreateGetAreaOfInterestInStreamRequest(image);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        AreaOfInterestResult value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = AreaOfInterestResult.DeserializeAreaOfInterestResult(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// This operation returns a bounding box around the most important area of the image.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="image"/> is null. </exception>
+        public Response<AreaOfInterestResult> GetAreaOfInterestInStream(Stream image, CancellationToken cancellationToken = default)
+        {
+            if (image == null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
+            using var message = CreateGetAreaOfInterestInStreamRequest(image);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        AreaOfInterestResult value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = AreaOfInterestResult.DeserializeAreaOfInterestResult(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetAreaOfInterestInStreamRequest()
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw(endpoint, false);
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/areaOfInterest", false);
+            request.Uri = uri;
+            request.Headers.Add("Content-Type", "multipart/form-data");
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary>
+        /// This operation returns a bounding box around the most important area of the image.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public async Task<Response<AreaOfInterestResult>> GetAreaOfInterestInStreamAsync(CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetAreaOfInterestInStreamRequest();
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        AreaOfInterestResult value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = AreaOfInterestResult.DeserializeAreaOfInterestResult(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// This operation returns a bounding box around the most important area of the image.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public Response<AreaOfInterestResult> GetAreaOfInterestInStream(CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetAreaOfInterestInStreamRequest();
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        AreaOfInterestResult value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = AreaOfInterestResult.DeserializeAreaOfInterestResult(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateDescribeImageInStreamRequest(Stream image, int? maxCandidates, Enum0? language, IEnumerable<DescriptionExclude> descriptionExclude)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw(endpoint, false);
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/describe", false);
+            if (maxCandidates != null)
+            {
+                uri.AppendQuery("maxCandidates", maxCandidates.Value, true);
+            }
+            if (language != null)
+            {
+                uri.AppendQuery("language", language.Value.ToString(), true);
+            }
+            if (descriptionExclude != null)
+            {
+                uri.AppendQueryDelimited("descriptionExclude", descriptionExclude, ",", true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Content-Type", "application/octet-stream");
+            request.Headers.Add("Accept", "application/json");
+            request.Content = RequestContent.Create(image);
+            return message;
+        }
+
+        /// <summary>
+        /// This operation generates a description of an image in human readable language with complete sentences. The description is based on a collection of content tags, which are also returned by the operation. More than one description can be generated for each image. Descriptions are ordered by their confidence score. Descriptions may include results from celebrity and landmark domain models, if applicable.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="maxCandidates"> Maximum number of candidate descriptions to be returned.  The default is 1. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="image"/> is null. </exception>
+        public async Task<Response<ImageDescription>> DescribeImageInStreamAsync(Stream image, int? maxCandidates = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
+        {
+            if (image == null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
+            using var message = CreateDescribeImageInStreamRequest(image, maxCandidates, language, descriptionExclude);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ImageDescription value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = ImageDescription.DeserializeImageDescription(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// This operation generates a description of an image in human readable language with complete sentences. The description is based on a collection of content tags, which are also returned by the operation. More than one description can be generated for each image. Descriptions are ordered by their confidence score. Descriptions may include results from celebrity and landmark domain models, if applicable.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="maxCandidates"> Maximum number of candidate descriptions to be returned.  The default is 1. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="image"/> is null. </exception>
+        public Response<ImageDescription> DescribeImageInStream(Stream image, int? maxCandidates = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
+        {
+            if (image == null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
+            using var message = CreateDescribeImageInStreamRequest(image, maxCandidates, language, descriptionExclude);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ImageDescription value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = ImageDescription.DeserializeImageDescription(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateDescribeImageInStreamRequest(int? maxCandidates, Enum0? language, IEnumerable<DescriptionExclude> descriptionExclude)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw(endpoint, false);
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/describe", false);
+            if (maxCandidates != null)
+            {
+                uri.AppendQuery("maxCandidates", maxCandidates.Value, true);
+            }
+            if (language != null)
+            {
+                uri.AppendQuery("language", language.Value.ToString(), true);
+            }
+            if (descriptionExclude != null)
+            {
+                uri.AppendQueryDelimited("descriptionExclude", descriptionExclude, ",", true);
             }
             request.Uri = uri;
             request.Headers.Add("Content-Type", "multipart/form-data");
-            request.Headers.Add("Accept", "application/json, application/xml, text/xml");
-            var content = new MultipartFormDataContent();
-            content.Add(RequestContent.Create(imageData), "imageData", null);
-            content.ApplyToRequest(request);
+            request.Headers.Add("Accept", "application/json");
             return message;
         }
 
-        /// <summary> Detect objects in an image without saving the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageData"> Binary image data. Supported formats are JPEG, GIF, PNG, and BMP. Supports images up to 4MB. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// This operation generates a description of an image in human readable language with complete sentences. The description is based on a collection of content tags, which are also returned by the operation. More than one description can be generated for each image. Descriptions are ordered by their confidence score. Descriptions may include results from celebrity and landmark domain models, if applicable.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="maxCandidates"> Maximum number of candidate descriptions to be returned.  The default is 1. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="publishedName"/> or <paramref name="imageData"/> is null. </exception>
-        public async Task<Response<ImagePrediction>> DetectImageWithNoStoreAsync(Guid projectId, string publishedName, Stream imageData, string application = null, CancellationToken cancellationToken = default)
+        public async Task<Response<ImageDescription>> DescribeImageInStreamAsync(int? maxCandidates = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
         {
-            if (publishedName == null)
-            {
-                throw new ArgumentNullException(nameof(publishedName));
-            }
-            if (imageData == null)
-            {
-                throw new ArgumentNullException(nameof(imageData));
-            }
-
-            using var message = CreateDetectImageWithNoStoreRequest(projectId, publishedName, imageData, application);
+            using var message = CreateDescribeImageInStreamRequest(maxCandidates, language, descriptionExclude);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
                 case 200:
                     {
-                        ImagePrediction value = default;
+                        ImageDescription value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = ImagePrediction.DeserializeImagePrediction(document.RootElement);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = ImageDescription.DeserializeImageDescription(document.RootElement);
+                        }
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -570,33 +1561,35 @@ namespace ComputerVision
             }
         }
 
-        /// <summary> Detect objects in an image without saving the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageData"> Binary image data. Supported formats are JPEG, GIF, PNG, and BMP. Supports images up to 4MB. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// This operation generates a description of an image in human readable language with complete sentences. The description is based on a collection of content tags, which are also returned by the operation. More than one description can be generated for each image. Descriptions are ordered by their confidence score. Descriptions may include results from celebrity and landmark domain models, if applicable.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="maxCandidates"> Maximum number of candidate descriptions to be returned.  The default is 1. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="descriptionExclude"> Turn off specified domain models when generating the description. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="publishedName"/> or <paramref name="imageData"/> is null. </exception>
-        public Response<ImagePrediction> DetectImageWithNoStore(Guid projectId, string publishedName, Stream imageData, string application = null, CancellationToken cancellationToken = default)
+        public Response<ImageDescription> DescribeImageInStream(int? maxCandidates = null, Enum0? language = null, IEnumerable<DescriptionExclude> descriptionExclude = null, CancellationToken cancellationToken = default)
         {
-            if (publishedName == null)
-            {
-                throw new ArgumentNullException(nameof(publishedName));
-            }
-            if (imageData == null)
-            {
-                throw new ArgumentNullException(nameof(imageData));
-            }
-
-            using var message = CreateDetectImageWithNoStoreRequest(projectId, publishedName, imageData, application);
+            using var message = CreateDescribeImageInStreamRequest(maxCandidates, language, descriptionExclude);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
                 case 200:
                     {
-                        ImagePrediction value = default;
+                        ImageDescription value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = ImagePrediction.DeserializeImagePrediction(document.RootElement);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = ImageDescription.DeserializeImageDescription(document.RootElement);
+                        }
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -604,59 +1597,55 @@ namespace ComputerVision
             }
         }
 
-        internal HttpMessage CreateDetectImageUrlRequest(Guid projectId, string publishedName, ImageUrl imageUrl, string application)
+        internal HttpMessage CreateDetectObjectsInStreamRequest(Stream image)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
             uri.AppendRaw(endpoint, false);
-            uri.AppendRaw("/customvision/v3.1/prediction", false);
-            uri.AppendPath("/", false);
-            uri.AppendPath(projectId, true);
-            uri.AppendPath("/detect/iterations/", false);
-            uri.AppendPath(publishedName, true);
-            uri.AppendPath("/url", false);
-            if (application != null)
-            {
-                uri.AppendQuery("application", application, true);
-            }
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/detect", false);
             request.Uri = uri;
-            request.Headers.Add("Content-Type", "application/json");
-            request.Headers.Add("Accept", "application/json, application/xml, text/xml");
-            var content = new Utf8JsonRequestContent();
-            content.JsonWriter.WriteObjectValue(imageUrl);
-            request.Content = content;
+            request.Headers.Add("Content-Type", "application/octet-stream");
+            request.Headers.Add("Accept", "application/json");
+            request.Content = RequestContent.Create(image);
             return message;
         }
 
-        /// <summary> Detect objects in an image url and saves the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageUrl"> An ImageUrl that contains the url of the image to be evaluated. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// Performs object detection on the specified image.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="image"> An image stream. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="publishedName"/> or <paramref name="imageUrl"/> is null. </exception>
-        public async Task<Response<ImagePrediction>> DetectImageUrlAsync(Guid projectId, string publishedName, ImageUrl imageUrl, string application = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="image"/> is null. </exception>
+        public async Task<Response<DetectResult>> DetectObjectsInStreamAsync(Stream image, CancellationToken cancellationToken = default)
         {
-            if (publishedName == null)
+            if (image == null)
             {
-                throw new ArgumentNullException(nameof(publishedName));
-            }
-            if (imageUrl == null)
-            {
-                throw new ArgumentNullException(nameof(imageUrl));
+                throw new ArgumentNullException(nameof(image));
             }
 
-            using var message = CreateDetectImageUrlRequest(projectId, publishedName, imageUrl, application);
+            using var message = CreateDetectObjectsInStreamRequest(image);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
                 case 200:
                     {
-                        ImagePrediction value = default;
+                        DetectResult value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = ImagePrediction.DeserializeImagePrediction(document.RootElement);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = DetectResult.DeserializeDetectResult(document.RootElement);
+                        }
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -664,33 +1653,39 @@ namespace ComputerVision
             }
         }
 
-        /// <summary> Detect objects in an image url and saves the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageUrl"> An ImageUrl that contains the url of the image to be evaluated. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// Performs object detection on the specified image.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="image"> An image stream. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="publishedName"/> or <paramref name="imageUrl"/> is null. </exception>
-        public Response<ImagePrediction> DetectImageUrl(Guid projectId, string publishedName, ImageUrl imageUrl, string application = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="image"/> is null. </exception>
+        public Response<DetectResult> DetectObjectsInStream(Stream image, CancellationToken cancellationToken = default)
         {
-            if (publishedName == null)
+            if (image == null)
             {
-                throw new ArgumentNullException(nameof(publishedName));
-            }
-            if (imageUrl == null)
-            {
-                throw new ArgumentNullException(nameof(imageUrl));
+                throw new ArgumentNullException(nameof(image));
             }
 
-            using var message = CreateDetectImageUrlRequest(projectId, publishedName, imageUrl, application);
+            using var message = CreateDetectObjectsInStreamRequest(image);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
                 case 200:
                     {
-                        ImagePrediction value = default;
+                        DetectResult value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = ImagePrediction.DeserializeImagePrediction(document.RootElement);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = DetectResult.DeserializeDetectResult(document.RootElement);
+                        }
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -698,59 +1693,47 @@ namespace ComputerVision
             }
         }
 
-        internal HttpMessage CreateDetectImageUrlWithNoStoreRequest(Guid projectId, string publishedName, ImageUrl imageUrl, string application)
+        internal HttpMessage CreateDetectObjectsInStreamRequest()
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
             uri.AppendRaw(endpoint, false);
-            uri.AppendRaw("/customvision/v3.1/prediction", false);
-            uri.AppendPath("/", false);
-            uri.AppendPath(projectId, true);
-            uri.AppendPath("/detect/iterations/", false);
-            uri.AppendPath(publishedName, true);
-            uri.AppendPath("/url/nostore", false);
-            if (application != null)
-            {
-                uri.AppendQuery("application", application, true);
-            }
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/detect", false);
             request.Uri = uri;
-            request.Headers.Add("Content-Type", "application/json");
-            request.Headers.Add("Accept", "application/json, application/xml, text/xml");
-            var content = new Utf8JsonRequestContent();
-            content.JsonWriter.WriteObjectValue(imageUrl);
-            request.Content = content;
+            request.Headers.Add("Content-Type", "multipart/form-data");
+            request.Headers.Add("Accept", "application/json");
             return message;
         }
 
-        /// <summary> Detect objects in an image url without saving the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageUrl"> An {Iris.Web.Api.Models.ImageUrl} that contains the url of the image to be evaluated. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// Performs object detection on the specified image.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="publishedName"/> or <paramref name="imageUrl"/> is null. </exception>
-        public async Task<Response<ImagePrediction>> DetectImageUrlWithNoStoreAsync(Guid projectId, string publishedName, ImageUrl imageUrl, string application = null, CancellationToken cancellationToken = default)
+        public async Task<Response<DetectResult>> DetectObjectsInStreamAsync(CancellationToken cancellationToken = default)
         {
-            if (publishedName == null)
-            {
-                throw new ArgumentNullException(nameof(publishedName));
-            }
-            if (imageUrl == null)
-            {
-                throw new ArgumentNullException(nameof(imageUrl));
-            }
-
-            using var message = CreateDetectImageUrlWithNoStoreRequest(projectId, publishedName, imageUrl, application);
+            using var message = CreateDetectObjectsInStreamRequest();
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
                 case 200:
                     {
-                        ImagePrediction value = default;
+                        DetectResult value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = ImagePrediction.DeserializeImagePrediction(document.RootElement);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = DetectResult.DeserializeDetectResult(document.RootElement);
+                        }
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -758,33 +1741,806 @@ namespace ComputerVision
             }
         }
 
-        /// <summary> Detect objects in an image url without saving the result. </summary>
-        /// <param name="projectId"> The project id. </param>
-        /// <param name="publishedName"> Specifies the name of the model to evaluate against. </param>
-        /// <param name="imageUrl"> An {Iris.Web.Api.Models.ImageUrl} that contains the url of the image to be evaluated. </param>
-        /// <param name="application"> Optional. Specifies the name of application using the endpoint. </param>
+        /// <summary>
+        /// Performs object detection on the specified image.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="publishedName"/> or <paramref name="imageUrl"/> is null. </exception>
-        public Response<ImagePrediction> DetectImageUrlWithNoStore(Guid projectId, string publishedName, ImageUrl imageUrl, string application = null, CancellationToken cancellationToken = default)
+        public Response<DetectResult> DetectObjectsInStream(CancellationToken cancellationToken = default)
         {
-            if (publishedName == null)
-            {
-                throw new ArgumentNullException(nameof(publishedName));
-            }
-            if (imageUrl == null)
-            {
-                throw new ArgumentNullException(nameof(imageUrl));
-            }
-
-            using var message = CreateDetectImageUrlWithNoStoreRequest(projectId, publishedName, imageUrl, application);
+            using var message = CreateDetectObjectsInStreamRequest();
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
                 case 200:
                     {
-                        ImagePrediction value = default;
+                        DetectResult value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = ImagePrediction.DeserializeImagePrediction(document.RootElement);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = DetectResult.DeserializeDetectResult(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGenerateThumbnailInStreamRequest(int width, int height, Stream image, bool? smartCropping)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw(endpoint, false);
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/generateThumbnail", false);
+            uri.AppendQuery("width", width, true);
+            uri.AppendQuery("height", height, true);
+            if (smartCropping != null)
+            {
+                uri.AppendQuery("smartCropping", smartCropping.Value, true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Content-Type", "application/octet-stream");
+            request.Headers.Add("Accept", "application/octet-stream");
+            request.Content = RequestContent.Create(image);
+            return message;
+        }
+
+        /// <summary>
+        /// This operation generates a thumbnail image with the user-specified width and height. By default, the service analyzes the image, identifies the region of interest (ROI), and generates smart cropping coordinates based on the ROI. Smart cropping helps when you specify an aspect ratio that differs from that of the input image.
+        /// 
+        /// A successful response contains the thumbnail image binary. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, InvalidThumbnailSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="width"> Width of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="height"> Height of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="smartCropping"> Boolean flag for enabling smart cropping. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="image"/> is null. </exception>
+        public async Task<Response<Stream>> GenerateThumbnailInStreamAsync(int width, int height, Stream image, bool? smartCropping = null, CancellationToken cancellationToken = default)
+        {
+            if (image == null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
+            using var message = CreateGenerateThumbnailInStreamRequest(width, height, image, smartCropping);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        var value = message.ExtractResponseContent();
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// This operation generates a thumbnail image with the user-specified width and height. By default, the service analyzes the image, identifies the region of interest (ROI), and generates smart cropping coordinates based on the ROI. Smart cropping helps when you specify an aspect ratio that differs from that of the input image.
+        /// 
+        /// A successful response contains the thumbnail image binary. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, InvalidThumbnailSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="width"> Width of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="height"> Height of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="smartCropping"> Boolean flag for enabling smart cropping. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="image"/> is null. </exception>
+        public Response<Stream> GenerateThumbnailInStream(int width, int height, Stream image, bool? smartCropping = null, CancellationToken cancellationToken = default)
+        {
+            if (image == null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
+            using var message = CreateGenerateThumbnailInStreamRequest(width, height, image, smartCropping);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        var value = message.ExtractResponseContent();
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGenerateThumbnailInStreamRequest(int width, int height, bool? smartCropping)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw(endpoint, false);
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/generateThumbnail", false);
+            uri.AppendQuery("width", width, true);
+            uri.AppendQuery("height", height, true);
+            if (smartCropping != null)
+            {
+                uri.AppendQuery("smartCropping", smartCropping.Value, true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Content-Type", "multipart/form-data");
+            request.Headers.Add("Accept", "application/octet-stream");
+            return message;
+        }
+
+        /// <summary>
+        /// This operation generates a thumbnail image with the user-specified width and height. By default, the service analyzes the image, identifies the region of interest (ROI), and generates smart cropping coordinates based on the ROI. Smart cropping helps when you specify an aspect ratio that differs from that of the input image.
+        /// 
+        /// A successful response contains the thumbnail image binary. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, InvalidThumbnailSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="width"> Width of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="height"> Height of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="smartCropping"> Boolean flag for enabling smart cropping. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public async Task<Response<Stream>> GenerateThumbnailInStreamAsync(int width, int height, bool? smartCropping = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGenerateThumbnailInStreamRequest(width, height, smartCropping);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        var value = message.ExtractResponseContent();
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// This operation generates a thumbnail image with the user-specified width and height. By default, the service analyzes the image, identifies the region of interest (ROI), and generates smart cropping coordinates based on the ROI. Smart cropping helps when you specify an aspect ratio that differs from that of the input image.
+        /// 
+        /// A successful response contains the thumbnail image binary. If the request failed, the response contains an error code and a message to help determine what went wrong.
+        /// 
+        /// Upon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, InvalidThumbnailSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.
+        /// </summary>
+        /// <param name="width"> Width of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="height"> Height of the thumbnail, in pixels. It must be between 1 and 1024. Recommended minimum of 50. </param>
+        /// <param name="smartCropping"> Boolean flag for enabling smart cropping. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public Response<Stream> GenerateThumbnailInStream(int width, int height, bool? smartCropping = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGenerateThumbnailInStreamRequest(width, height, smartCropping);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        var value = message.ExtractResponseContent();
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateAnalyzeImageByDomainInStreamRequest(string model, Stream image, Enum0? language)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw(endpoint, false);
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/models/", false);
+            uri.AppendPath(model, true);
+            uri.AppendPath("/analyze", false);
+            if (language != null)
+            {
+                uri.AppendQuery("language", language.Value.ToString(), true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Content-Type", "application/octet-stream");
+            request.Headers.Add("Accept", "application/json");
+            request.Content = RequestContent.Create(image);
+            return message;
+        }
+
+        /// <summary>
+        /// This operation recognizes content within an image by applying a domain-specific model. The list of domain-specific models that are supported by the Computer Vision API can be retrieved using the /models GET request. Currently, the API provides following domain-specific models: celebrities, landmarks.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON.
+        /// 
+        /// If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="model"> The domain-specific content to recognize. </param>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="model"/> or <paramref name="image"/> is null. </exception>
+        public async Task<Response<DomainModelResults>> AnalyzeImageByDomainInStreamAsync(string model, Stream image, Enum0? language = null, CancellationToken cancellationToken = default)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+            if (image == null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
+            using var message = CreateAnalyzeImageByDomainInStreamRequest(model, image, language);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        DomainModelResults value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = DomainModelResults.DeserializeDomainModelResults(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// This operation recognizes content within an image by applying a domain-specific model. The list of domain-specific models that are supported by the Computer Vision API can be retrieved using the /models GET request. Currently, the API provides following domain-specific models: celebrities, landmarks.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON.
+        /// 
+        /// If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="model"> The domain-specific content to recognize. </param>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="model"/> or <paramref name="image"/> is null. </exception>
+        public Response<DomainModelResults> AnalyzeImageByDomainInStream(string model, Stream image, Enum0? language = null, CancellationToken cancellationToken = default)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+            if (image == null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
+            using var message = CreateAnalyzeImageByDomainInStreamRequest(model, image, language);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        DomainModelResults value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = DomainModelResults.DeserializeDomainModelResults(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateAnalyzeImageByDomainInStreamRequest(string model, Enum0? language)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw(endpoint, false);
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/models/", false);
+            uri.AppendPath(model, true);
+            uri.AppendPath("/analyze", false);
+            if (language != null)
+            {
+                uri.AppendQuery("language", language.Value.ToString(), true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Content-Type", "multipart/form-data");
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary>
+        /// This operation recognizes content within an image by applying a domain-specific model. The list of domain-specific models that are supported by the Computer Vision API can be retrieved using the /models GET request. Currently, the API provides following domain-specific models: celebrities, landmarks.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON.
+        /// 
+        /// If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="model"> The domain-specific content to recognize. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="model"/> is null. </exception>
+        public async Task<Response<DomainModelResults>> AnalyzeImageByDomainInStreamAsync(string model, Enum0? language = null, CancellationToken cancellationToken = default)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            using var message = CreateAnalyzeImageByDomainInStreamRequest(model, language);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        DomainModelResults value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = DomainModelResults.DeserializeDomainModelResults(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// This operation recognizes content within an image by applying a domain-specific model. The list of domain-specific models that are supported by the Computer Vision API can be retrieved using the /models GET request. Currently, the API provides following domain-specific models: celebrities, landmarks.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON.
+        /// 
+        /// If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="model"> The domain-specific content to recognize. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="model"/> is null. </exception>
+        public Response<DomainModelResults> AnalyzeImageByDomainInStream(string model, Enum0? language = null, CancellationToken cancellationToken = default)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            using var message = CreateAnalyzeImageByDomainInStreamRequest(model, language);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        DomainModelResults value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = DomainModelResults.DeserializeDomainModelResults(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateRecognizePrintedTextInStreamRequest(bool detectOrientation, Stream image, OcrLanguages? language)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw(endpoint, false);
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/ocr", false);
+            uri.AppendQuery("detectOrientation", detectOrientation, true);
+            if (language != null)
+            {
+                uri.AppendQuery("language", language.Value.ToSerialString(), true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Content-Type", "application/octet-stream");
+            request.Headers.Add("Accept", "application/json");
+            request.Content = RequestContent.Create(image);
+            return message;
+        }
+
+        /// <summary>
+        /// Optical Character Recognition (OCR) detects text in an image and extracts the recognized characters into a machine-usable character stream.
+        /// 
+        /// Upon success, the OCR results will be returned.
+        /// 
+        /// Upon failure, the error code together with an error message will be returned. The error code can be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, NotSupportedLanguage, or InternalServerError.
+        /// </summary>
+        /// <param name="detectOrientation"> Whether detect the text orientation in the image. With detectOrientation=true the OCR service tries to detect the image orientation and correct it before further processing (e.g. if it&apos;s upside-down). </param>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="language"> The BCP-47 language code of the text to be detected in the image. The default value is &apos;unk&apos;. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="image"/> is null. </exception>
+        public async Task<Response<OcrResult>> RecognizePrintedTextInStreamAsync(bool detectOrientation, Stream image, OcrLanguages? language = null, CancellationToken cancellationToken = default)
+        {
+            if (image == null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
+            using var message = CreateRecognizePrintedTextInStreamRequest(detectOrientation, image, language);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        OcrResult value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = OcrResult.DeserializeOcrResult(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// Optical Character Recognition (OCR) detects text in an image and extracts the recognized characters into a machine-usable character stream.
+        /// 
+        /// Upon success, the OCR results will be returned.
+        /// 
+        /// Upon failure, the error code together with an error message will be returned. The error code can be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, NotSupportedLanguage, or InternalServerError.
+        /// </summary>
+        /// <param name="detectOrientation"> Whether detect the text orientation in the image. With detectOrientation=true the OCR service tries to detect the image orientation and correct it before further processing (e.g. if it&apos;s upside-down). </param>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="language"> The BCP-47 language code of the text to be detected in the image. The default value is &apos;unk&apos;. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="image"/> is null. </exception>
+        public Response<OcrResult> RecognizePrintedTextInStream(bool detectOrientation, Stream image, OcrLanguages? language = null, CancellationToken cancellationToken = default)
+        {
+            if (image == null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
+            using var message = CreateRecognizePrintedTextInStreamRequest(detectOrientation, image, language);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        OcrResult value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = OcrResult.DeserializeOcrResult(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateRecognizePrintedTextInStreamRequest(bool detectOrientation, OcrLanguages? language)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw(endpoint, false);
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/ocr", false);
+            uri.AppendQuery("detectOrientation", detectOrientation, true);
+            if (language != null)
+            {
+                uri.AppendQuery("language", language.Value.ToSerialString(), true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Content-Type", "multipart/form-data");
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary>
+        /// Optical Character Recognition (OCR) detects text in an image and extracts the recognized characters into a machine-usable character stream.
+        /// 
+        /// Upon success, the OCR results will be returned.
+        /// 
+        /// Upon failure, the error code together with an error message will be returned. The error code can be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, NotSupportedLanguage, or InternalServerError.
+        /// </summary>
+        /// <param name="detectOrientation"> Whether detect the text orientation in the image. With detectOrientation=true the OCR service tries to detect the image orientation and correct it before further processing (e.g. if it&apos;s upside-down). </param>
+        /// <param name="language"> The BCP-47 language code of the text to be detected in the image. The default value is &apos;unk&apos;. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public async Task<Response<OcrResult>> RecognizePrintedTextInStreamAsync(bool detectOrientation, OcrLanguages? language = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateRecognizePrintedTextInStreamRequest(detectOrientation, language);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        OcrResult value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = OcrResult.DeserializeOcrResult(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// Optical Character Recognition (OCR) detects text in an image and extracts the recognized characters into a machine-usable character stream.
+        /// 
+        /// Upon success, the OCR results will be returned.
+        /// 
+        /// Upon failure, the error code together with an error message will be returned. The error code can be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, NotSupportedLanguage, or InternalServerError.
+        /// </summary>
+        /// <param name="detectOrientation"> Whether detect the text orientation in the image. With detectOrientation=true the OCR service tries to detect the image orientation and correct it before further processing (e.g. if it&apos;s upside-down). </param>
+        /// <param name="language"> The BCP-47 language code of the text to be detected in the image. The default value is &apos;unk&apos;. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public Response<OcrResult> RecognizePrintedTextInStream(bool detectOrientation, OcrLanguages? language = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateRecognizePrintedTextInStreamRequest(detectOrientation, language);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        OcrResult value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = OcrResult.DeserializeOcrResult(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateTagImageInStreamRequest(Stream image, Enum0? language)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw(endpoint, false);
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/tag", false);
+            if (language != null)
+            {
+                uri.AppendQuery("language", language.Value.ToString(), true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Content-Type", "application/octet-stream");
+            request.Headers.Add("Accept", "application/json");
+            request.Content = RequestContent.Create(image);
+            return message;
+        }
+
+        /// <summary>
+        /// This operation generates a list of words, or tags, that are relevant to the content of the supplied image. The Computer Vision API can return tags based on objects, living beings, scenery or actions found in images. Unlike categories, tags are not organized according to a hierarchical classification system, but correspond to image content. Tags may contain hints to avoid ambiguity or provide context, for example the tag &quot;ascomycete&quot; may be accompanied by the hint &quot;fungus&quot;.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="image"/> is null. </exception>
+        public async Task<Response<TagResult>> TagImageInStreamAsync(Stream image, Enum0? language = null, CancellationToken cancellationToken = default)
+        {
+            if (image == null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
+            using var message = CreateTagImageInStreamRequest(image, language);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        TagResult value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = TagResult.DeserializeTagResult(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// This operation generates a list of words, or tags, that are relevant to the content of the supplied image. The Computer Vision API can return tags based on objects, living beings, scenery or actions found in images. Unlike categories, tags are not organized according to a hierarchical classification system, but correspond to image content. Tags may contain hints to avoid ambiguity or provide context, for example the tag &quot;ascomycete&quot; may be accompanied by the hint &quot;fungus&quot;.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="image"> An image stream. </param>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="image"/> is null. </exception>
+        public Response<TagResult> TagImageInStream(Stream image, Enum0? language = null, CancellationToken cancellationToken = default)
+        {
+            if (image == null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
+            using var message = CreateTagImageInStreamRequest(image, language);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        TagResult value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = TagResult.DeserializeTagResult(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateTagImageInStreamRequest(Enum0? language)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw(endpoint, false);
+            uri.AppendRaw("/vision/v3.0", false);
+            uri.AppendPath("/tag", false);
+            if (language != null)
+            {
+                uri.AppendQuery("language", language.Value.ToString(), true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Content-Type", "multipart/form-data");
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary>
+        /// This operation generates a list of words, or tags, that are relevant to the content of the supplied image. The Computer Vision API can return tags based on objects, living beings, scenery or actions found in images. Unlike categories, tags are not organized according to a hierarchical classification system, but correspond to image content. Tags may contain hints to avoid ambiguity or provide context, for example the tag &quot;ascomycete&quot; may be accompanied by the hint &quot;fungus&quot;.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public async Task<Response<TagResult>> TagImageInStreamAsync(Enum0? language = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateTagImageInStreamRequest(language);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        TagResult value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = TagResult.DeserializeTagResult(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// This operation generates a list of words, or tags, that are relevant to the content of the supplied image. The Computer Vision API can return tags based on objects, living beings, scenery or actions found in images. Unlike categories, tags are not organized according to a hierarchical classification system, but correspond to image content. Tags may contain hints to avoid ambiguity or provide context, for example the tag &quot;ascomycete&quot; may be accompanied by the hint &quot;fungus&quot;.
+        /// 
+        /// Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
+        /// 
+        /// A successful response will be returned in JSON. If the request failed, the response will contain an error code and a message to help understand what went wrong.
+        /// </summary>
+        /// <param name="language"> The desired language for output generation. If this parameter is not specified, the default value is &amp;quot;en&amp;quot;.Supported languages:en - English, Default. es - Spanish, ja - Japanese, pt - Portuguese, zh - Simplified Chinese. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public Response<TagResult> TagImageInStream(Enum0? language = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateTagImageInStreamRequest(language);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        TagResult value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = TagResult.DeserializeTagResult(document.RootElement);
+                        }
                         return Response.FromValue(value, message.Response);
                     }
                 default:
