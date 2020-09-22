@@ -67,15 +67,15 @@ namespace ComputerVision.Models
             IReadOnlyList<Prediction> predictions = default;
             if (element.Element("id") is XElement idElement)
             {
-                id = idElement.(null);
+                id = new Guid(idElement.Value);
             }
             if (element.Element("project") is XElement projectElement)
             {
-                project = projectElement.(null);
+                project = new Guid(projectElement.Value);
             }
             if (element.Element("iteration") is XElement iterationElement)
             {
-                iteration = iterationElement.(null);
+                iteration = new Guid(iterationElement.Value);
             }
             if (element.Element("created") is XElement createdElement)
             {
