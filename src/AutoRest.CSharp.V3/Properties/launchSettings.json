@@ -140,6 +140,10 @@
       "commandName": "Project",
       "commandLineArgs": "--standalone $(SolutionDir)\\test\\TestProjects\\Inheritance"
     },
+    "LiveVideoAnalytics": {
+      "commandName": "Project",
+      "commandLineArgs": "--standalone $(SolutionDir)\\samples\\LiveVideoAnalytics\\LiveVideoAnalytics"
+    },
     "lro": {
       "commandName": "Project",
       "commandLineArgs": "--standalone $(SolutionDir)\\test\\TestServerProjects\\lro"
