@@ -31,19 +31,6 @@ namespace LiveVideoAnalytics.Models
             Type = "#Microsoft.Media.MediaGraphExtensionProcessorBase";
         }
 
-        /// <summary> Initializes a new instance of MediaGraphExtensionProcessorBase. </summary>
-        /// <param name="type"> The discriminator for derived types. </param>
-        /// <param name="name"> The name for this processor node. </param>
-        /// <param name="inputs"> An array of the names of the other nodes in the media graph, the outputs of which are used as input for this processor node. </param>
-        /// <param name="endpoint"> Endpoint to which this processor should connect. </param>
-        /// <param name="image"> Describes the parameters of the image that is sent as input to the endpoint. </param>
-        internal MediaGraphExtensionProcessorBase(string type, string name, IList<MediaGraphNodeInput> inputs, MediaGraphEndpoint endpoint, MediaGraphImage image) : base(type, name, inputs)
-        {
-            Endpoint = endpoint;
-            Image = image;
-            Type = type ?? "#Microsoft.Media.MediaGraphExtensionProcessorBase";
-        }
-
         /// <summary> Endpoint to which this processor should connect. </summary>
         public MediaGraphEndpoint Endpoint { get; set; }
         /// <summary> Describes the parameters of the image that is sent as input to the endpoint. </summary>

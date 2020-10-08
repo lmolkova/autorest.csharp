@@ -19,26 +19,5 @@ namespace LiveVideoAnalytics.Models
             writer.WriteStringValue(Type);
             writer.WriteEndObject();
         }
-
-        internal static MediaGraphCertificateSource DeserializeMediaGraphCertificateSource(JsonElement element)
-        {
-            if (element.TryGetProperty("@type", out JsonElement discriminator))
-            {
-                switch (discriminator.GetString())
-                {
-                    case "#Microsoft.Media.MediaGraphPemCertificateList": return MediaGraphPemCertificateList.DeserializeMediaGraphPemCertificateList(element);
-                }
-            }
-            string type = default;
-            foreach (var property in element.EnumerateObject())
-            {
-                if (property.NameEquals("@type"))
-                {
-                    type = property.Value.GetString();
-                    continue;
-                }
-            }
-            return new MediaGraphCertificateSource(type);
-        }
     }
 }

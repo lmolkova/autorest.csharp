@@ -37,20 +37,7 @@ namespace LiveVideoAnalytics.Models
             Type = "#Microsoft.Media.MediaGraphGrpcExtension";
         }
 
-        /// <summary> Initializes a new instance of MediaGraphGrpcExtension. </summary>
-        /// <param name="type"> The discriminator for derived types. </param>
-        /// <param name="name"> The name for this processor node. </param>
-        /// <param name="inputs"> An array of the names of the other nodes in the media graph, the outputs of which are used as input for this processor node. </param>
-        /// <param name="endpoint"> Endpoint to which this processor should connect. </param>
-        /// <param name="image"> Describes the parameters of the image that is sent as input to the endpoint. </param>
-        /// <param name="dataTransfer"> How media should be transferred to the inferencing engine. </param>
-        internal MediaGraphGrpcExtension(string type, string name, IList<MediaGraphNodeInput> inputs, MediaGraphEndpoint endpoint, MediaGraphImage image, MediaGraphGrpcExtensionDataTransfer dataTransfer) : base(type, name, inputs, endpoint, image)
-        {
-            DataTransfer = dataTransfer;
-            Type = type ?? "#Microsoft.Media.MediaGraphGrpcExtension";
-        }
-
         /// <summary> How media should be transferred to the inferencing engine. </summary>
-        public MediaGraphGrpcExtensionDataTransfer DataTransfer { get; set; }
+        public MediaGraphGrpcExtensionDataTransfer DataTransfer { get; }
     }
 }

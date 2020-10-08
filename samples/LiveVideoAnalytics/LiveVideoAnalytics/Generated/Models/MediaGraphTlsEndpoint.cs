@@ -25,19 +25,6 @@ namespace LiveVideoAnalytics.Models
             Type = "#Microsoft.Media.MediaGraphTlsEndpoint";
         }
 
-        /// <summary> Initializes a new instance of MediaGraphTlsEndpoint. </summary>
-        /// <param name="type"> The discriminator for derived types. </param>
-        /// <param name="credentials"> Polymorphic credentials to be presented to the endpoint. </param>
-        /// <param name="url"> Url for the endpoint. </param>
-        /// <param name="trustedCertificates"> Trusted certificates when authenticating a TLS connection. Null designates that Azure Media Service&apos;s source of trust should be used. </param>
-        /// <param name="validationOptions"> Validation options to use when authenticating a TLS connection. By default, strict validation is used. </param>
-        internal MediaGraphTlsEndpoint(string type, MediaGraphCredentials credentials, string url, MediaGraphCertificateSource trustedCertificates, MediaGraphTlsValidationOptions validationOptions) : base(type, credentials, url)
-        {
-            TrustedCertificates = trustedCertificates;
-            ValidationOptions = validationOptions;
-            Type = type ?? "#Microsoft.Media.MediaGraphTlsEndpoint";
-        }
-
         /// <summary> Trusted certificates when authenticating a TLS connection. Null designates that Azure Media Service&apos;s source of trust should be used. </summary>
         public MediaGraphCertificateSource TrustedCertificates { get; set; }
         /// <summary> Validation options to use when authenticating a TLS connection. By default, strict validation is used. </summary>

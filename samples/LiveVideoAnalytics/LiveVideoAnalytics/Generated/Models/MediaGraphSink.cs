@@ -33,21 +33,10 @@ namespace LiveVideoAnalytics.Models
             Inputs = inputs.ToList();
         }
 
-        /// <summary> Initializes a new instance of MediaGraphSink. </summary>
-        /// <param name="type"> The discriminator for derived types. </param>
-        /// <param name="name"> Name to be used for the media graph sink. </param>
-        /// <param name="inputs"> An array of the names of the other nodes in the media graph, the outputs of which are used as input for this sink node. </param>
-        internal MediaGraphSink(string type, string name, IList<MediaGraphNodeInput> inputs)
-        {
-            Type = type;
-            Name = name;
-            Inputs = inputs;
-        }
-
         /// <summary> The discriminator for derived types. </summary>
         internal string Type { get; set; }
         /// <summary> Name to be used for the media graph sink. </summary>
-        public string Name { get; set; }
+        public string Name { get; }
         /// <summary> An array of the names of the other nodes in the media graph, the outputs of which are used as input for this sink node. </summary>
         public IList<MediaGraphNodeInput> Inputs { get; }
     }

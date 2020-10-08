@@ -5,8 +5,6 @@
 
 #nullable disable
 
-using System;
-using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
@@ -49,61 +47,6 @@ namespace LiveVideoAnalytics.Models
             }
             writer.WriteEndArray();
             writer.WriteEndObject();
-        }
-
-        internal static MediaGraphAssetSink DeserializeMediaGraphAssetSink(JsonElement element)
-        {
-            Optional<string> assetNamePattern = default;
-            Optional<TimeSpan> segmentLength = default;
-            Optional<string> localMediaCachePath = default;
-            Optional<string> localMediaCacheMaximumSizeMiB = default;
-            string type = default;
-            string name = default;
-            IList<MediaGraphNodeInput> inputs = default;
-            foreach (var property in element.EnumerateObject())
-            {
-                if (property.NameEquals("assetNamePattern"))
-                {
-                    assetNamePattern = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("segmentLength"))
-                {
-                    segmentLength = property.Value.GetTimeSpan("P");
-                    continue;
-                }
-                if (property.NameEquals("localMediaCachePath"))
-                {
-                    localMediaCachePath = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("localMediaCacheMaximumSizeMiB"))
-                {
-                    localMediaCacheMaximumSizeMiB = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("@type"))
-                {
-                    type = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("name"))
-                {
-                    name = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("inputs"))
-                {
-                    List<MediaGraphNodeInput> array = new List<MediaGraphNodeInput>();
-                    foreach (var item in property.Value.EnumerateArray())
-                    {
-                        array.Add(MediaGraphNodeInput.DeserializeMediaGraphNodeInput(item));
-                    }
-                    inputs = array;
-                    continue;
-                }
-            }
-            return new MediaGraphAssetSink(type, name, inputs, assetNamePattern.Value, Optional.ToNullable(segmentLength), localMediaCachePath.Value, localMediaCacheMaximumSizeMiB.Value);
         }
     }
 }

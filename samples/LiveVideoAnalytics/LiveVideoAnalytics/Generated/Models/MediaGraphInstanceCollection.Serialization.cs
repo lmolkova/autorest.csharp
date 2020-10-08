@@ -5,37 +5,32 @@
 
 #nullable disable
 
-using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
 namespace LiveVideoAnalytics.Models
 {
-    public partial class MediaGraphInstanceCollection
+    public partial class MediaGraphInstanceCollection : IUtf8JsonSerializable
     {
-        internal static MediaGraphInstanceCollection DeserializeMediaGraphInstanceCollection(JsonElement element)
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
-            Optional<IReadOnlyList<MediaGraphInstance>> value = default;
-            Optional<string> continuationToken = default;
-            foreach (var property in element.EnumerateObject())
+            writer.WriteStartObject();
+            if (Optional.IsCollectionDefined(Value))
             {
-                if (property.NameEquals("value"))
+                writer.WritePropertyName("value");
+                writer.WriteStartArray();
+                foreach (var item in Value)
                 {
-                    List<MediaGraphInstance> array = new List<MediaGraphInstance>();
-                    foreach (var item in property.Value.EnumerateArray())
-                    {
-                        array.Add(MediaGraphInstance.DeserializeMediaGraphInstance(item));
-                    }
-                    value = array;
-                    continue;
+                    writer.WriteObjectValue(item);
                 }
-                if (property.NameEquals("@continuationToken"))
-                {
-                    continuationToken = property.Value.GetString();
-                    continue;
-                }
+                writer.WriteEndArray();
             }
-            return new MediaGraphInstanceCollection(Optional.ToList(value), continuationToken.Value);
+            if (Optional.IsDefined(ContinuationToken))
+            {
+                writer.WritePropertyName("@continuationToken");
+                writer.WriteStringValue(ContinuationToken);
+            }
+            writer.WriteEndObject();
         }
     }
 }

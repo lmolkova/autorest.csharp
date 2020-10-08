@@ -15,15 +15,6 @@ namespace LiveVideoAnalytics.Models
         {
         }
 
-        /// <summary> Initializes a new instance of MediaGraphTlsValidationOptions. </summary>
-        /// <param name="ignoreHostname"> Boolean value ignoring the host name (common name) during validation. </param>
-        /// <param name="ignoreSignature"> Boolean value ignoring the integrity of the certificate chain at the current time. </param>
-        internal MediaGraphTlsValidationOptions(string ignoreHostname, string ignoreSignature)
-        {
-            IgnoreHostname = ignoreHostname;
-            IgnoreSignature = ignoreSignature;
-        }
-
         /// <summary> Boolean value ignoring the host name (common name) during validation. </summary>
         public string IgnoreHostname { get; set; }
         /// <summary> Boolean value ignoring the integrity of the certificate chain at the current time. </summary>

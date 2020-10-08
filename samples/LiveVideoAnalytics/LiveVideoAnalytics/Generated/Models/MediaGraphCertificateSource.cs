@@ -15,13 +15,6 @@ namespace LiveVideoAnalytics.Models
         {
         }
 
-        /// <summary> Initializes a new instance of MediaGraphCertificateSource. </summary>
-        /// <param name="type"> The discriminator for derived types. </param>
-        internal MediaGraphCertificateSource(string type)
-        {
-            Type = type;
-        }
-
         /// <summary> The discriminator for derived types. </summary>
         internal string Type { get; set; }
     }

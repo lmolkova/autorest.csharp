@@ -27,25 +27,5 @@ namespace LiveVideoAnalytics.Models
             }
             writer.WriteEndObject();
         }
-
-        internal static MediaGraphTlsValidationOptions DeserializeMediaGraphTlsValidationOptions(JsonElement element)
-        {
-            Optional<string> ignoreHostname = default;
-            Optional<string> ignoreSignature = default;
-            foreach (var property in element.EnumerateObject())
-            {
-                if (property.NameEquals("ignoreHostname"))
-                {
-                    ignoreHostname = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("ignoreSignature"))
-                {
-                    ignoreSignature = property.Value.GetString();
-                    continue;
-                }
-            }
-            return new MediaGraphTlsValidationOptions(ignoreHostname.Value, ignoreSignature.Value);
-        }
     }
 }

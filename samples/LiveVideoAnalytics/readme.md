@@ -9,3 +9,13 @@ public-clients: false
 input-file: $(this-folder)/LiveVideoAnalytics.json
 namespace: Azure.LiveVideoAnalytics
 ```
+### Make generated models internal by default
+
+``` yaml
+directive:
+  from: swagger-document
+  where: $.definitions.*
+  transform: >
+    $["x-csharp-usage"] = "model,input";
+    $["x-csharp-formats"] = "json";
+```

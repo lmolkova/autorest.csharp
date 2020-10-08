@@ -24,25 +24,5 @@ namespace LiveVideoAnalytics.Models
             writer.WriteStringValue(Mode.ToString());
             writer.WriteEndObject();
         }
-
-        internal static MediaGraphGrpcExtensionDataTransfer DeserializeMediaGraphGrpcExtensionDataTransfer(JsonElement element)
-        {
-            Optional<string> sharedMemorySizeMiB = default;
-            MediaGraphGrpcExtensionDataTransferMode mode = default;
-            foreach (var property in element.EnumerateObject())
-            {
-                if (property.NameEquals("sharedMemorySizeMiB"))
-                {
-                    sharedMemorySizeMiB = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("mode"))
-                {
-                    mode = new MediaGraphGrpcExtensionDataTransferMode(property.Value.GetString());
-                    continue;
-                }
-            }
-            return new MediaGraphGrpcExtensionDataTransfer(sharedMemorySizeMiB.Value, mode);
-        }
     }
 }

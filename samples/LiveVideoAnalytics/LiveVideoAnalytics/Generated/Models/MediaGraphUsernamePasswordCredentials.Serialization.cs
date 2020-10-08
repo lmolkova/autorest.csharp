@@ -26,31 +26,5 @@ namespace LiveVideoAnalytics.Models
             writer.WriteStringValue(Type);
             writer.WriteEndObject();
         }
-
-        internal static MediaGraphUsernamePasswordCredentials DeserializeMediaGraphUsernamePasswordCredentials(JsonElement element)
-        {
-            string username = default;
-            Optional<string> password = default;
-            string type = default;
-            foreach (var property in element.EnumerateObject())
-            {
-                if (property.NameEquals("username"))
-                {
-                    username = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("password"))
-                {
-                    password = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("@type"))
-                {
-                    type = property.Value.GetString();
-                    continue;
-                }
-            }
-            return new MediaGraphUsernamePasswordCredentials(type, username, password.Value);
-        }
     }
 }

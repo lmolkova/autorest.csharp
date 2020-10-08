@@ -5,7 +5,6 @@
 
 #nullable disable
 
-using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
@@ -26,31 +25,6 @@ namespace LiveVideoAnalytics.Models
             writer.WritePropertyName("@type");
             writer.WriteStringValue(Type);
             writer.WriteEndObject();
-        }
-
-        internal static MediaGraphPemCertificateList DeserializeMediaGraphPemCertificateList(JsonElement element)
-        {
-            IList<string> certificates = default;
-            string type = default;
-            foreach (var property in element.EnumerateObject())
-            {
-                if (property.NameEquals("certificates"))
-                {
-                    List<string> array = new List<string>();
-                    foreach (var item in property.Value.EnumerateArray())
-                    {
-                        array.Add(item.GetString());
-                    }
-                    certificates = array;
-                    continue;
-                }
-                if (property.NameEquals("@type"))
-                {
-                    type = property.Value.GetString();
-                    continue;
-                }
-            }
-            return new MediaGraphPemCertificateList(type, certificates);
         }
     }
 }

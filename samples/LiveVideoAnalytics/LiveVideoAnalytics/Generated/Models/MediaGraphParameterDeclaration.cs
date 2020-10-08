@@ -27,22 +27,9 @@ namespace LiveVideoAnalytics.Models
             Type = type;
         }
 
-        /// <summary> Initializes a new instance of MediaGraphParameterDeclaration. </summary>
-        /// <param name="name"> The name of the parameter. </param>
-        /// <param name="type"> . </param>
-        /// <param name="description"> Description of the parameter. </param>
-        /// <param name="default"> The default value for the parameter, to be used if the graph instance does not specify a value. </param>
-        internal MediaGraphParameterDeclaration(string name, MediaGraphParameterType type, string description, string @default)
-        {
-            Name = name;
-            Type = type;
-            Description = description;
-            Default = @default;
-        }
-
         /// <summary> The name of the parameter. </summary>
-        public string Name { get; set; }
-        public MediaGraphParameterType Type { get; set; }
+        public string Name { get; }
+        public MediaGraphParameterType Type { get; }
         /// <summary> Description of the parameter. </summary>
         public string Description { get; set; }
         /// <summary> The default value for the parameter, to be used if the graph instance does not specify a value. </summary>

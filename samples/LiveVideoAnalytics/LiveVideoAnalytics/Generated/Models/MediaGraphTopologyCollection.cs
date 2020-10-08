@@ -14,23 +14,14 @@ namespace LiveVideoAnalytics.Models
     public partial class MediaGraphTopologyCollection
     {
         /// <summary> Initializes a new instance of MediaGraphTopologyCollection. </summary>
-        internal MediaGraphTopologyCollection()
+        public MediaGraphTopologyCollection()
         {
             Value = new ChangeTrackingList<MediaGraphTopology>();
         }
 
-        /// <summary> Initializes a new instance of MediaGraphTopologyCollection. </summary>
-        /// <param name="value"> Collection of graph topologies. </param>
-        /// <param name="continuationToken"> Continuation token to use in subsequent calls to enumerate through the graph topologies collection (when the collection contains too many results to return in one response). </param>
-        internal MediaGraphTopologyCollection(IReadOnlyList<MediaGraphTopology> value, string continuationToken)
-        {
-            Value = value;
-            ContinuationToken = continuationToken;
-        }
-
         /// <summary> Collection of graph topologies. </summary>
-        public IReadOnlyList<MediaGraphTopology> Value { get; }
+        public IList<MediaGraphTopology> Value { get; }
         /// <summary> Continuation token to use in subsequent calls to enumerate through the graph topologies collection (when the collection contains too many results to return in one response). </summary>
-        public string ContinuationToken { get; }
+        public string ContinuationToken { get; set; }
     }
 }

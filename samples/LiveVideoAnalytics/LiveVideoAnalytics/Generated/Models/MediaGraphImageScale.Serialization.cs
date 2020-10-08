@@ -32,31 +32,5 @@ namespace LiveVideoAnalytics.Models
             }
             writer.WriteEndObject();
         }
-
-        internal static MediaGraphImageScale DeserializeMediaGraphImageScale(JsonElement element)
-        {
-            Optional<MediaGraphImageScaleMode> mode = default;
-            Optional<string> width = default;
-            Optional<string> height = default;
-            foreach (var property in element.EnumerateObject())
-            {
-                if (property.NameEquals("mode"))
-                {
-                    mode = new MediaGraphImageScaleMode(property.Value.GetString());
-                    continue;
-                }
-                if (property.NameEquals("width"))
-                {
-                    width = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("height"))
-                {
-                    height = property.Value.GetString();
-                    continue;
-                }
-            }
-            return new MediaGraphImageScale(Optional.ToNullable(mode), width.Value, height.Value);
-        }
     }
 }

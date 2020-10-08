@@ -31,37 +31,5 @@ namespace LiveVideoAnalytics.Models
             }
             writer.WriteEndObject();
         }
-
-        internal static MediaGraphParameterDeclaration DeserializeMediaGraphParameterDeclaration(JsonElement element)
-        {
-            string name = default;
-            MediaGraphParameterType type = default;
-            Optional<string> description = default;
-            Optional<string> @default = default;
-            foreach (var property in element.EnumerateObject())
-            {
-                if (property.NameEquals("name"))
-                {
-                    name = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("type"))
-                {
-                    type = property.Value.GetString().ToMediaGraphParameterType();
-                    continue;
-                }
-                if (property.NameEquals("description"))
-                {
-                    description = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("default"))
-                {
-                    @default = property.Value.GetString();
-                    continue;
-                }
-            }
-            return new MediaGraphParameterDeclaration(name, type, description.Value, @default.Value);
-        }
     }
 }

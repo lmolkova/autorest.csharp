@@ -23,31 +23,5 @@ namespace LiveVideoAnalytics.Models
             writer.WriteStringValue(Type);
             writer.WriteEndObject();
         }
-
-        internal static MediaGraphHttpHeaderCredentials DeserializeMediaGraphHttpHeaderCredentials(JsonElement element)
-        {
-            string headerName = default;
-            string headerValue = default;
-            string type = default;
-            foreach (var property in element.EnumerateObject())
-            {
-                if (property.NameEquals("headerName"))
-                {
-                    headerName = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("headerValue"))
-                {
-                    headerValue = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("@type"))
-                {
-                    type = property.Value.GetString();
-                    continue;
-                }
-            }
-            return new MediaGraphHttpHeaderCredentials(type, headerName, headerValue);
-        }
     }
 }

@@ -17,15 +17,6 @@ namespace LiveVideoAnalytics.Models
         {
         }
 
-        /// <summary> Initializes a new instance of MediaGraphSystemData. </summary>
-        /// <param name="createdAt"> The timestamp of resource creation (UTC). </param>
-        /// <param name="lastModifiedAt"> The timestamp of resource last modification (UTC). </param>
-        internal MediaGraphSystemData(DateTimeOffset? createdAt, DateTimeOffset? lastModifiedAt)
-        {
-            CreatedAt = createdAt;
-            LastModifiedAt = lastModifiedAt;
-        }
-
         /// <summary> The timestamp of resource creation (UTC). </summary>
         public DateTimeOffset? CreatedAt { get; set; }
         /// <summary> The timestamp of resource last modification (UTC). </summary>

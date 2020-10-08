@@ -31,19 +31,6 @@ namespace LiveVideoAnalytics.Models
             Type = "#Microsoft.Media.MediaGraphMotionDetectionProcessor";
         }
 
-        /// <summary> Initializes a new instance of MediaGraphMotionDetectionProcessor. </summary>
-        /// <param name="type"> The discriminator for derived types. </param>
-        /// <param name="name"> The name for this processor node. </param>
-        /// <param name="inputs"> An array of the names of the other nodes in the media graph, the outputs of which are used as input for this processor node. </param>
-        /// <param name="sensitivity"> Enumeration that specifies the sensitivity of the motion detection processor. </param>
-        /// <param name="outputMotionRegion"> Indicates whether the processor should detect and output the regions, within the video frame, where motion was detected. Default is true. </param>
-        internal MediaGraphMotionDetectionProcessor(string type, string name, IList<MediaGraphNodeInput> inputs, MediaGraphMotionDetectionSensitivity? sensitivity, bool? outputMotionRegion) : base(type, name, inputs)
-        {
-            Sensitivity = sensitivity;
-            OutputMotionRegion = outputMotionRegion;
-            Type = type ?? "#Microsoft.Media.MediaGraphMotionDetectionProcessor";
-        }
-
         /// <summary> Enumeration that specifies the sensitivity of the motion detection processor. </summary>
         public MediaGraphMotionDetectionSensitivity? Sensitivity { get; set; }
         /// <summary> Indicates whether the processor should detect and output the regions, within the video frame, where motion was detected. Default is true. </summary>

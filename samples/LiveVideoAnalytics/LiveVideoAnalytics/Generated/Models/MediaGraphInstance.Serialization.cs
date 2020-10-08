@@ -34,37 +34,5 @@ namespace LiveVideoAnalytics.Models
             }
             writer.WriteEndObject();
         }
-
-        internal static MediaGraphInstance DeserializeMediaGraphInstance(JsonElement element)
-        {
-            string name = default;
-            Optional<string> apiVersion = default;
-            Optional<MediaGraphSystemData> systemData = default;
-            Optional<MediaGraphInstanceProperties> properties = default;
-            foreach (var property in element.EnumerateObject())
-            {
-                if (property.NameEquals("name"))
-                {
-                    name = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("@apiVersion"))
-                {
-                    apiVersion = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("systemData"))
-                {
-                    systemData = MediaGraphSystemData.DeserializeMediaGraphSystemData(property.Value);
-                    continue;
-                }
-                if (property.NameEquals("properties"))
-                {
-                    properties = MediaGraphInstanceProperties.DeserializeMediaGraphInstanceProperties(property.Value);
-                    continue;
-                }
-            }
-            return new MediaGraphInstance(name, apiVersion.Value, systemData.Value, properties.Value);
-        }
     }
 }

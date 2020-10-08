@@ -25,20 +25,7 @@ namespace LiveVideoAnalytics.Models
             Name = name;
         }
 
-        /// <summary> Initializes a new instance of MediaGraphTopology. </summary>
-        /// <param name="name"> . </param>
-        /// <param name="apiVersion"> . </param>
-        /// <param name="systemData"> Graph system data. </param>
-        /// <param name="properties"> Describes the properties of a graph topology. </param>
-        internal MediaGraphTopology(string name, string apiVersion, MediaGraphSystemData systemData, MediaGraphTopologyProperties properties)
-        {
-            Name = name;
-            ApiVersion = apiVersion;
-            SystemData = systemData;
-            Properties = properties;
-        }
-
-        public string Name { get; set; }
+        public string Name { get; }
         public string ApiVersion { get; set; }
         /// <summary> Graph system data. </summary>
         public MediaGraphSystemData SystemData { get; set; }

@@ -24,14 +24,5 @@ namespace LiveVideoAnalytics.Models
 
             Type = "#Microsoft.Media.MediaGraphUnsecuredEndpoint";
         }
-
-        /// <summary> Initializes a new instance of MediaGraphUnsecuredEndpoint. </summary>
-        /// <param name="type"> The discriminator for derived types. </param>
-        /// <param name="credentials"> Polymorphic credentials to be presented to the endpoint. </param>
-        /// <param name="url"> Url for the endpoint. </param>
-        internal MediaGraphUnsecuredEndpoint(string type, MediaGraphCredentials credentials, string url) : base(type, credentials, url)
-        {
-            Type = type ?? "#Microsoft.Media.MediaGraphUnsecuredEndpoint";
-        }
     }
 }

@@ -28,37 +28,5 @@ namespace LiveVideoAnalytics.Models
             writer.WriteStringValue(Name);
             writer.WriteEndObject();
         }
-
-        internal static MediaGraphRtspSource DeserializeMediaGraphRtspSource(JsonElement element)
-        {
-            Optional<MediaGraphRtspTransport> transport = default;
-            MediaGraphEndpoint endpoint = default;
-            string type = default;
-            string name = default;
-            foreach (var property in element.EnumerateObject())
-            {
-                if (property.NameEquals("transport"))
-                {
-                    transport = new MediaGraphRtspTransport(property.Value.GetString());
-                    continue;
-                }
-                if (property.NameEquals("endpoint"))
-                {
-                    endpoint = MediaGraphEndpoint.DeserializeMediaGraphEndpoint(property.Value);
-                    continue;
-                }
-                if (property.NameEquals("@type"))
-                {
-                    type = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("name"))
-                {
-                    name = property.Value.GetString();
-                    continue;
-                }
-            }
-            return new MediaGraphRtspSource(type, name, Optional.ToNullable(transport), endpoint);
-        }
     }
 }

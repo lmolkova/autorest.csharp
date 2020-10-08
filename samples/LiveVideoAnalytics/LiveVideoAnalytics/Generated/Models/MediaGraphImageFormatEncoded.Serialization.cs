@@ -29,31 +29,5 @@ namespace LiveVideoAnalytics.Models
             writer.WriteStringValue(Type);
             writer.WriteEndObject();
         }
-
-        internal static MediaGraphImageFormatEncoded DeserializeMediaGraphImageFormatEncoded(JsonElement element)
-        {
-            Optional<MediaGraphImageEncodingFormat> encoding = default;
-            Optional<string> quality = default;
-            string type = default;
-            foreach (var property in element.EnumerateObject())
-            {
-                if (property.NameEquals("encoding"))
-                {
-                    encoding = new MediaGraphImageEncodingFormat(property.Value.GetString());
-                    continue;
-                }
-                if (property.NameEquals("quality"))
-                {
-                    quality = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("@type"))
-                {
-                    type = property.Value.GetString();
-                    continue;
-                }
-            }
-            return new MediaGraphImageFormatEncoded(type, Optional.ToNullable(encoding), quality.Value);
-        }
     }
 }

@@ -32,20 +32,9 @@ namespace LiveVideoAnalytics.Models
             Type = "#Microsoft.Media.MediaGraphHttpHeaderCredentials";
         }
 
-        /// <summary> Initializes a new instance of MediaGraphHttpHeaderCredentials. </summary>
-        /// <param name="type"> The discriminator for derived types. </param>
-        /// <param name="headerName"> HTTP header name. </param>
-        /// <param name="headerValue"> HTTP header value. </param>
-        internal MediaGraphHttpHeaderCredentials(string type, string headerName, string headerValue) : base(type)
-        {
-            HeaderName = headerName;
-            HeaderValue = headerValue;
-            Type = type ?? "#Microsoft.Media.MediaGraphHttpHeaderCredentials";
-        }
-
         /// <summary> HTTP header name. </summary>
-        public string HeaderName { get; set; }
+        public string HeaderName { get; }
         /// <summary> HTTP header value. </summary>
-        public string HeaderValue { get; set; }
+        public string HeaderValue { get; }
     }
 }

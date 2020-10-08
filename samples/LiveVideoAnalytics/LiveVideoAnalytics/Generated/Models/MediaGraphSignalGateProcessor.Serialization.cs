@@ -5,7 +5,6 @@
 
 #nullable disable
 
-using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
@@ -48,61 +47,6 @@ namespace LiveVideoAnalytics.Models
             }
             writer.WriteEndArray();
             writer.WriteEndObject();
-        }
-
-        internal static MediaGraphSignalGateProcessor DeserializeMediaGraphSignalGateProcessor(JsonElement element)
-        {
-            Optional<string> activationEvaluationWindow = default;
-            Optional<string> activationSignalOffset = default;
-            Optional<string> minimumActivationTime = default;
-            Optional<string> maximumActivationTime = default;
-            string type = default;
-            string name = default;
-            IList<MediaGraphNodeInput> inputs = default;
-            foreach (var property in element.EnumerateObject())
-            {
-                if (property.NameEquals("activationEvaluationWindow"))
-                {
-                    activationEvaluationWindow = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("activationSignalOffset"))
-                {
-                    activationSignalOffset = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("minimumActivationTime"))
-                {
-                    minimumActivationTime = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("maximumActivationTime"))
-                {
-                    maximumActivationTime = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("@type"))
-                {
-                    type = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("name"))
-                {
-                    name = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("inputs"))
-                {
-                    List<MediaGraphNodeInput> array = new List<MediaGraphNodeInput>();
-                    foreach (var item in property.Value.EnumerateArray())
-                    {
-                        array.Add(MediaGraphNodeInput.DeserializeMediaGraphNodeInput(item));
-                    }
-                    inputs = array;
-                    continue;
-                }
-            }
-            return new MediaGraphSignalGateProcessor(type, name, inputs, activationEvaluationWindow.Value, activationSignalOffset.Value, minimumActivationTime.Value, maximumActivationTime.Value);
         }
     }
 }
