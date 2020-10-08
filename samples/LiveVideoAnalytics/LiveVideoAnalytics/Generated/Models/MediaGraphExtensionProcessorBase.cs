@@ -8,7 +8,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> Processor that allows for extensions, outside of the Live Video Analytics Edge module, to be integrated into the graph. It is the base class for various different kinds of extension processor types. </summary>
     public partial class MediaGraphExtensionProcessorBase : MediaGraphProcessor

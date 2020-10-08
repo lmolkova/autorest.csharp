@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     public partial class MediaGraphAssetSink : IUtf8JsonSerializable
     {

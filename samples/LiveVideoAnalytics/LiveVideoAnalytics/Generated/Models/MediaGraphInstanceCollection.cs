@@ -8,7 +8,7 @@
 using System.Collections.Generic;
 using Azure.Core;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> Collection of graph instances. </summary>
     public partial class MediaGraphInstanceCollection

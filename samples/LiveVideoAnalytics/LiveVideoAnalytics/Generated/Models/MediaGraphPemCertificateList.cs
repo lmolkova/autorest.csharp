@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> A list of PEM formatted certificates. </summary>
     public partial class MediaGraphPemCertificateList : MediaGraphCertificateSource

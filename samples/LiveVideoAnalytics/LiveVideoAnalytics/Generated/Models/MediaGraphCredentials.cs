@@ -5,7 +5,7 @@
 
 #nullable disable
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> Credentials to present during authentication. </summary>
     public partial class MediaGraphCredentials

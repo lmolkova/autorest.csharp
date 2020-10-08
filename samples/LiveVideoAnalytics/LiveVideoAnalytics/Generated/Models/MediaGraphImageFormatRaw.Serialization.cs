@@ -7,9 +7,8 @@
 
 using System.Text.Json;
 using Azure.Core;
-using LiveVideoAnalytics.Models;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     public partial class MediaGraphImageFormatRaw : IUtf8JsonSerializable
     {

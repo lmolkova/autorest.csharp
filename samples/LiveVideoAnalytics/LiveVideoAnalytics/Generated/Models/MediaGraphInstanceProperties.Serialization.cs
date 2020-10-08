@@ -8,9 +8,8 @@
 using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
-using LiveVideoAnalytics.Models;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     public partial class MediaGraphInstanceProperties : IUtf8JsonSerializable
     {

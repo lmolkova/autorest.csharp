@@ -5,9 +5,7 @@
 
 #nullable disable
 
-using LiveVideoAnalytics.Models;
-
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> The scaling mode for the image. </summary>
     public partial class MediaGraphImageScale

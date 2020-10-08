@@ -8,7 +8,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> Limits the frame rate on the input video stream based on the maximumFps property. </summary>
     public partial class MediaGraphFrameRateFilterProcessor : MediaGraphProcessor

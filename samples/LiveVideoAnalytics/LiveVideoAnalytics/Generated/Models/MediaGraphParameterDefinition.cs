@@ -7,7 +7,7 @@
 
 using System;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> A key, value pair. The graph topology can be authored with certain values with parameters. Then, during graph instance creation, the value for that parameters can be specified. This allows the same graph topology to be used as a blueprint for multiple graph instances with different values for the parameters. </summary>
     public partial class MediaGraphParameterDefinition

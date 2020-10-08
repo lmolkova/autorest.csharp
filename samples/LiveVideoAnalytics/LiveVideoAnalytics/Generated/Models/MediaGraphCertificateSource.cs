@@ -5,7 +5,7 @@
 
 #nullable disable
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> Base class for certificate sources. </summary>
     public partial class MediaGraphCertificateSource

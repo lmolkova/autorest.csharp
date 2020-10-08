@@ -7,7 +7,7 @@
 
 using System;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> Represents a Media Graph instance. </summary>
     public partial class MediaGraphInstance

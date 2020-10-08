@@ -5,7 +5,7 @@
 ``` yaml
 title: LiveVideoAnalytics
 require: $(this-folder)/../../readme.md
-model-namespace: false
+public-clients: false
 input-file: $(this-folder)/LiveVideoAnalytics.json
 namespace: Azure.LiveVideoAnalytics
 ```

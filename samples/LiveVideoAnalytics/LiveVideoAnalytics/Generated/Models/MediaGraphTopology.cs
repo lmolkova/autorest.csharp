@@ -7,7 +7,7 @@
 
 using System;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> Describes a graph topology. </summary>
     public partial class MediaGraphTopology

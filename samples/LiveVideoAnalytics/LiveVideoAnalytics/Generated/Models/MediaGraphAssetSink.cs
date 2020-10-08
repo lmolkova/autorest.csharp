@@ -8,7 +8,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> Enables a graph to record media to an Azure Media Services asset, for subsequent playback. </summary>
     public partial class MediaGraphAssetSink : MediaGraphSink

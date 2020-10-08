@@ -5,7 +5,7 @@
 
 #nullable disable
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> Encoding settings for an image. </summary>
     public partial class MediaGraphImageFormat

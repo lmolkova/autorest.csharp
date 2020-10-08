@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> A node that represents the desired processing of media in a graph. Takes media and/or events as inputs, and emits media and/or event as output. </summary>
     public partial class MediaGraphProcessor

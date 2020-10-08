@@ -7,7 +7,7 @@
 
 using System;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> Media graph source. </summary>
     public partial class MediaGraphSource

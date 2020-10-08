@@ -6,9 +6,8 @@
 #nullable disable
 
 using System;
-using LiveVideoAnalytics.Models;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> Enables a graph to capture media from a RTSP server. </summary>
     public partial class MediaGraphRtspSource : MediaGraphSource

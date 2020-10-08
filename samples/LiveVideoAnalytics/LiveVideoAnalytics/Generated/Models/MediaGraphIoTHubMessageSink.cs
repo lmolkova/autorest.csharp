@@ -8,7 +8,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> Enables a graph to publish messages that can be delivered via routes declared in the IoT Edge deployment manifest. </summary>
     public partial class MediaGraphIoTHubMessageSink : MediaGraphSink

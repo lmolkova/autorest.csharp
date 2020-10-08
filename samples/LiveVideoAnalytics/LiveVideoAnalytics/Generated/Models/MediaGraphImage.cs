@@ -5,7 +5,7 @@
 
 #nullable disable
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> Describes the properties of an image frame. </summary>
     public partial class MediaGraphImage

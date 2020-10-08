@@ -7,7 +7,7 @@
 
 using System;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> Enables a graph to receive messages via routes declared in the IoT Edge deployment manifest. </summary>
     public partial class MediaGraphIoTHubMessageSource : MediaGraphSource

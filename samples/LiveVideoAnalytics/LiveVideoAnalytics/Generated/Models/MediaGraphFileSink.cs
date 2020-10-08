@@ -8,7 +8,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> Enables a media graph to write/store media (video and audio) to a file on the Edge device. </summary>
     public partial class MediaGraphFileSink : MediaGraphSink

@@ -8,7 +8,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> A processor that allows the media graph to send video frames to a Cognitive Services Vision extension. Inference results are relayed to downstream nodes. </summary>
     public partial class MediaGraphCognitiveServicesVisionExtension : MediaGraphExtensionProcessorBase

@@ -5,7 +5,7 @@
 
 #nullable disable
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> Options for controlling the authentication of TLS endpoints. </summary>
     public partial class MediaGraphTlsValidationOptions

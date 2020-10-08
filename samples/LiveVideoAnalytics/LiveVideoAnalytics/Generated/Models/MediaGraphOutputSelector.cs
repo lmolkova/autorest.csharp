@@ -5,9 +5,7 @@
 
 #nullable disable
 
-using LiveVideoAnalytics.Models;
-
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> Allows for the selection of particular streams from another node. </summary>
     public partial class MediaGraphOutputSelector

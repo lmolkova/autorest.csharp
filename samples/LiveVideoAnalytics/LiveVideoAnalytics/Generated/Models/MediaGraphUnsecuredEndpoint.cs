@@ -7,7 +7,7 @@
 
 using System;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> An endpoint that the media graph can connect to, with no encryption in transit. </summary>
     public partial class MediaGraphUnsecuredEndpoint : MediaGraphEndpoint

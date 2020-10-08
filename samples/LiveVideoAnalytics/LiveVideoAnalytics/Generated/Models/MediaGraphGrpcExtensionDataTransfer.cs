@@ -5,9 +5,7 @@
 
 #nullable disable
 
-using LiveVideoAnalytics.Models;
-
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> Describes how media should be transferred to the inferencing engine. </summary>
     public partial class MediaGraphGrpcExtensionDataTransfer

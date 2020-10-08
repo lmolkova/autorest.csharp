@@ -7,7 +7,7 @@
 
 using System;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> Http header service credentials. </summary>
     public partial class MediaGraphHttpHeaderCredentials : MediaGraphCredentials

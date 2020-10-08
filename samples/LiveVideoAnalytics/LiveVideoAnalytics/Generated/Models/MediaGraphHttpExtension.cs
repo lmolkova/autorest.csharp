@@ -8,7 +8,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> A processor that allows the media graph to send video frames (mostly at low frame rates e.g. &lt;5 fps) to an external inference container over an HTTP-based RESTful API. Inference results are relayed to downstream nodes. </summary>
     public partial class MediaGraphHttpExtension : MediaGraphExtensionProcessorBase

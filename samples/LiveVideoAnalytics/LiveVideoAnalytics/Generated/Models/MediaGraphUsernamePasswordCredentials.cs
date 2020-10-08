@@ -7,7 +7,7 @@
 
 using System;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> Username/password credential pair. </summary>
     public partial class MediaGraphUsernamePasswordCredentials : MediaGraphCredentials

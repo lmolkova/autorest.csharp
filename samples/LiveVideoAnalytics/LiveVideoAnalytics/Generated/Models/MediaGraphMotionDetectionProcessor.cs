@@ -7,9 +7,8 @@
 
 using System;
 using System.Collections.Generic;
-using LiveVideoAnalytics.Models;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> A node that accepts raw video as input, and detects if there are moving objects present. If so, then it emits an event, and allows frames where motion was detected to pass through. Other frames are blocked/dropped. </summary>
     public partial class MediaGraphMotionDetectionProcessor : MediaGraphProcessor

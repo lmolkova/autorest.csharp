@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> Enables a media graph to write media data to a destination outside of the Live Video Analytics IoT Edge module. </summary>
     public partial class MediaGraphSink

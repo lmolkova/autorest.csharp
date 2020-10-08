@@ -7,7 +7,7 @@
 
 using System;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> An endpoint that the graph can connect to, which must be connected over TLS/SSL. </summary>
     public partial class MediaGraphTlsEndpoint : MediaGraphEndpoint

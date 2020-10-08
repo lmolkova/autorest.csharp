@@ -7,9 +7,8 @@
 
 using System.Collections.Generic;
 using Azure.Core;
-using LiveVideoAnalytics.Models;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> Properties of a Media Graph instance. </summary>
     public partial class MediaGraphInstanceProperties

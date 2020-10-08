@@ -6,9 +6,8 @@
 #nullable disable
 
 using System;
-using LiveVideoAnalytics.Models;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> The declaration of a parameter in the graph topology. A graph topology can be authored with parameters. Then, during graph instance creation, the value for those parameters can be specified. This allows the same graph topology to be used as a blueprint for multiple graph instances with different values for the parameters. </summary>
     public partial class MediaGraphParameterDeclaration

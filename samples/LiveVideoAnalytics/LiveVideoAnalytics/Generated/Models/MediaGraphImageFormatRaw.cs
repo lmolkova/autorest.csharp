@@ -5,9 +5,7 @@
 
 #nullable disable
 
-using LiveVideoAnalytics.Models;
-
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> Encoding settings for raw images. </summary>
     public partial class MediaGraphImageFormatRaw : MediaGraphImageFormat

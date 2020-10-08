@@ -8,7 +8,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
     /// <summary> A processor that allows the media graph to send video frames to an external inference container over a gRPC connection. This can be done using shared memory (for high frame rates), or over the network. Inference results are relayed to downstream nodes. </summary>
     public partial class MediaGraphGrpcExtension : MediaGraphExtensionProcessorBase
