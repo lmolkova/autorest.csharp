@@ -26,8 +26,19 @@ namespace LiveVideoAnalytics.Models
             Type = "#Microsoft.Media.MediaGraphUsernamePasswordCredentials";
         }
 
+        /// <summary> Initializes a new instance of MediaGraphUsernamePasswordCredentials. </summary>
+        /// <param name="type"> The discriminator for derived types. </param>
+        /// <param name="username"> Username for a username/password pair. </param>
+        /// <param name="password"> Password for a username/password pair. </param>
+        internal MediaGraphUsernamePasswordCredentials(string type, string username, string password) : base(type)
+        {
+            Username = username;
+            Password = password;
+            Type = type ?? "#Microsoft.Media.MediaGraphUsernamePasswordCredentials";
+        }
+
         /// <summary> Username for a username/password pair. </summary>
-        public string Username { get; }
+        public string Username { get; set; }
         /// <summary> Password for a username/password pair. </summary>
         public string Password { get; set; }
     }

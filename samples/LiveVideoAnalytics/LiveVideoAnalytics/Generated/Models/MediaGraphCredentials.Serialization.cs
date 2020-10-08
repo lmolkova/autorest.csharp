@@ -19,5 +19,27 @@ namespace LiveVideoAnalytics.Models
             writer.WriteStringValue(Type);
             writer.WriteEndObject();
         }
+
+        internal static MediaGraphCredentials DeserializeMediaGraphCredentials(JsonElement element)
+        {
+            if (element.TryGetProperty("@type", out JsonElement discriminator))
+            {
+                switch (discriminator.GetString())
+                {
+                    case "#Microsoft.Media.MediaGraphHttpHeaderCredentials": return MediaGraphHttpHeaderCredentials.DeserializeMediaGraphHttpHeaderCredentials(element);
+                    case "#Microsoft.Media.MediaGraphUsernamePasswordCredentials": return MediaGraphUsernamePasswordCredentials.DeserializeMediaGraphUsernamePasswordCredentials(element);
+                }
+            }
+            string type = default;
+            foreach (var property in element.EnumerateObject())
+            {
+                if (property.NameEquals("@type"))
+                {
+                    type = property.Value.GetString();
+                    continue;
+                }
+            }
+            return new MediaGraphCredentials(type);
+        }
     }
 }

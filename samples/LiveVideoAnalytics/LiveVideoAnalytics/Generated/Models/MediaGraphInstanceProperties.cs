@@ -19,6 +19,19 @@ namespace LiveVideoAnalytics.Models
             Parameters = new ChangeTrackingList<MediaGraphParameterDefinition>();
         }
 
+        /// <summary> Initializes a new instance of MediaGraphInstanceProperties. </summary>
+        /// <param name="description"> An optional description for the instance. </param>
+        /// <param name="topologyName"> The name of the graph topology that this instance will run. A topology with this name should already have been set in the Edge module. </param>
+        /// <param name="parameters"> List of one or more graph instance parameters. </param>
+        /// <param name="state"> Allowed states for a graph Instance. </param>
+        internal MediaGraphInstanceProperties(string description, string topologyName, IList<MediaGraphParameterDefinition> parameters, MediaGraphInstanceState? state)
+        {
+            Description = description;
+            TopologyName = topologyName;
+            Parameters = parameters;
+            State = state;
+        }
+
         /// <summary> An optional description for the instance. </summary>
         public string Description { get; set; }
         /// <summary> The name of the graph topology that this instance will run. A topology with this name should already have been set in the Edge module. </summary>

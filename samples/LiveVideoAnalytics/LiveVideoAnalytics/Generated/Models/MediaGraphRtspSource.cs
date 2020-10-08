@@ -31,9 +31,21 @@ namespace LiveVideoAnalytics.Models
             Type = "#Microsoft.Media.MediaGraphRtspSource";
         }
 
+        /// <summary> Initializes a new instance of MediaGraphRtspSource. </summary>
+        /// <param name="type"> The type of the source node. The discriminator for derived types. </param>
+        /// <param name="name"> The name to be used for this source node. </param>
+        /// <param name="transport"> Underlying RTSP transport. This is used to enable or disable HTTP tunneling. </param>
+        /// <param name="endpoint"> RTSP endpoint of the stream that is being connected to. </param>
+        internal MediaGraphRtspSource(string type, string name, MediaGraphRtspTransport? transport, MediaGraphEndpoint endpoint) : base(type, name)
+        {
+            Transport = transport;
+            Endpoint = endpoint;
+            Type = type ?? "#Microsoft.Media.MediaGraphRtspSource";
+        }
+
         /// <summary> Underlying RTSP transport. This is used to enable or disable HTTP tunneling. </summary>
         public MediaGraphRtspTransport? Transport { get; set; }
         /// <summary> RTSP endpoint of the stream that is being connected to. </summary>
-        public MediaGraphEndpoint Endpoint { get; }
+        public MediaGraphEndpoint Endpoint { get; set; }
     }
 }

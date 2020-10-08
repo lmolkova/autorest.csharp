@@ -19,6 +19,15 @@ namespace LiveVideoAnalytics.Models
             OutputSelectors = new ChangeTrackingList<MediaGraphOutputSelector>();
         }
 
+        /// <summary> Initializes a new instance of MediaGraphNodeInput. </summary>
+        /// <param name="nodeName"> The name of another node in the media graph, the output of which is used as input to this node. </param>
+        /// <param name="outputSelectors"> Allows for the selection of particular streams from another node. </param>
+        internal MediaGraphNodeInput(string nodeName, IList<MediaGraphOutputSelector> outputSelectors)
+        {
+            NodeName = nodeName;
+            OutputSelectors = outputSelectors;
+        }
+
         /// <summary> The name of another node in the media graph, the output of which is used as input to this node. </summary>
         public string NodeName { get; set; }
         /// <summary> Allows for the selection of particular streams from another node. </summary>

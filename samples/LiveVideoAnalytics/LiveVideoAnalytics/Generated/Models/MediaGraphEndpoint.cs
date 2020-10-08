@@ -25,11 +25,22 @@ namespace LiveVideoAnalytics.Models
             Url = url;
         }
 
+        /// <summary> Initializes a new instance of MediaGraphEndpoint. </summary>
+        /// <param name="type"> The discriminator for derived types. </param>
+        /// <param name="credentials"> Polymorphic credentials to be presented to the endpoint. </param>
+        /// <param name="url"> Url for the endpoint. </param>
+        internal MediaGraphEndpoint(string type, MediaGraphCredentials credentials, string url)
+        {
+            Type = type;
+            Credentials = credentials;
+            Url = url;
+        }
+
         /// <summary> The discriminator for derived types. </summary>
         internal string Type { get; set; }
         /// <summary> Polymorphic credentials to be presented to the endpoint. </summary>
         public MediaGraphCredentials Credentials { get; set; }
         /// <summary> Url for the endpoint. </summary>
-        public string Url { get; }
+        public string Url { get; set; }
     }
 }

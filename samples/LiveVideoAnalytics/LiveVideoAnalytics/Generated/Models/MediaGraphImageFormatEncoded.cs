@@ -16,6 +16,17 @@ namespace LiveVideoAnalytics.Models
             Type = "#Microsoft.Media.MediaGraphImageFormatEncoded";
         }
 
+        /// <summary> Initializes a new instance of MediaGraphImageFormatEncoded. </summary>
+        /// <param name="type"> The discriminator for derived types. </param>
+        /// <param name="encoding"> The different encoding formats that can be used for the image. </param>
+        /// <param name="quality"> The image quality (used for JPEG only). Value must be between 0 to 100 (best quality). </param>
+        internal MediaGraphImageFormatEncoded(string type, MediaGraphImageEncodingFormat? encoding, string quality) : base(type)
+        {
+            Encoding = encoding;
+            Quality = quality;
+            Type = type ?? "#Microsoft.Media.MediaGraphImageFormatEncoded";
+        }
+
         /// <summary> The different encoding formats that can be used for the image. </summary>
         public MediaGraphImageEncodingFormat? Encoding { get; set; }
         /// <summary> The image quality (used for JPEG only). Value must be between 0 to 100 (best quality). </summary>

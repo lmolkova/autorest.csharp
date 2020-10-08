@@ -32,5 +32,31 @@ namespace LiveVideoAnalytics.Models
             }
             writer.WriteEndObject();
         }
+
+        internal static MediaGraphOutputSelector DeserializeMediaGraphOutputSelector(JsonElement element)
+        {
+            Optional<string> property = default;
+            Optional<MediaGraphOutputSelectorOperator> @operator = default;
+            Optional<string> value = default;
+            foreach (var property0 in element.EnumerateObject())
+            {
+                if (property0.NameEquals("property"))
+                {
+                    property = property0.Value.GetString();
+                    continue;
+                }
+                if (property0.NameEquals("operator"))
+                {
+                    @operator = property0.Value.GetString().ToMediaGraphOutputSelectorOperator();
+                    continue;
+                }
+                if (property0.NameEquals("value"))
+                {
+                    value = property0.Value.GetString();
+                    continue;
+                }
+            }
+            return new MediaGraphOutputSelector(property.Value, Optional.ToNullable(@operator), value.Value);
+        }
     }
 }

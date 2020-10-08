@@ -5,6 +5,7 @@
 
 #nullable disable
 
+using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
@@ -32,6 +33,43 @@ namespace LiveVideoAnalytics.Models
             }
             writer.WriteEndArray();
             writer.WriteEndObject();
+        }
+
+        internal static MediaGraphFrameRateFilterProcessor DeserializeMediaGraphFrameRateFilterProcessor(JsonElement element)
+        {
+            Optional<string> maximumFps = default;
+            string type = default;
+            string name = default;
+            IList<MediaGraphNodeInput> inputs = default;
+            foreach (var property in element.EnumerateObject())
+            {
+                if (property.NameEquals("maximumFps"))
+                {
+                    maximumFps = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("@type"))
+                {
+                    type = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("name"))
+                {
+                    name = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("inputs"))
+                {
+                    List<MediaGraphNodeInput> array = new List<MediaGraphNodeInput>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(MediaGraphNodeInput.DeserializeMediaGraphNodeInput(item));
+                    }
+                    inputs = array;
+                    continue;
+                }
+            }
+            return new MediaGraphFrameRateFilterProcessor(type, name, inputs, maximumFps.Value);
         }
     }
 }

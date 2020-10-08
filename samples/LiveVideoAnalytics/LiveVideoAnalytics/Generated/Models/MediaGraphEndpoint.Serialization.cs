@@ -26,5 +26,39 @@ namespace LiveVideoAnalytics.Models
             writer.WriteStringValue(Url);
             writer.WriteEndObject();
         }
+
+        internal static MediaGraphEndpoint DeserializeMediaGraphEndpoint(JsonElement element)
+        {
+            if (element.TryGetProperty("@type", out JsonElement discriminator))
+            {
+                switch (discriminator.GetString())
+                {
+                    case "#Microsoft.Media.MediaGraphTlsEndpoint": return MediaGraphTlsEndpoint.DeserializeMediaGraphTlsEndpoint(element);
+                    case "#Microsoft.Media.MediaGraphUnsecuredEndpoint": return MediaGraphUnsecuredEndpoint.DeserializeMediaGraphUnsecuredEndpoint(element);
+                }
+            }
+            string type = default;
+            Optional<MediaGraphCredentials> credentials = default;
+            string url = default;
+            foreach (var property in element.EnumerateObject())
+            {
+                if (property.NameEquals("@type"))
+                {
+                    type = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("credentials"))
+                {
+                    credentials = MediaGraphCredentials.DeserializeMediaGraphCredentials(property.Value);
+                    continue;
+                }
+                if (property.NameEquals("url"))
+                {
+                    url = property.Value.GetString();
+                    continue;
+                }
+            }
+            return new MediaGraphEndpoint(type, credentials.Value, url);
+        }
     }
 }

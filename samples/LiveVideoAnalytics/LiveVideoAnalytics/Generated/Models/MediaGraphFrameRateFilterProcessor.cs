@@ -31,6 +31,17 @@ namespace LiveVideoAnalytics.Models
             Type = "#Microsoft.Media.MediaGraphFrameRateFilterProcessor";
         }
 
+        /// <summary> Initializes a new instance of MediaGraphFrameRateFilterProcessor. </summary>
+        /// <param name="type"> The discriminator for derived types. </param>
+        /// <param name="name"> The name for this processor node. </param>
+        /// <param name="inputs"> An array of the names of the other nodes in the media graph, the outputs of which are used as input for this processor node. </param>
+        /// <param name="maximumFps"> Ensures that the frame rate of the video leaving this processor does not exceed this limit. </param>
+        internal MediaGraphFrameRateFilterProcessor(string type, string name, IList<MediaGraphNodeInput> inputs, string maximumFps) : base(type, name, inputs)
+        {
+            MaximumFps = maximumFps;
+            Type = type ?? "#Microsoft.Media.MediaGraphFrameRateFilterProcessor";
+        }
+
         /// <summary> Ensures that the frame rate of the video leaving this processor does not exceed this limit. </summary>
         public string MaximumFps { get; set; }
     }

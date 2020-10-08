@@ -28,6 +28,15 @@ namespace LiveVideoAnalytics.Models
             Type = "#Microsoft.Media.MediaGraphPemCertificateList";
         }
 
+        /// <summary> Initializes a new instance of MediaGraphPemCertificateList. </summary>
+        /// <param name="type"> The discriminator for derived types. </param>
+        /// <param name="certificates"> PEM formatted public certificates one per entry. </param>
+        internal MediaGraphPemCertificateList(string type, IList<string> certificates) : base(type)
+        {
+            Certificates = certificates;
+            Type = type ?? "#Microsoft.Media.MediaGraphPemCertificateList";
+        }
+
         /// <summary> PEM formatted public certificates one per entry. </summary>
         public IList<string> Certificates { get; }
     }

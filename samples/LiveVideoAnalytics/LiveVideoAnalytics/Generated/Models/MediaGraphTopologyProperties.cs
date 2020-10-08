@@ -22,6 +22,21 @@ namespace LiveVideoAnalytics.Models
             Sinks = new ChangeTrackingList<MediaGraphSink>();
         }
 
+        /// <summary> Initializes a new instance of MediaGraphTopologyProperties. </summary>
+        /// <param name="description"> . </param>
+        /// <param name="parameters"> . </param>
+        /// <param name="sources"> . </param>
+        /// <param name="processors"> . </param>
+        /// <param name="sinks"> . </param>
+        internal MediaGraphTopologyProperties(string description, IList<MediaGraphParameterDeclaration> parameters, IList<MediaGraphSource> sources, IList<MediaGraphProcessor> processors, IList<MediaGraphSink> sinks)
+        {
+            Description = description;
+            Parameters = parameters;
+            Sources = sources;
+            Processors = processors;
+            Sinks = sinks;
+        }
+
         public string Description { get; set; }
         public IList<MediaGraphParameterDeclaration> Parameters { get; }
         public IList<MediaGraphSource> Sources { get; }

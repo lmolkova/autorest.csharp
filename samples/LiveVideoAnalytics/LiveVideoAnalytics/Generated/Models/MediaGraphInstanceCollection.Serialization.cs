@@ -5,6 +5,7 @@
 
 #nullable disable
 
+using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
@@ -31,6 +32,31 @@ namespace LiveVideoAnalytics.Models
                 writer.WriteStringValue(ContinuationToken);
             }
             writer.WriteEndObject();
+        }
+
+        internal static MediaGraphInstanceCollection DeserializeMediaGraphInstanceCollection(JsonElement element)
+        {
+            Optional<IList<MediaGraphInstance>> value = default;
+            Optional<string> continuationToken = default;
+            foreach (var property in element.EnumerateObject())
+            {
+                if (property.NameEquals("value"))
+                {
+                    List<MediaGraphInstance> array = new List<MediaGraphInstance>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(MediaGraphInstance.DeserializeMediaGraphInstance(item));
+                    }
+                    value = array;
+                    continue;
+                }
+                if (property.NameEquals("@continuationToken"))
+                {
+                    continuationToken = property.Value.GetString();
+                    continue;
+                }
+            }
+            return new MediaGraphInstanceCollection(Optional.ToList(value), continuationToken.Value);
         }
     }
 }

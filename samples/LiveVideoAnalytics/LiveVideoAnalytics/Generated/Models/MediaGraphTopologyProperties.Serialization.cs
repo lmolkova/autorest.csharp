@@ -5,6 +5,7 @@
 
 #nullable disable
 
+using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
@@ -61,6 +62,64 @@ namespace LiveVideoAnalytics.Models
                 writer.WriteEndArray();
             }
             writer.WriteEndObject();
+        }
+
+        internal static MediaGraphTopologyProperties DeserializeMediaGraphTopologyProperties(JsonElement element)
+        {
+            Optional<string> description = default;
+            Optional<IList<MediaGraphParameterDeclaration>> parameters = default;
+            Optional<IList<MediaGraphSource>> sources = default;
+            Optional<IList<MediaGraphProcessor>> processors = default;
+            Optional<IList<MediaGraphSink>> sinks = default;
+            foreach (var property in element.EnumerateObject())
+            {
+                if (property.NameEquals("description"))
+                {
+                    description = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("parameters"))
+                {
+                    List<MediaGraphParameterDeclaration> array = new List<MediaGraphParameterDeclaration>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(MediaGraphParameterDeclaration.DeserializeMediaGraphParameterDeclaration(item));
+                    }
+                    parameters = array;
+                    continue;
+                }
+                if (property.NameEquals("sources"))
+                {
+                    List<MediaGraphSource> array = new List<MediaGraphSource>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(MediaGraphSource.DeserializeMediaGraphSource(item));
+                    }
+                    sources = array;
+                    continue;
+                }
+                if (property.NameEquals("processors"))
+                {
+                    List<MediaGraphProcessor> array = new List<MediaGraphProcessor>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(MediaGraphProcessor.DeserializeMediaGraphProcessor(item));
+                    }
+                    processors = array;
+                    continue;
+                }
+                if (property.NameEquals("sinks"))
+                {
+                    List<MediaGraphSink> array = new List<MediaGraphSink>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(MediaGraphSink.DeserializeMediaGraphSink(item));
+                    }
+                    sinks = array;
+                    continue;
+                }
+            }
+            return new MediaGraphTopologyProperties(description.Value, Optional.ToList(parameters), Optional.ToList(sources), Optional.ToList(processors), Optional.ToList(sinks));
         }
     }
 }

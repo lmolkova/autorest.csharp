@@ -32,8 +32,8 @@ namespace LiveVideoAnalytics.Models
         }
 
         /// <summary> Name of parameter as defined in the graph topology. </summary>
-        public string Name { get; }
+        public string Name { get; set; }
         /// <summary> Value of parameter. </summary>
-        public string Value { get; }
+        public string Value { get; set; }
     }
 }

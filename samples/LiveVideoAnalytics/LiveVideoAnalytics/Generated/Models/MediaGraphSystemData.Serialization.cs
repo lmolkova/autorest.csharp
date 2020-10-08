@@ -5,6 +5,7 @@
 
 #nullable disable
 
+using System;
 using System.Text.Json;
 using Azure.Core;
 
@@ -26,6 +27,26 @@ namespace LiveVideoAnalytics.Models
                 writer.WriteStringValue(LastModifiedAt.Value, "O");
             }
             writer.WriteEndObject();
+        }
+
+        internal static MediaGraphSystemData DeserializeMediaGraphSystemData(JsonElement element)
+        {
+            Optional<DateTimeOffset> createdAt = default;
+            Optional<DateTimeOffset> lastModifiedAt = default;
+            foreach (var property in element.EnumerateObject())
+            {
+                if (property.NameEquals("createdAt"))
+                {
+                    createdAt = property.Value.GetDateTimeOffset("O");
+                    continue;
+                }
+                if (property.NameEquals("lastModifiedAt"))
+                {
+                    lastModifiedAt = property.Value.GetDateTimeOffset("O");
+                    continue;
+                }
+            }
+            return new MediaGraphSystemData(Optional.ToNullable(createdAt), Optional.ToNullable(lastModifiedAt));
         }
     }
 }

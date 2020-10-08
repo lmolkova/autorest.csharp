@@ -19,6 +19,15 @@ namespace LiveVideoAnalytics.Models
             Value = new ChangeTrackingList<MediaGraphInstance>();
         }
 
+        /// <summary> Initializes a new instance of MediaGraphInstanceCollection. </summary>
+        /// <param name="value"> Collection of graph instances. </param>
+        /// <param name="continuationToken"> Continuation token to use in subsequent calls to enumerate through the graph instance collection (when the collection contains too many results to return in one response). </param>
+        internal MediaGraphInstanceCollection(IList<MediaGraphInstance> value, string continuationToken)
+        {
+            Value = value;
+            ContinuationToken = continuationToken;
+        }
+
         /// <summary> Collection of graph instances. </summary>
         public IList<MediaGraphInstance> Value { get; }
         /// <summary> Continuation token to use in subsequent calls to enumerate through the graph instance collection (when the collection contains too many results to return in one response). </summary>

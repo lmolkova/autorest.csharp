@@ -16,6 +16,15 @@ namespace LiveVideoAnalytics.Models
             Type = "#Microsoft.Media.MediaGraphImageFormatRaw";
         }
 
+        /// <summary> Initializes a new instance of MediaGraphImageFormatRaw. </summary>
+        /// <param name="type"> The discriminator for derived types. </param>
+        /// <param name="pixelFormat"> . </param>
+        internal MediaGraphImageFormatRaw(string type, MediaGraphImageFormatRawPixelFormat? pixelFormat) : base(type)
+        {
+            PixelFormat = pixelFormat;
+            Type = type ?? "#Microsoft.Media.MediaGraphImageFormatRaw";
+        }
+
         public MediaGraphImageFormatRawPixelFormat? PixelFormat { get; set; }
     }
 }

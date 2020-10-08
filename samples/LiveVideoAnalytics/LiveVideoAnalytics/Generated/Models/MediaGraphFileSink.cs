@@ -37,7 +37,18 @@ namespace LiveVideoAnalytics.Models
             Type = "#Microsoft.Media.MediaGraphFileSink";
         }
 
+        /// <summary> Initializes a new instance of MediaGraphFileSink. </summary>
+        /// <param name="type"> The discriminator for derived types. </param>
+        /// <param name="name"> Name to be used for the media graph sink. </param>
+        /// <param name="inputs"> An array of the names of the other nodes in the media graph, the outputs of which are used as input for this sink node. </param>
+        /// <param name="filePathPattern"> Absolute file path pattern for creating new files on the Edge device. </param>
+        internal MediaGraphFileSink(string type, string name, IList<MediaGraphNodeInput> inputs, string filePathPattern) : base(type, name, inputs)
+        {
+            FilePathPattern = filePathPattern;
+            Type = type ?? "#Microsoft.Media.MediaGraphFileSink";
+        }
+
         /// <summary> Absolute file path pattern for creating new files on the Edge device. </summary>
-        public string FilePathPattern { get; }
+        public string FilePathPattern { get; set; }
     }
 }

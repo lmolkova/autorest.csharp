@@ -33,10 +33,21 @@ namespace LiveVideoAnalytics.Models
             Inputs = inputs.ToList();
         }
 
+        /// <summary> Initializes a new instance of MediaGraphProcessor. </summary>
+        /// <param name="type"> The discriminator for derived types. </param>
+        /// <param name="name"> The name for this processor node. </param>
+        /// <param name="inputs"> An array of the names of the other nodes in the media graph, the outputs of which are used as input for this processor node. </param>
+        internal MediaGraphProcessor(string type, string name, IList<MediaGraphNodeInput> inputs)
+        {
+            Type = type;
+            Name = name;
+            Inputs = inputs;
+        }
+
         /// <summary> The discriminator for derived types. </summary>
         internal string Type { get; set; }
         /// <summary> The name for this processor node. </summary>
-        public string Name { get; }
+        public string Name { get; set; }
         /// <summary> An array of the names of the other nodes in the media graph, the outputs of which are used as input for this processor node. </summary>
         public IList<MediaGraphNodeInput> Inputs { get; }
     }

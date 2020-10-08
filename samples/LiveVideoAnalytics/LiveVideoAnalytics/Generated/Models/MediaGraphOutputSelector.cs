@@ -16,6 +16,17 @@ namespace LiveVideoAnalytics.Models
             Property = "mediaType";
         }
 
+        /// <summary> Initializes a new instance of MediaGraphOutputSelector. </summary>
+        /// <param name="property"> The stream property to compare with. </param>
+        /// <param name="operator"> The operator to compare streams by. </param>
+        /// <param name="value"> Value to compare against. </param>
+        internal MediaGraphOutputSelector(string property, MediaGraphOutputSelectorOperator? @operator, string value)
+        {
+            Property = property;
+            Operator = @operator;
+            Value = value;
+        }
+
         /// <summary> The stream property to compare with. </summary>
         public string Property { get; set; }
         /// <summary> The operator to compare streams by. </summary>

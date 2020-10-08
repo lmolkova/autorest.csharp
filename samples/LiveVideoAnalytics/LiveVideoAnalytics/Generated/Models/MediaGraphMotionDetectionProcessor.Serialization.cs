@@ -5,6 +5,7 @@
 
 #nullable disable
 
+using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
@@ -37,6 +38,49 @@ namespace LiveVideoAnalytics.Models
             }
             writer.WriteEndArray();
             writer.WriteEndObject();
+        }
+
+        internal static MediaGraphMotionDetectionProcessor DeserializeMediaGraphMotionDetectionProcessor(JsonElement element)
+        {
+            Optional<MediaGraphMotionDetectionSensitivity> sensitivity = default;
+            Optional<bool> outputMotionRegion = default;
+            string type = default;
+            string name = default;
+            IList<MediaGraphNodeInput> inputs = default;
+            foreach (var property in element.EnumerateObject())
+            {
+                if (property.NameEquals("sensitivity"))
+                {
+                    sensitivity = new MediaGraphMotionDetectionSensitivity(property.Value.GetString());
+                    continue;
+                }
+                if (property.NameEquals("outputMotionRegion"))
+                {
+                    outputMotionRegion = property.Value.GetBoolean();
+                    continue;
+                }
+                if (property.NameEquals("@type"))
+                {
+                    type = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("name"))
+                {
+                    name = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("inputs"))
+                {
+                    List<MediaGraphNodeInput> array = new List<MediaGraphNodeInput>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(MediaGraphNodeInput.DeserializeMediaGraphNodeInput(item));
+                    }
+                    inputs = array;
+                    continue;
+                }
+            }
+            return new MediaGraphMotionDetectionProcessor(type, name, inputs, Optional.ToNullable(sensitivity), Optional.ToNullable(outputMotionRegion));
         }
     }
 }

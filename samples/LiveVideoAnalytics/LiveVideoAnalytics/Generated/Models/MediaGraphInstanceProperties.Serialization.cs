@@ -5,6 +5,7 @@
 
 #nullable disable
 
+using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
@@ -41,6 +42,43 @@ namespace LiveVideoAnalytics.Models
                 writer.WriteStringValue(State.Value.ToSerialString());
             }
             writer.WriteEndObject();
+        }
+
+        internal static MediaGraphInstanceProperties DeserializeMediaGraphInstanceProperties(JsonElement element)
+        {
+            Optional<string> description = default;
+            Optional<string> topologyName = default;
+            Optional<IList<MediaGraphParameterDefinition>> parameters = default;
+            Optional<MediaGraphInstanceState> state = default;
+            foreach (var property in element.EnumerateObject())
+            {
+                if (property.NameEquals("description"))
+                {
+                    description = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("topologyName"))
+                {
+                    topologyName = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("parameters"))
+                {
+                    List<MediaGraphParameterDefinition> array = new List<MediaGraphParameterDefinition>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(MediaGraphParameterDefinition.DeserializeMediaGraphParameterDefinition(item));
+                    }
+                    parameters = array;
+                    continue;
+                }
+                if (property.NameEquals("state"))
+                {
+                    state = property.Value.GetString().ToMediaGraphInstanceState();
+                    continue;
+                }
+            }
+            return new MediaGraphInstanceProperties(description.Value, topologyName.Value, Optional.ToList(parameters), Optional.ToNullable(state));
         }
     }
 }

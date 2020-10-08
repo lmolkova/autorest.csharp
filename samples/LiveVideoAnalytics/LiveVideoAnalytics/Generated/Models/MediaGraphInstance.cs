@@ -25,7 +25,20 @@ namespace LiveVideoAnalytics.Models
             Name = name;
         }
 
-        public string Name { get; }
+        /// <summary> Initializes a new instance of MediaGraphInstance. </summary>
+        /// <param name="name"> . </param>
+        /// <param name="apiVersion"> . </param>
+        /// <param name="systemData"> Graph system data. </param>
+        /// <param name="properties"> Properties of a Media Graph instance. </param>
+        internal MediaGraphInstance(string name, string apiVersion, MediaGraphSystemData systemData, MediaGraphInstanceProperties properties)
+        {
+            Name = name;
+            ApiVersion = apiVersion;
+            SystemData = systemData;
+            Properties = properties;
+        }
+
+        public string Name { get; set; }
         public string ApiVersion { get; set; }
         /// <summary> Graph system data. </summary>
         public MediaGraphSystemData SystemData { get; set; }

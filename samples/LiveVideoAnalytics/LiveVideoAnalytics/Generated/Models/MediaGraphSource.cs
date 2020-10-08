@@ -25,9 +25,18 @@ namespace LiveVideoAnalytics.Models
             Name = name;
         }
 
+        /// <summary> Initializes a new instance of MediaGraphSource. </summary>
+        /// <param name="type"> The type of the source node. The discriminator for derived types. </param>
+        /// <param name="name"> The name to be used for this source node. </param>
+        internal MediaGraphSource(string type, string name)
+        {
+            Type = type;
+            Name = name;
+        }
+
         /// <summary> The type of the source node. The discriminator for derived types. </summary>
         internal string Type { get; set; }
         /// <summary> The name to be used for this source node. </summary>
-        public string Name { get; }
+        public string Name { get; set; }
     }
 }
