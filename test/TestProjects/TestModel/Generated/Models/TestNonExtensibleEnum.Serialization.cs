@@ -7,7 +7,7 @@
 
 using System;
 
-namespace ModelNamespace
+namespace TestModel
 {
     internal static class TestNonExtensibleEnumExtensions
     {

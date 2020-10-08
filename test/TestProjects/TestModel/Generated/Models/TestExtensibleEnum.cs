@@ -8,7 +8,7 @@
 using System;
 using System.ComponentModel;
 
-namespace ModelNamespace
+namespace TestModel
 {
     /// <summary> More Letters. </summary>
     internal readonly partial struct TestExtensibleEnum : IEquatable<TestExtensibleEnum>

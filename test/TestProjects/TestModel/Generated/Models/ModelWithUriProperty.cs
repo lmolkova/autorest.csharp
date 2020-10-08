@@ -7,22 +7,15 @@
 
 namespace TestModel
 {
-    /// <summary> The ModelWithUriProperty. </summary>
-    public partial class ModelWithUriProperty
+    /// <summary> . </summary>
+    internal partial class ModelWithUriProperty
     {
         /// <summary> Initializes a new instance of ModelWithUriProperty. </summary>
-        public ModelWithUriProperty()
+        internal ModelWithUriProperty()
         {
-        }
-
-        /// <summary> Initializes a new instance of ModelWithUriProperty. </summary>
-        /// <param name="uri"> . </param>
-        internal ModelWithUriProperty(string uri)
-        {
-            Uri = uri;
         }
 
         /// <summary> . </summary>
-        public string Uri { get; set; }
+        public string Uri { get; }
     }
 }

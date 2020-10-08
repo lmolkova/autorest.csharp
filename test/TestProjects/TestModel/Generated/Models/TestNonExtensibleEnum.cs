@@ -5,7 +5,7 @@
 
 #nullable disable
 
-namespace ModelNamespace
+namespace TestModel
 {
     /// <summary> More Letters. </summary>
     internal enum TestNonExtensibleEnum
