@@ -9,7 +9,7 @@ public-clients: false
 input-file: $(this-folder)/LiveVideoAnalytics.json
 namespace: Azure.LiveVideoAnalytics
 ```
-### Make generated models internal by default
+### Make generated models input only
 
 ``` yaml
 directive:
