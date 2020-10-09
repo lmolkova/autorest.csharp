@@ -5,20 +5,18 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 using Azure.Core;
-using LiveVideoAnalytics.Models;
 
-namespace LiveVideoAnalytics
+namespace LiveVideoAnalytics.Models
 {
-    public class MediaGraphTopologySerialization
+    public partial class MediaGraphTopology
     {
         /// <summary>
         ///  Serialize MediaGraphTopology.
         /// </summary>
-        /// <param name="model"></param>
         /// <returns></returns>
-        public string SerializeMediaGraphTopology(MediaGraphTopology model)
+        public string SerializeMediaGraphTopology()
         {
-            return SerializeMediaGraphTopologyInternal(model);
+            return SerializeMediaGraphTopologyInternal(this);
         }
 
         internal string SerializeMediaGraphTopologyInternal(IUtf8JsonSerializable serializable)
@@ -36,11 +34,12 @@ namespace LiveVideoAnalytics
         /// <summary>
         ///  Deserialize MediaGraphTopology.
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
-        public static MediaGraphTopology DeserializeMediaGraphTopology(JsonElement element)
+        public static MediaGraphTopology DeserializeMediaGraphTopology(string model)
         {
-            return MediaGraphTopology.DeserializeMediaGraphTopology(element);
+            var modelAsJson = JsonSerializer.Serialize(model);
+            return DeserializeMediaGraphTopology(modelAsJson);
         }
     }
 }
