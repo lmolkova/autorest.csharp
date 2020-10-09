@@ -8,18 +8,19 @@ using Azure.Core;
 
 namespace LiveVideoAnalytics.Models
 {
-    public partial class MediaGraphTopology
+    public partial class MediaGraphInstance
     {
+
         /// <summary>
-        ///  Serialize MediaGraphTopology.
+        ///  Serialize MediaGraphInstance.
         /// </summary>
         /// <returns></returns>
-        public string SerializeMediaGraphTopology()
+        public string SerializeMediaGraphInstance()
         {
-            return SerializeMediaGraphTopologyInternal(this);
+            return SerializeMediaGraphInstanceInternal(this);
         }
 
-        internal string SerializeMediaGraphTopologyInternal(IUtf8JsonSerializable serializable)
+        internal string SerializeMediaGraphInstanceInternal(IUtf8JsonSerializable serializable)
         {
             using var memoryStream = new MemoryStream();
 
@@ -32,14 +33,14 @@ namespace LiveVideoAnalytics.Models
         }
 
         /// <summary>
-        ///  Deserialize MediaGraphTopology.
+        ///  Deserialize MediaGraphInstance.
         /// </summary>
         /// <param name="json"></param>
         /// <returns></returns>
-        public static MediaGraphTopology DeserializeMediaGraphTopology(string json)
+        public static MediaGraphInstance DeserializeMediaGraphInstance(string json)
         {
             JsonElement element = JsonDocument.Parse(json).RootElement;
-            return DeserializeMediaGraphTopology(element);
+            return DeserializeMediaGraphInstance(element);
         }
     }
 }
