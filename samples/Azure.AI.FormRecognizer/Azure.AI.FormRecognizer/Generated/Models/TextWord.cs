@@ -37,11 +37,13 @@ namespace Azure.AI.FormRecognizer.Models
         /// <param name="text"> The text content of the word. </param>
         /// <param name="boundingBox"> Bounding box of an extracted word. </param>
         /// <param name="confidence"> Confidence value. </param>
-        internal TextWord(string text, IReadOnlyList<float> boundingBox, float? confidence)
+        /// <param name="appearance"> Text appearance properties. </param>
+        internal TextWord(string text, IReadOnlyList<float> boundingBox, float? confidence, Appearance appearance)
         {
             Text = text;
             BoundingBox = boundingBox;
             Confidence = confidence;
+            Appearance = appearance;
         }
 
         /// <summary> The text content of the word. </summary>
@@ -50,5 +52,7 @@ namespace Azure.AI.FormRecognizer.Models
         public IReadOnlyList<float> BoundingBox { get; }
         /// <summary> Confidence value. </summary>
         public float? Confidence { get; }
+        /// <summary> Text appearance properties. </summary>
+        public Appearance Appearance { get; }
     }
 }

@@ -18,6 +18,7 @@ namespace Azure.AI.FormRecognizer.Models
             string text = default;
             IReadOnlyList<float> boundingBox = default;
             Optional<float> confidence = default;
+            Optional<Appearance> appearance = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("text"))
@@ -45,8 +46,18 @@ namespace Azure.AI.FormRecognizer.Models
                     confidence = property.Value.GetSingle();
                     continue;
                 }
+                if (property.NameEquals("appearance"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    appearance = Appearance.DeserializeAppearance(property.Value);
+                    continue;
+                }
             }
-            return new TextWord(text, boundingBox, Optional.ToNullable(confidence));
+            return new TextWord(text, boundingBox, Optional.ToNullable(confidence), appearance.Value);
         }
     }
 }
