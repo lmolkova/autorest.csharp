@@ -12,33 +12,33 @@ using Marketplace.Saas;
 
 namespace Marketplace.Saas
 {
-    /// <summary> Saas service management client. </summary>
-    public class SaasManagementClient
+    /// <summary> Customized service management client. </summary>
+    public class CustomizedManagementClient
     {
         private readonly ClientDiagnostics _clientDiagnostics;
         private readonly HttpPipeline _pipeline;
         private readonly Uri _endpoint;
 
-        /// <summary> Initializes a new instance of SaasManagementClient for mocking. </summary>
-        protected SaasManagementClient()
+        /// <summary> Initializes a new instance of CustomizedManagementClient for mocking. </summary>
+        protected CustomizedManagementClient()
         {
         }
 
-        /// <summary> Initializes a new instance of SaasManagementClient. </summary>
+        /// <summary> Initializes a new instance of CustomizedManagementClient. </summary>
         /// <param name="tokenCredential"> The OAuth token for making client requests. </param>
         /// <param name="options"> The options for configuring the client. </param>
-        public SaasManagementClient(TokenCredential tokenCredential, SaasManagementClientOptions options = null) : this(null, tokenCredential, options)
+        public CustomizedManagementClient(TokenCredential tokenCredential, CustomizedManagementClientOptions options = null) : this(null, tokenCredential, options)
         {
         }
-        /// <summary> Initializes a new instance of SaasManagementClient. </summary>
+        /// <summary> Initializes a new instance of CustomizedManagementClient. </summary>
         /// <param name="endpoint"> server parameter. </param>
         /// <param name="tokenCredential"> The OAuth token for making client requests. </param>
         /// <param name="options"> The options for configuring the client. </param>
-        public SaasManagementClient(Uri endpoint, TokenCredential tokenCredential, SaasManagementClientOptions options = null)
+        public CustomizedManagementClient(Uri endpoint, TokenCredential tokenCredential, CustomizedManagementClientOptions options = null)
         {
             endpoint ??= new Uri("https://marketplaceapi.microsoft.com/api");
 
-            options ??= new SaasManagementClientOptions();
+            options ??= new CustomizedManagementClientOptions();
             _clientDiagnostics = new ClientDiagnostics(options);
             _pipeline = ManagementPipelineBuilder.Build(tokenCredential, endpoint, options);
             _endpoint = endpoint;

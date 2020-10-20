@@ -9,8 +9,8 @@ using Azure.Core;
 
 namespace Marketplace.Saas
 {
-    /// <summary> Client options for Saas. </summary>
-    public class SaasManagementClientOptions : ClientOptions
+    /// <summary> Client options for Customized. </summary>
+    public class CustomizedManagementClientOptions : ClientOptions
     {
     }
 }
