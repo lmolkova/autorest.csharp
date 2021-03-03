@@ -59,7 +59,10 @@
     "TestModel": {
       "type": "object",
       "properties": {
-        "Code": { "type": "string" },
+        "Code": { 
+          "type": "string",
+          "format": "url"
+         },
         "Status": { "type": "string" }
       },
       "description": "."
@@ -88,6 +91,7 @@
     },
     "Endpoint": {
       "name": "Endpoint",
+      "format": "url",
       "description": "server parameter.",
       "x-ms-parameter-location": "client",
       "required": true,

@@ -18,7 +18,7 @@ namespace PublicClientCtor.Models
             if (Optional.IsDefined(Code))
             {
                 writer.WritePropertyName("Code");
-                writer.WriteStringValue(Code);
+                writer.WriteStringValue(Code.AbsoluteUri);
             }
             if (Optional.IsDefined(Status))
             {

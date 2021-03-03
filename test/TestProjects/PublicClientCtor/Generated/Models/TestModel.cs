@@ -5,6 +5,8 @@
 
 #nullable disable
 
+using System;
+
 namespace PublicClientCtor.Models
 {
     /// <summary> . </summary>
@@ -15,7 +17,7 @@ namespace PublicClientCtor.Models
         {
         }
 
-        public string Code { get; set; }
+        public Uri Code { get; set; }
         public string Status { get; set; }
     }
 }

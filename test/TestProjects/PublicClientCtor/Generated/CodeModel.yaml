@@ -21,16 +21,6 @@ schemas: !Schemas
           name: String
           description: ''
       protocol: !Protocols {}
-    - !StringSchema &ref_1
-      type: string
-      apiVersions:
-        - !ApiVersion 
-          version: 1.0.0
-      language: !Languages 
-        default:
-          name: TestModelCode
-          description: ''
-      protocol: !Protocols {}
     - !StringSchema &ref_2
       type: string
       apiVersions:
@@ -61,6 +51,27 @@ schemas: !Schemas
         default:
           name: ApplicationJson
           description: Content Type 'application/json'
+      protocol: !Protocols {}
+  uris:
+    - !UriSchema &ref_1
+      type: uri
+      apiVersions:
+        - !ApiVersion 
+          version: 1.0.0
+      language: !Languages 
+        default:
+          name: TestModelCode
+          description: ''
+      protocol: !Protocols {}
+    - !UriSchema 
+      type: uri
+      apiVersions:
+        - !ApiVersion 
+          version: 1.0.0
+      language: !Languages 
+        default:
+          name: Uri
+          description: ''
       protocol: !Protocols {}
   objects:
     - !ObjectSchema &ref_10
