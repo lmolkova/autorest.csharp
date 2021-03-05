@@ -16,78 +16,60 @@ using Azure.Management.Storage.Models;
 
 namespace Azure.Management.Storage
 {
-    internal partial class UsagesRestOperations
+    internal partial class RestClient
     {
-        private string subscriptionId;
         private Uri endpoint;
         private string apiVersion;
         private ClientDiagnostics _clientDiagnostics;
         private HttpPipeline _pipeline;
 
-        /// <summary> Initializes a new instance of UsagesRestOperations. </summary>
+        /// <summary> Initializes a new instance of RestClient. </summary>
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
-        /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="endpoint"> server parameter. </param>
         /// <param name="apiVersion"> Api Version. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> or <paramref name="apiVersion"/> is null. </exception>
-        public UsagesRestOperations(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null, string apiVersion = "2019-06-01")
+        /// <exception cref="ArgumentNullException"> <paramref name="apiVersion"/> is null. </exception>
+        public RestClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, Uri endpoint = null, string apiVersion = "2019-06-01")
         {
-            if (subscriptionId == null)
-            {
-                throw new ArgumentNullException(nameof(subscriptionId));
-            }
             endpoint ??= new Uri("https://management.azure.com");
             if (apiVersion == null)
             {
                 throw new ArgumentNullException(nameof(apiVersion));
             }
 
-            this.subscriptionId = subscriptionId;
             this.endpoint = endpoint;
             this.apiVersion = apiVersion;
             _clientDiagnostics = clientDiagnostics;
             _pipeline = pipeline;
         }
 
-        internal HttpMessage CreateListByLocationRequest(string location)
+        internal HttpMessage CreateListRequest()
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
             uri.Reset(endpoint);
-            uri.AppendPath("/subscriptions/", false);
-            uri.AppendPath(subscriptionId, true);
-            uri.AppendPath("/providers/Microsoft.Storage/locations/", false);
-            uri.AppendPath(location, true);
-            uri.AppendPath("/usages", false);
+            uri.AppendPath("/providers/Microsoft.Storage/operations", false);
             uri.AppendQuery("api-version", apiVersion, true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
         }
 
-        /// <summary> Gets the current usage count and the limit for the resources of the location under the subscription. </summary>
-        /// <param name="location"> The location of the Azure Storage resource. </param>
+        /// <summary> Lists all of the available Storage Rest API operations. </summary>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="location"/> is null. </exception>
-        public async Task<Response<UsageListResult>> ListByLocationAsync(string location, CancellationToken cancellationToken = default)
+        public async Task<Response<OperationListResult>> ListAsync(CancellationToken cancellationToken = default)
         {
-            if (location == null)
-            {
-                throw new ArgumentNullException(nameof(location));
-            }
-
-            using var message = CreateListByLocationRequest(location);
+            using var message = CreateListRequest();
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
                 case 200:
                     {
-                        UsageListResult value = default;
+                        OperationListResult value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = UsageListResult.DeserializeUsageListResult(document.RootElement);
+                        value = OperationListResult.DeserializeOperationListResult(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -95,26 +77,19 @@ namespace Azure.Management.Storage
             }
         }
 
-        /// <summary> Gets the current usage count and the limit for the resources of the location under the subscription. </summary>
-        /// <param name="location"> The location of the Azure Storage resource. </param>
+        /// <summary> Lists all of the available Storage Rest API operations. </summary>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="location"/> is null. </exception>
-        public Response<UsageListResult> ListByLocation(string location, CancellationToken cancellationToken = default)
+        public Response<OperationListResult> List(CancellationToken cancellationToken = default)
         {
-            if (location == null)
-            {
-                throw new ArgumentNullException(nameof(location));
-            }
-
-            using var message = CreateListByLocationRequest(location);
+            using var message = CreateListRequest();
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
                 case 200:
                     {
-                        UsageListResult value = default;
+                        OperationListResult value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = UsageListResult.DeserializeUsageListResult(document.RootElement);
+                        value = OperationListResult.DeserializeOperationListResult(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:

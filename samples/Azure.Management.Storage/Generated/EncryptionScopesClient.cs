@@ -16,26 +16,26 @@ using Azure.Management.Storage.Models;
 namespace Azure.Management.Storage
 {
     /// <summary> The EncryptionScopes service client. </summary>
-    public partial class EncryptionScopesOperations
+    public partial class EncryptionScopesClient
     {
         private readonly ClientDiagnostics _clientDiagnostics;
         private readonly HttpPipeline _pipeline;
-        internal EncryptionScopesRestOperations RestClient { get; }
+        internal EncryptionScopesRestClient RestClient { get; }
 
-        /// <summary> Initializes a new instance of EncryptionScopesOperations for mocking. </summary>
-        protected EncryptionScopesOperations()
+        /// <summary> Initializes a new instance of EncryptionScopesClient for mocking. </summary>
+        protected EncryptionScopesClient()
         {
         }
 
-        /// <summary> Initializes a new instance of EncryptionScopesOperations. </summary>
+        /// <summary> Initializes a new instance of EncryptionScopesClient. </summary>
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
         /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="endpoint"> server parameter. </param>
         /// <param name="apiVersion"> Api Version. </param>
-        internal EncryptionScopesOperations(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null, string apiVersion = "2019-06-01")
+        internal EncryptionScopesClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null, string apiVersion = "2019-06-01")
         {
-            RestClient = new EncryptionScopesRestOperations(clientDiagnostics, pipeline, subscriptionId, endpoint, apiVersion);
+            RestClient = new EncryptionScopesRestClient(clientDiagnostics, pipeline, subscriptionId, endpoint, apiVersion);
             _clientDiagnostics = clientDiagnostics;
             _pipeline = pipeline;
         }
@@ -48,7 +48,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual async Task<Response<EncryptionScope>> PutAsync(string resourceGroupName, string accountName, string encryptionScopeName, EncryptionScope encryptionScope, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("EncryptionScopesOperations.Put");
+            using var scope = _clientDiagnostics.CreateScope("EncryptionScopesClient.Put");
             scope.Start();
             try
             {
@@ -69,7 +69,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response<EncryptionScope> Put(string resourceGroupName, string accountName, string encryptionScopeName, EncryptionScope encryptionScope, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("EncryptionScopesOperations.Put");
+            using var scope = _clientDiagnostics.CreateScope("EncryptionScopesClient.Put");
             scope.Start();
             try
             {
@@ -90,7 +90,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual async Task<Response<EncryptionScope>> PatchAsync(string resourceGroupName, string accountName, string encryptionScopeName, EncryptionScope encryptionScope, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("EncryptionScopesOperations.Patch");
+            using var scope = _clientDiagnostics.CreateScope("EncryptionScopesClient.Patch");
             scope.Start();
             try
             {
@@ -111,7 +111,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response<EncryptionScope> Patch(string resourceGroupName, string accountName, string encryptionScopeName, EncryptionScope encryptionScope, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("EncryptionScopesOperations.Patch");
+            using var scope = _clientDiagnostics.CreateScope("EncryptionScopesClient.Patch");
             scope.Start();
             try
             {
@@ -131,7 +131,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual async Task<Response<EncryptionScope>> GetAsync(string resourceGroupName, string accountName, string encryptionScopeName, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("EncryptionScopesOperations.Get");
+            using var scope = _clientDiagnostics.CreateScope("EncryptionScopesClient.Get");
             scope.Start();
             try
             {
@@ -151,7 +151,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response<EncryptionScope> Get(string resourceGroupName, string accountName, string encryptionScopeName, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("EncryptionScopesOperations.Get");
+            using var scope = _clientDiagnostics.CreateScope("EncryptionScopesClient.Get");
             scope.Start();
             try
             {
@@ -182,7 +182,7 @@ namespace Azure.Management.Storage
 
             async Task<Page<EncryptionScope>> FirstPageFunc(int? pageSizeHint)
             {
-                using var scope = _clientDiagnostics.CreateScope("EncryptionScopesOperations.List");
+                using var scope = _clientDiagnostics.CreateScope("EncryptionScopesClient.List");
                 scope.Start();
                 try
                 {
@@ -197,7 +197,7 @@ namespace Azure.Management.Storage
             }
             async Task<Page<EncryptionScope>> NextPageFunc(string nextLink, int? pageSizeHint)
             {
-                using var scope = _clientDiagnostics.CreateScope("EncryptionScopesOperations.List");
+                using var scope = _clientDiagnostics.CreateScope("EncryptionScopesClient.List");
                 scope.Start();
                 try
                 {
@@ -231,7 +231,7 @@ namespace Azure.Management.Storage
 
             Page<EncryptionScope> FirstPageFunc(int? pageSizeHint)
             {
-                using var scope = _clientDiagnostics.CreateScope("EncryptionScopesOperations.List");
+                using var scope = _clientDiagnostics.CreateScope("EncryptionScopesClient.List");
                 scope.Start();
                 try
                 {
@@ -246,7 +246,7 @@ namespace Azure.Management.Storage
             }
             Page<EncryptionScope> NextPageFunc(string nextLink, int? pageSizeHint)
             {
-                using var scope = _clientDiagnostics.CreateScope("EncryptionScopesOperations.List");
+                using var scope = _clientDiagnostics.CreateScope("EncryptionScopesClient.List");
                 scope.Start();
                 try
                 {

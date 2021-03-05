@@ -16,26 +16,26 @@ using Azure.Management.Storage.Models;
 namespace Azure.Management.Storage
 {
     /// <summary> The BlobServices service client. </summary>
-    public partial class BlobServicesOperations
+    public partial class BlobServicesClient
     {
         private readonly ClientDiagnostics _clientDiagnostics;
         private readonly HttpPipeline _pipeline;
-        internal BlobServicesRestOperations RestClient { get; }
+        internal BlobServicesRestClient RestClient { get; }
 
-        /// <summary> Initializes a new instance of BlobServicesOperations for mocking. </summary>
-        protected BlobServicesOperations()
+        /// <summary> Initializes a new instance of BlobServicesClient for mocking. </summary>
+        protected BlobServicesClient()
         {
         }
 
-        /// <summary> Initializes a new instance of BlobServicesOperations. </summary>
+        /// <summary> Initializes a new instance of BlobServicesClient. </summary>
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
         /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="endpoint"> server parameter. </param>
         /// <param name="apiVersion"> Api Version. </param>
-        internal BlobServicesOperations(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null, string apiVersion = "2019-06-01")
+        internal BlobServicesClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null, string apiVersion = "2019-06-01")
         {
-            RestClient = new BlobServicesRestOperations(clientDiagnostics, pipeline, subscriptionId, endpoint, apiVersion);
+            RestClient = new BlobServicesRestClient(clientDiagnostics, pipeline, subscriptionId, endpoint, apiVersion);
             _clientDiagnostics = clientDiagnostics;
             _pipeline = pipeline;
         }
@@ -47,7 +47,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual async Task<Response<BlobServiceProperties>> SetServicePropertiesAsync(string resourceGroupName, string accountName, BlobServiceProperties parameters, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("BlobServicesOperations.SetServiceProperties");
+            using var scope = _clientDiagnostics.CreateScope("BlobServicesClient.SetServiceProperties");
             scope.Start();
             try
             {
@@ -67,7 +67,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response<BlobServiceProperties> SetServiceProperties(string resourceGroupName, string accountName, BlobServiceProperties parameters, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("BlobServicesOperations.SetServiceProperties");
+            using var scope = _clientDiagnostics.CreateScope("BlobServicesClient.SetServiceProperties");
             scope.Start();
             try
             {
@@ -86,7 +86,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual async Task<Response<BlobServiceProperties>> GetServicePropertiesAsync(string resourceGroupName, string accountName, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("BlobServicesOperations.GetServiceProperties");
+            using var scope = _clientDiagnostics.CreateScope("BlobServicesClient.GetServiceProperties");
             scope.Start();
             try
             {
@@ -105,7 +105,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response<BlobServiceProperties> GetServiceProperties(string resourceGroupName, string accountName, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("BlobServicesOperations.GetServiceProperties");
+            using var scope = _clientDiagnostics.CreateScope("BlobServicesClient.GetServiceProperties");
             scope.Start();
             try
             {
@@ -136,7 +136,7 @@ namespace Azure.Management.Storage
 
             async Task<Page<BlobServiceProperties>> FirstPageFunc(int? pageSizeHint)
             {
-                using var scope = _clientDiagnostics.CreateScope("BlobServicesOperations.List");
+                using var scope = _clientDiagnostics.CreateScope("BlobServicesClient.List");
                 scope.Start();
                 try
                 {
@@ -170,7 +170,7 @@ namespace Azure.Management.Storage
 
             Page<BlobServiceProperties> FirstPageFunc(int? pageSizeHint)
             {
-                using var scope = _clientDiagnostics.CreateScope("BlobServicesOperations.List");
+                using var scope = _clientDiagnostics.CreateScope("BlobServicesClient.List");
                 scope.Start();
                 try
                 {

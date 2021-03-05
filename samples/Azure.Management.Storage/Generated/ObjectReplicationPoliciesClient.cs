@@ -16,26 +16,26 @@ using Azure.Management.Storage.Models;
 namespace Azure.Management.Storage
 {
     /// <summary> The ObjectReplicationPolicies service client. </summary>
-    public partial class ObjectReplicationPoliciesOperations
+    public partial class ObjectReplicationPoliciesClient
     {
         private readonly ClientDiagnostics _clientDiagnostics;
         private readonly HttpPipeline _pipeline;
-        internal ObjectReplicationPoliciesRestOperations RestClient { get; }
+        internal ObjectReplicationPoliciesRestClient RestClient { get; }
 
-        /// <summary> Initializes a new instance of ObjectReplicationPoliciesOperations for mocking. </summary>
-        protected ObjectReplicationPoliciesOperations()
+        /// <summary> Initializes a new instance of ObjectReplicationPoliciesClient for mocking. </summary>
+        protected ObjectReplicationPoliciesClient()
         {
         }
 
-        /// <summary> Initializes a new instance of ObjectReplicationPoliciesOperations. </summary>
+        /// <summary> Initializes a new instance of ObjectReplicationPoliciesClient. </summary>
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
         /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="endpoint"> server parameter. </param>
         /// <param name="apiVersion"> Api Version. </param>
-        internal ObjectReplicationPoliciesOperations(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null, string apiVersion = "2019-06-01")
+        internal ObjectReplicationPoliciesClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null, string apiVersion = "2019-06-01")
         {
-            RestClient = new ObjectReplicationPoliciesRestOperations(clientDiagnostics, pipeline, subscriptionId, endpoint, apiVersion);
+            RestClient = new ObjectReplicationPoliciesRestClient(clientDiagnostics, pipeline, subscriptionId, endpoint, apiVersion);
             _clientDiagnostics = clientDiagnostics;
             _pipeline = pipeline;
         }
@@ -47,7 +47,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual async Task<Response<ObjectReplicationPolicy>> GetAsync(string resourceGroupName, string accountName, string objectReplicationPolicyId, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ObjectReplicationPoliciesOperations.Get");
+            using var scope = _clientDiagnostics.CreateScope("ObjectReplicationPoliciesClient.Get");
             scope.Start();
             try
             {
@@ -67,7 +67,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response<ObjectReplicationPolicy> Get(string resourceGroupName, string accountName, string objectReplicationPolicyId, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ObjectReplicationPoliciesOperations.Get");
+            using var scope = _clientDiagnostics.CreateScope("ObjectReplicationPoliciesClient.Get");
             scope.Start();
             try
             {
@@ -88,7 +88,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual async Task<Response<ObjectReplicationPolicy>> CreateOrUpdateAsync(string resourceGroupName, string accountName, string objectReplicationPolicyId, ObjectReplicationPolicy properties, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ObjectReplicationPoliciesOperations.CreateOrUpdate");
+            using var scope = _clientDiagnostics.CreateScope("ObjectReplicationPoliciesClient.CreateOrUpdate");
             scope.Start();
             try
             {
@@ -109,7 +109,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response<ObjectReplicationPolicy> CreateOrUpdate(string resourceGroupName, string accountName, string objectReplicationPolicyId, ObjectReplicationPolicy properties, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ObjectReplicationPoliciesOperations.CreateOrUpdate");
+            using var scope = _clientDiagnostics.CreateScope("ObjectReplicationPoliciesClient.CreateOrUpdate");
             scope.Start();
             try
             {
@@ -129,7 +129,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual async Task<Response> DeleteAsync(string resourceGroupName, string accountName, string objectReplicationPolicyId, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ObjectReplicationPoliciesOperations.Delete");
+            using var scope = _clientDiagnostics.CreateScope("ObjectReplicationPoliciesClient.Delete");
             scope.Start();
             try
             {
@@ -149,7 +149,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response Delete(string resourceGroupName, string accountName, string objectReplicationPolicyId, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ObjectReplicationPoliciesOperations.Delete");
+            using var scope = _clientDiagnostics.CreateScope("ObjectReplicationPoliciesClient.Delete");
             scope.Start();
             try
             {
@@ -180,7 +180,7 @@ namespace Azure.Management.Storage
 
             async Task<Page<ObjectReplicationPolicy>> FirstPageFunc(int? pageSizeHint)
             {
-                using var scope = _clientDiagnostics.CreateScope("ObjectReplicationPoliciesOperations.List");
+                using var scope = _clientDiagnostics.CreateScope("ObjectReplicationPoliciesClient.List");
                 scope.Start();
                 try
                 {
@@ -214,7 +214,7 @@ namespace Azure.Management.Storage
 
             Page<ObjectReplicationPolicy> FirstPageFunc(int? pageSizeHint)
             {
-                using var scope = _clientDiagnostics.CreateScope("ObjectReplicationPoliciesOperations.List");
+                using var scope = _clientDiagnostics.CreateScope("ObjectReplicationPoliciesClient.List");
                 scope.Start();
                 try
                 {

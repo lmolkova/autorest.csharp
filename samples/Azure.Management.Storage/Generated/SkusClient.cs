@@ -16,26 +16,26 @@ using Azure.Management.Storage.Models;
 namespace Azure.Management.Storage
 {
     /// <summary> The Skus service client. </summary>
-    public partial class SkusOperations
+    public partial class SkusClient
     {
         private readonly ClientDiagnostics _clientDiagnostics;
         private readonly HttpPipeline _pipeline;
-        internal SkusRestOperations RestClient { get; }
+        internal SkusRestClient RestClient { get; }
 
-        /// <summary> Initializes a new instance of SkusOperations for mocking. </summary>
-        protected SkusOperations()
+        /// <summary> Initializes a new instance of SkusClient for mocking. </summary>
+        protected SkusClient()
         {
         }
 
-        /// <summary> Initializes a new instance of SkusOperations. </summary>
+        /// <summary> Initializes a new instance of SkusClient. </summary>
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
         /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="endpoint"> server parameter. </param>
         /// <param name="apiVersion"> Api Version. </param>
-        internal SkusOperations(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null, string apiVersion = "2019-06-01")
+        internal SkusClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null, string apiVersion = "2019-06-01")
         {
-            RestClient = new SkusRestOperations(clientDiagnostics, pipeline, subscriptionId, endpoint, apiVersion);
+            RestClient = new SkusRestClient(clientDiagnostics, pipeline, subscriptionId, endpoint, apiVersion);
             _clientDiagnostics = clientDiagnostics;
             _pipeline = pipeline;
         }
@@ -46,7 +46,7 @@ namespace Azure.Management.Storage
         {
             async Task<Page<SkuInformation>> FirstPageFunc(int? pageSizeHint)
             {
-                using var scope = _clientDiagnostics.CreateScope("SkusOperations.List");
+                using var scope = _clientDiagnostics.CreateScope("SkusClient.List");
                 scope.Start();
                 try
                 {
@@ -68,7 +68,7 @@ namespace Azure.Management.Storage
         {
             Page<SkuInformation> FirstPageFunc(int? pageSizeHint)
             {
-                using var scope = _clientDiagnostics.CreateScope("SkusOperations.List");
+                using var scope = _clientDiagnostics.CreateScope("SkusClient.List");
                 scope.Start();
                 try
                 {

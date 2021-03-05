@@ -15,26 +15,26 @@ using Azure.Management.Storage.Models;
 namespace Azure.Management.Storage
 {
     /// <summary> The ManagementPolicies service client. </summary>
-    public partial class ManagementPoliciesOperations
+    public partial class ManagementPoliciesClient
     {
         private readonly ClientDiagnostics _clientDiagnostics;
         private readonly HttpPipeline _pipeline;
-        internal ManagementPoliciesRestOperations RestClient { get; }
+        internal ManagementPoliciesRestClient RestClient { get; }
 
-        /// <summary> Initializes a new instance of ManagementPoliciesOperations for mocking. </summary>
-        protected ManagementPoliciesOperations()
+        /// <summary> Initializes a new instance of ManagementPoliciesClient for mocking. </summary>
+        protected ManagementPoliciesClient()
         {
         }
 
-        /// <summary> Initializes a new instance of ManagementPoliciesOperations. </summary>
+        /// <summary> Initializes a new instance of ManagementPoliciesClient. </summary>
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
         /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="endpoint"> server parameter. </param>
         /// <param name="apiVersion"> Api Version. </param>
-        internal ManagementPoliciesOperations(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null, string apiVersion = "2019-06-01")
+        internal ManagementPoliciesClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null, string apiVersion = "2019-06-01")
         {
-            RestClient = new ManagementPoliciesRestOperations(clientDiagnostics, pipeline, subscriptionId, endpoint, apiVersion);
+            RestClient = new ManagementPoliciesRestClient(clientDiagnostics, pipeline, subscriptionId, endpoint, apiVersion);
             _clientDiagnostics = clientDiagnostics;
             _pipeline = pipeline;
         }
@@ -46,7 +46,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual async Task<Response<ManagementPolicy>> GetAsync(string resourceGroupName, string accountName, ManagementPolicyName managementPolicyName, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementPoliciesOperations.Get");
+            using var scope = _clientDiagnostics.CreateScope("ManagementPoliciesClient.Get");
             scope.Start();
             try
             {
@@ -66,7 +66,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response<ManagementPolicy> Get(string resourceGroupName, string accountName, ManagementPolicyName managementPolicyName, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementPoliciesOperations.Get");
+            using var scope = _clientDiagnostics.CreateScope("ManagementPoliciesClient.Get");
             scope.Start();
             try
             {
@@ -87,7 +87,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual async Task<Response<ManagementPolicy>> CreateOrUpdateAsync(string resourceGroupName, string accountName, ManagementPolicyName managementPolicyName, ManagementPolicySchema policy = null, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementPoliciesOperations.CreateOrUpdate");
+            using var scope = _clientDiagnostics.CreateScope("ManagementPoliciesClient.CreateOrUpdate");
             scope.Start();
             try
             {
@@ -108,7 +108,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response<ManagementPolicy> CreateOrUpdate(string resourceGroupName, string accountName, ManagementPolicyName managementPolicyName, ManagementPolicySchema policy = null, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementPoliciesOperations.CreateOrUpdate");
+            using var scope = _clientDiagnostics.CreateScope("ManagementPoliciesClient.CreateOrUpdate");
             scope.Start();
             try
             {
@@ -128,7 +128,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual async Task<Response> DeleteAsync(string resourceGroupName, string accountName, ManagementPolicyName managementPolicyName, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementPoliciesOperations.Delete");
+            using var scope = _clientDiagnostics.CreateScope("ManagementPoliciesClient.Delete");
             scope.Start();
             try
             {
@@ -148,7 +148,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response Delete(string resourceGroupName, string accountName, ManagementPolicyName managementPolicyName, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementPoliciesOperations.Delete");
+            using var scope = _clientDiagnostics.CreateScope("ManagementPoliciesClient.Delete");
             scope.Start();
             try
             {

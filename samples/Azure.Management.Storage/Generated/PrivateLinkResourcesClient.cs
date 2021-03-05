@@ -15,26 +15,26 @@ using Azure.Management.Storage.Models;
 namespace Azure.Management.Storage
 {
     /// <summary> The PrivateLinkResources service client. </summary>
-    public partial class PrivateLinkResourcesOperations
+    public partial class PrivateLinkResourcesClient
     {
         private readonly ClientDiagnostics _clientDiagnostics;
         private readonly HttpPipeline _pipeline;
-        internal PrivateLinkResourcesRestOperations RestClient { get; }
+        internal PrivateLinkResourcesRestClient RestClient { get; }
 
-        /// <summary> Initializes a new instance of PrivateLinkResourcesOperations for mocking. </summary>
-        protected PrivateLinkResourcesOperations()
+        /// <summary> Initializes a new instance of PrivateLinkResourcesClient for mocking. </summary>
+        protected PrivateLinkResourcesClient()
         {
         }
 
-        /// <summary> Initializes a new instance of PrivateLinkResourcesOperations. </summary>
+        /// <summary> Initializes a new instance of PrivateLinkResourcesClient. </summary>
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
         /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="endpoint"> server parameter. </param>
         /// <param name="apiVersion"> Api Version. </param>
-        internal PrivateLinkResourcesOperations(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null, string apiVersion = "2019-06-01")
+        internal PrivateLinkResourcesClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null, string apiVersion = "2019-06-01")
         {
-            RestClient = new PrivateLinkResourcesRestOperations(clientDiagnostics, pipeline, subscriptionId, endpoint, apiVersion);
+            RestClient = new PrivateLinkResourcesRestClient(clientDiagnostics, pipeline, subscriptionId, endpoint, apiVersion);
             _clientDiagnostics = clientDiagnostics;
             _pipeline = pipeline;
         }
@@ -45,7 +45,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual async Task<Response<PrivateLinkResourceListResult>> ListByStorageAccountAsync(string resourceGroupName, string accountName, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("PrivateLinkResourcesOperations.ListByStorageAccount");
+            using var scope = _clientDiagnostics.CreateScope("PrivateLinkResourcesClient.ListByStorageAccount");
             scope.Start();
             try
             {
@@ -64,7 +64,7 @@ namespace Azure.Management.Storage
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response<PrivateLinkResourceListResult> ListByStorageAccount(string resourceGroupName, string accountName, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("PrivateLinkResourcesOperations.ListByStorageAccount");
+            using var scope = _clientDiagnostics.CreateScope("PrivateLinkResourcesClient.ListByStorageAccount");
             scope.Start();
             try
             {
