@@ -1,0 +1,1743 @@
+!CodeModel 
+info: !Info 
+  description: DNC web api provides way to create, get and delete dnc controller
+  title: DNC
+schemas: !Schemas 
+  strings:
+    - !StringSchema &ref_0
+      type: string
+      language: !Languages 
+        default:
+          name: String
+          description: simple string
+      protocol: !Protocols {}
+    - !StringSchema &ref_38
+      type: string
+      apiVersions:
+        - !ApiVersion 
+          version: '2.0'
+      maxLength: 90
+      minLength: 1
+      pattern: ^[-\w\._\(\)]+$
+      language: !Languages 
+        default:
+          name: String
+          description: ''
+      protocol: !Protocols {}
+    - !StringSchema &ref_39
+      type: string
+      apiVersions:
+        - !ApiVersion 
+          version: '2021-03-15'
+      maxLength: 63
+      minLength: 3
+      pattern: ^[a-z][a-z0-9]*$
+      language: !Languages 
+        default:
+          name: String
+          description: ''
+      protocol: !Protocols {}
+    - !StringSchema &ref_35
+      type: string
+      apiVersions:
+        - !ApiVersion 
+          version: '2.0'
+      minLength: 1
+      language: !Languages 
+        default:
+          name: String
+          description: ''
+      protocol: !Protocols {}
+    - !StringSchema &ref_13
+      type: string
+      apiVersions:
+        - !ApiVersion 
+          version: '2021-03-15'
+      language: !Languages 
+        default:
+          name: OrchestratorResourcePropertiesResourceGuid
+          description: Resource guid.
+      protocol: !Protocols {}
+    - !StringSchema &ref_15
+      type: string
+      apiVersions:
+        - !ApiVersion 
+          version: '2021-03-15'
+      language: !Languages 
+        default:
+          name: OrchestratorResourcePropertiesOrchestratorAppId
+          description: AAD ID used with apiserver
+      protocol: !Protocols {}
+    - !StringSchema &ref_16
+      type: string
+      apiVersions:
+        - !ApiVersion 
+          version: '2021-03-15'
+      language: !Languages 
+        default:
+          name: OrchestratorResourcePropertiesOrchestratorTenantId
+          description: TenantID of server App ID
+      protocol: !Protocols {}
+    - !StringSchema &ref_17
+      type: string
+      apiVersions:
+        - !ApiVersion 
+          version: '2021-03-15'
+      language: !Languages 
+        default:
+          name: OrchestratorResourcePropertiesClusterRootCA
+          description: RootCA certificate of kubernetes cluster base64 encoded
+      protocol: !Protocols {}
+    - !StringSchema &ref_18
+      type: string
+      apiVersions:
+        - !ApiVersion 
+          version: '2021-03-15'
+      language: !Languages 
+        default:
+          name: OrchestratorResourcePropertiesApiServerEndpoint
+          description: K8s APIServer url. Either one of apiServerEndpoint or privateLinkResourceId can be specified
+      protocol: !Protocols {}
+    - !StringSchema &ref_19
+      type: string
+      apiVersions:
+        - !ApiVersion 
+          version: '2021-03-15'
+      language: !Languages 
+        default:
+          name: OrchestratorResourcePropertiesPrivateLinkResourceId
+          description: private link arm resource id. Either one of apiServerEndpoint or privateLinkResourceId can be specified
+      protocol: !Protocols {}
+    - !StringSchema &ref_20
+      type: string
+      apiVersions:
+        - !ApiVersion 
+          version: '2021-03-15'
+      language: !Languages 
+        default:
+          name: ControllerDetailsId
+          description: controller arm resource id
+      protocol: !Protocols {}
+    - !StringSchema &ref_3
+      type: string
+      apiVersions:
+        - !ApiVersion 
+          version: '2021-03-15'
+      language: !Languages 
+        default:
+          name: OrchestratorResourceId
+          description: An identifier that represents the resource.
+      protocol: !Protocols {}
+    - !StringSchema &ref_4
+      type: string
+      apiVersions:
+        - !ApiVersion 
+          version: '2021-03-15'
+      language: !Languages 
+        default:
+          name: OrchestratorResourceName
+          description: The name of the resource.
+      protocol: !Protocols {}
+    - !StringSchema &ref_5
+      type: string
+      apiVersions:
+        - !ApiVersion 
+          version: '2021-03-15'
+      language: !Languages 
+        default:
+          name: OrchestratorResourceType
+          description: The type of resource.
+      protocol: !Protocols {}
+    - !StringSchema &ref_6
+      type: string
+      apiVersions:
+        - !ApiVersion 
+          version: '2021-03-15'
+      language: !Languages 
+        default:
+          name: OrchestratorResourceLocation
+          description: Location of the resource.
+      protocol: !Protocols {}
+    - !StringSchema &ref_8
+      type: string
+      apiVersions:
+        - !ApiVersion 
+          version: '2021-03-15'
+      language: !Languages 
+        default:
+          name: OrchestratorIdentityPrincipalId
+          description: The principal id of the system assigned identity which is used by orchestrator.
+      protocol: !Protocols {}
+    - !StringSchema &ref_9
+      type: string
+      apiVersions:
+        - !ApiVersion 
+          version: '2021-03-15'
+      language: !Languages 
+        default:
+          name: OrchestratorIdentityTenantId
+          description: The tenant id of the system assigned identity which is used by orchestrator.
+      protocol: !Protocols {}
+    - !StringSchema &ref_1
+      type: string
+      apiVersions:
+        - !ApiVersion 
+          version: '2021-03-15'
+      language: !Languages 
+        default:
+          name: String
+          description: ''
+      protocol: !Protocols {}
+    - !StringSchema &ref_23
+      type: string
+      apiVersions:
+        - !ApiVersion 
+          version: '2.0'
+      language: !Languages 
+        default:
+          name: ErrorDetailCode
+          description: The error code.
+      protocol: !Protocols {}
+    - !StringSchema &ref_24
+      type: string
+      apiVersions:
+        - !ApiVersion 
+          version: '2.0'
+      language: !Languages 
+        default:
+          name: ErrorDetailMessage
+          description: The error message.
+      protocol: !Protocols {}
+    - !StringSchema &ref_25
+      type: string
+      apiVersions:
+        - !ApiVersion 
+          version: '2.0'
+      language: !Languages 
+        default:
+          name: ErrorDetailTarget
+          description: The error target.
+      protocol: !Protocols {}
+    - !StringSchema &ref_27
+      type: string
+      apiVersions:
+        - !ApiVersion 
+          version: '2.0'
+      language: !Languages 
+        default:
+          name: ErrorAdditionalInfoType
+          description: The additional info type.
+      protocol: !Protocols {}
+    - !StringSchema &ref_31
+      type: string
+      apiVersions:
+        - !ApiVersion 
+          version: '2021-03-15'
+      language: !Languages 
+        default:
+          name: OrchestratorsNextLink
+          description: The URL to get the next set of orchestrators.
+      protocol: !Protocols {}
+  choices:
+    - !ChoiceSchema &ref_14
+      choices:
+        - !ChoiceValue 
+          value: Deleting
+          language:
+            default:
+              name: Deleting
+              description: ''
+        - !ChoiceValue 
+          value: Succeeded
+          language:
+            default:
+              name: Succeeded
+              description: ''
+        - !ChoiceValue 
+          value: Failed
+          language:
+            default:
+              name: Failed
+              description: ''
+        - !ChoiceValue 
+          value: Provisioning
+          language:
+            default:
+              name: Provisioning
+              description: ''
+      type: choice
+      apiVersions:
+        - !ApiVersion 
+          version: '2021-03-15'
+      choiceType: *ref_0
+      language: !Languages 
+        default:
+          name: OrchestratorInstanceState
+          description: The current state of orchestratorInstance resource.
+      protocol: !Protocols {}
+    - !ChoiceSchema &ref_7
+      choices:
+        - !ChoiceValue 
+          value: Kubernetes
+          language:
+            default:
+              name: Kubernetes
+              description: ''
+      type: choice
+      apiVersions:
+        - !ApiVersion 
+          version: '2021-03-15'
+      choiceType: *ref_0
+      language: !Languages 
+        default:
+          name: OrchestratorKind
+          description: The kind of workbook. Choices are user and shared.
+      protocol: !Protocols {}
+  sealedChoices:
+    - !SealedChoiceSchema &ref_10
+      choices:
+        - !ChoiceValue 
+          value: SystemAssigned
+          language:
+            default:
+              name: SystemAssigned
+              description: ''
+        - !ChoiceValue 
+          value: None
+          language:
+            default:
+              name: None
+              description: ''
+      type: sealed-choice
+      apiVersions:
+        - !ApiVersion 
+          version: '2021-03-15'
+      choiceType: *ref_0
+      language: !Languages 
+        default:
+          name: ResourceIdentityType
+          description: The type of identity used for orchestrator cluster. Type 'SystemAssigned' will use an implicitly created identity orchestrator clusters
+      protocol: !Protocols {}
+  constants:
+    - !ConstantSchema &ref_36
+      type: constant
+      value: !ConstantValue 
+        value: '2021-03-15'
+      valueType: *ref_0
+      language: !Languages 
+        default:
+          name: ApiVersion20210315
+          description: Api Version (2021-03-15)
+      protocol: !Protocols {}
+    - !ConstantSchema &ref_42
+      type: constant
+      value: !ConstantValue 
+        value: application/json
+      valueType: *ref_0
+      language: !Languages 
+        default:
+          name: Accept
+          description: 'Accept: application/json'
+      protocol: !Protocols {}
+    - !ConstantSchema &ref_46
+      type: constant
+      value: !ConstantValue 
+        value: application/json
+      valueType: *ref_0
+      language: !Languages 
+        default:
+          name: ApplicationJson
+          description: Content Type 'application/json'
+      protocol: !Protocols {}
+  dictionaries:
+    - !DictionarySchema &ref_11
+      type: dictionary
+      elementType: *ref_1
+      language: !Languages 
+        default:
+          name: OrchestratorResourceTags
+          description: The resource tags.
+      protocol: !Protocols {}
+    - !DictionarySchema &ref_30
+      type: dictionary
+      elementType: *ref_1
+      language: !Languages 
+        default:
+          name: OrchestratorResourceUpdateParametersTags
+          description: The resource tags.
+      protocol: !Protocols {}
+  any:
+    - !AnySchema &ref_28
+      type: any
+      language: !Languages 
+        default:
+          name: any
+          description: Any object
+      protocol: !Protocols {}
+  objects:
+    - !ObjectSchema &ref_2
+      type: object
+      apiVersions:
+        - !ApiVersion 
+          version: '2021-03-15'
+      parents: !Relations 
+        all:
+          - !ObjectSchema &ref_12
+            type: object
+            apiVersions:
+              - !ApiVersion 
+                version: '2021-03-15'
+            children: !Relations 
+              all:
+                - *ref_2
+              immediate:
+                - *ref_2
+            properties:
+              - !Property 
+                schema: *ref_3
+                readOnly: true
+                required: false
+                serializedName: id
+                language: !Languages 
+                  default:
+                    name: id
+                    description: An identifier that represents the resource.
+                protocol: !Protocols {}
+              - !Property 
+                schema: *ref_4
+                readOnly: true
+                required: false
+                serializedName: name
+                language: !Languages 
+                  default:
+                    name: name
+                    description: The name of the resource.
+                protocol: !Protocols {}
+              - !Property 
+                schema: *ref_5
+                readOnly: true
+                required: false
+                serializedName: type
+                language: !Languages 
+                  default:
+                    name: type
+                    description: The type of resource.
+                protocol: !Protocols {}
+              - !Property 
+                schema: *ref_6
+                required: false
+                serializedName: location
+                language: !Languages 
+                  default:
+                    name: location
+                    description: Location of the resource.
+                protocol: !Protocols {}
+              - !Property 
+                schema: *ref_7
+                required: true
+                serializedName: kind
+                language: !Languages 
+                  default:
+                    name: kind
+                    description: The kind of workbook. Choices are user and shared.
+                protocol: !Protocols {}
+              - !Property 
+                schema: !ObjectSchema &ref_22
+                  type: object
+                  apiVersions:
+                    - !ApiVersion 
+                      version: '2021-03-15'
+                  properties:
+                    - !Property 
+                      schema: *ref_8
+                      readOnly: true
+                      serializedName: principalId
+                      language: !Languages 
+                        default:
+                          name: principalId
+                          description: The principal id of the system assigned identity which is used by orchestrator.
+                      protocol: !Protocols {}
+                    - !Property 
+                      schema: *ref_9
+                      readOnly: true
+                      serializedName: tenantId
+                      language: !Languages 
+                        default:
+                          name: tenantId
+                          description: The tenant id of the system assigned identity which is used by orchestrator.
+                      protocol: !Protocols {}
+                    - !Property 
+                      schema: *ref_10
+                      serializedName: type
+                      language: !Languages 
+                        default:
+                          name: type
+                          description: The type of identity used for orchestrator cluster. Type 'SystemAssigned' will use an implicitly created identity orchestrator clusters
+                      protocol: !Protocols {}
+                  serializationFormats:
+                    - json
+                  usage:
+                    - output
+                    - input
+                  language: !Languages 
+                    default:
+                      name: OrchestratorIdentity
+                      description: ''
+                      namespace: ''
+                  protocol: !Protocols {}
+                required: false
+                serializedName: identity
+                language: !Languages 
+                  default:
+                    name: identity
+                    description: The identity of the orchestrator
+                protocol: !Protocols {}
+              - !Property 
+                schema: *ref_11
+                required: false
+                serializedName: tags
+                language: !Languages 
+                  default:
+                    name: tags
+                    description: The resource tags.
+                protocol: !Protocols {}
+            serializationFormats:
+              - json
+            usage:
+              - output
+              - input
+            extensions:
+              x-ms-azure-resource: true
+            language: !Languages 
+              default:
+                name: OrchestratorResource
+                description: Represents an instance of a resource.
+                namespace: ''
+            protocol: !Protocols {}
+        immediate:
+          - *ref_12
+      properties:
+        - !Property 
+          schema: *ref_13
+          flattenedNames:
+            - properties
+            - resourceGuid
+          readOnly: true
+          serializedName: resourceGuid
+          language: !Languages 
+            default:
+              name: resourceGuid
+              description: Resource guid.
+          protocol: !Protocols {}
+        - !Property 
+          schema: *ref_14
+          flattenedNames:
+            - properties
+            - provisioningState
+          readOnly: true
+          serializedName: provisioningState
+          language: !Languages 
+            default:
+              name: provisioningState
+              description: The current state of orchestratorInstance resource.
+          protocol: !Protocols {}
+        - !Property 
+          schema: *ref_15
+          flattenedNames:
+            - properties
+            - orchestratorAppId
+          serializedName: orchestratorAppId
+          language: !Languages 
+            default:
+              name: orchestratorAppId
+              description: AAD ID used with apiserver
+          protocol: !Protocols {}
+        - !Property 
+          schema: *ref_16
+          flattenedNames:
+            - properties
+            - orchestratorTenantId
+          serializedName: orchestratorTenantId
+          language: !Languages 
+            default:
+              name: orchestratorTenantId
+              description: TenantID of server App ID
+          protocol: !Protocols {}
+        - !Property 
+          schema: *ref_17
+          flattenedNames:
+            - properties
+            - clusterRootCA
+          serializedName: clusterRootCA
+          language: !Languages 
+            default:
+              name: clusterRootCA
+              description: RootCA certificate of kubernetes cluster base64 encoded
+          protocol: !Protocols {}
+        - !Property 
+          schema: *ref_18
+          flattenedNames:
+            - properties
+            - apiServerEndpoint
+          serializedName: apiServerEndpoint
+          language: !Languages 
+            default:
+              name: apiServerEndpoint
+              description: K8s APIServer url. Either one of apiServerEndpoint or privateLinkResourceId can be specified
+          protocol: !Protocols {}
+        - !Property 
+          schema: *ref_19
+          flattenedNames:
+            - properties
+            - privateLinkResourceId
+          serializedName: privateLinkResourceId
+          language: !Languages 
+            default:
+              name: privateLinkResourceId
+              description: private link arm resource id. Either one of apiServerEndpoint or privateLinkResourceId can be specified
+          protocol: !Protocols {}
+        - !Property 
+          schema: !ObjectSchema &ref_21
+            type: object
+            apiVersions:
+              - !ApiVersion 
+                version: '2021-03-15'
+            properties:
+              - !Property 
+                schema: *ref_20
+                serializedName: id
+                language: !Languages 
+                  default:
+                    name: id
+                    description: controller arm resource id
+                protocol: !Protocols {}
+            serializationFormats:
+              - json
+            usage:
+              - output
+              - input
+            language: !Languages 
+              default:
+                name: ControllerDetails
+                description: controller details
+                namespace: ''
+            protocol: !Protocols {}
+          flattenedNames:
+            - properties
+            - controllerDetails
+          serializedName: controllerDetails
+          language: !Languages 
+            default:
+              name: controllerDetails
+              description: Properties of the controller.
+          protocol: !Protocols {}
+      serializationFormats:
+        - json
+      usage:
+        - output
+        - input
+      language: !Languages 
+        default:
+          name: Orchestrator
+          description: Represents an instance of a orchestrator.
+          namespace: ''
+      protocol: !Protocols {}
+    - *ref_21
+    - *ref_12
+    - *ref_22
+    - !ObjectSchema &ref_45
+      type: object
+      apiVersions:
+        - !ApiVersion 
+          version: '2.0'
+      properties:
+        - !Property 
+          schema: !ObjectSchema &ref_26
+            type: object
+            apiVersions:
+              - !ApiVersion 
+                version: '2.0'
+            properties:
+              - !Property 
+                schema: *ref_23
+                readOnly: true
+                serializedName: code
+                language: !Languages 
+                  default:
+                    name: code
+                    description: The error code.
+                protocol: !Protocols {}
+              - !Property 
+                schema: *ref_24
+                readOnly: true
+                serializedName: message
+                language: !Languages 
+                  default:
+                    name: message
+                    description: The error message.
+                protocol: !Protocols {}
+              - !Property 
+                schema: *ref_25
+                readOnly: true
+                serializedName: target
+                language: !Languages 
+                  default:
+                    name: target
+                    description: The error target.
+                protocol: !Protocols {}
+              - !Property 
+                schema: !ArraySchema &ref_32
+                  type: array
+                  apiVersions:
+                    - !ApiVersion 
+                      version: '2.0'
+                  elementType: *ref_26
+                  language: !Languages 
+                    default:
+                      name: ErrorDetailDetails
+                      description: The error details.
+                  protocol: !Protocols {}
+                readOnly: true
+                serializedName: details
+                language: !Languages 
+                  default:
+                    name: details
+                    description: The error details.
+                protocol: !Protocols {}
+              - !Property 
+                schema: !ArraySchema &ref_33
+                  type: array
+                  apiVersions:
+                    - !ApiVersion 
+                      version: '2.0'
+                  elementType: !ObjectSchema &ref_29
+                    type: object
+                    apiVersions:
+                      - !ApiVersion 
+                        version: '2.0'
+                    properties:
+                      - !Property 
+                        schema: *ref_27
+                        readOnly: true
+                        serializedName: type
+                        language: !Languages 
+                          default:
+                            name: type
+                            description: The additional info type.
+                        protocol: !Protocols {}
+                      - !Property 
+                        schema: *ref_28
+                        readOnly: true
+                        serializedName: info
+                        language: !Languages 
+                          default:
+                            name: info
+                            description: The additional info.
+                        protocol: !Protocols {}
+                    serializationFormats:
+                      - json
+                    usage:
+                      - exception
+                    language: !Languages 
+                      default:
+                        name: ErrorAdditionalInfo
+                        description: The resource management error additional info.
+                        namespace: ''
+                    protocol: !Protocols {}
+                  language: !Languages 
+                    default:
+                      name: ErrorDetailAdditionalInfo
+                      description: The error additional info.
+                  protocol: !Protocols {}
+                readOnly: true
+                serializedName: additionalInfo
+                language: !Languages 
+                  default:
+                    name: additionalInfo
+                    description: The error additional info.
+                protocol: !Protocols {}
+            serializationFormats:
+              - json
+            usage:
+              - exception
+            language: !Languages 
+              default:
+                name: ErrorDetail
+                description: The error detail.
+                namespace: ''
+            protocol: !Protocols {}
+          serializedName: error
+          language: !Languages 
+            default:
+              name: error
+              description: The error object.
+          protocol: !Protocols {}
+      serializationFormats:
+        - json
+      summary: Error response
+      usage:
+        - exception
+      language: !Languages 
+        default:
+          name: ErrorResponse
+          description: Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
+          namespace: ''
+          summary: Error response
+      protocol: !Protocols {}
+    - *ref_26
+    - *ref_29
+    - !ObjectSchema &ref_52
+      type: object
+      apiVersions:
+        - !ApiVersion 
+          version: '2021-03-15'
+      properties:
+        - !Property 
+          schema: *ref_30
+          serializedName: tags
+          language: !Languages 
+            default:
+              name: tags
+              description: The resource tags.
+          protocol: !Protocols {}
+      serializationFormats:
+        - json
+      usage:
+        - input
+      language: !Languages 
+        default:
+          name: OrchestratorResourceUpdateParameters
+          description: Parameters for updating a resource.
+          namespace: ''
+      protocol: !Protocols {}
+    - !ObjectSchema &ref_56
+      type: object
+      apiVersions:
+        - !ApiVersion 
+          version: '2021-03-15'
+      properties:
+        - !Property 
+          schema: !ArraySchema &ref_34
+            type: array
+            apiVersions:
+              - !ApiVersion 
+                version: '2021-03-15'
+            elementType: *ref_2
+            language: !Languages 
+              default:
+                name: OrchestratorsValue
+                description: An array of OrchestratorInstance resources.
+            protocol: !Protocols {}
+          required: true
+          serializedName: value
+          language: !Languages 
+            default:
+              name: value
+              description: An array of OrchestratorInstance resources.
+          protocol: !Protocols {}
+        - !Property 
+          schema: *ref_31
+          readOnly: true
+          required: false
+          serializedName: nextLink
+          language: !Languages 
+            default:
+              name: nextLink
+              description: The URL to get the next set of orchestrators.
+          protocol: !Protocols {}
+      serializationFormats:
+        - json
+      usage:
+        - output
+      language: !Languages 
+        default:
+          name: Orchestrators
+          description: An array of OrchestratorInstance resources.
+          namespace: ''
+      protocol: !Protocols {}
+  arrays:
+    - *ref_32
+    - *ref_33
+    - *ref_34
+globalParameters:
+  - !Parameter &ref_41
+    schema: *ref_35
+    implementation: Client
+    required: true
+    extensions:
+      x-ms-priority: 0
+    language: !Languages 
+      default:
+        name: SubscriptionId
+        description: The ID of the target subscription.
+        serializedName: subscriptionId
+    protocol: !Protocols 
+      http: !HttpParameter 
+        in: path
+  - !Parameter &ref_37
+    schema: *ref_0
+    clientDefaultValue: https://management.azure.com
+    implementation: Client
+    origin: modelerfour:synthesized/host
+    required: true
+    extensions:
+      x-ms-skip-url-encoding: true
+    language: !Languages 
+      default:
+        name: $host
+        description: server parameter
+        serializedName: $host
+    protocol: !Protocols 
+      http: !HttpParameter 
+        in: uri
+  - !Parameter &ref_40
+    schema: *ref_36
+    implementation: Client
+    origin: modelerfour:synthesized/api-version
+    required: true
+    language: !Languages 
+      default:
+        name: apiVersion
+        description: Api Version
+        serializedName: api-version
+    protocol: !Protocols 
+      http: !HttpParameter 
+        in: query
+operationGroups:
+  - !OperationGroup 
+    $key: OrchestratorInstanceService
+    operations:
+      - !Operation 
+        apiVersions:
+          - !ApiVersion 
+            version: '2021-03-15'
+        parameters:
+          - *ref_37
+          - !Parameter &ref_43
+            schema: *ref_38
+            implementation: Method
+            required: true
+            language: !Languages 
+              default:
+                name: resourceGroupName
+                description: The name of the resource group. The name is case insensitive.
+                serializedName: resourceGroupName
+            protocol: !Protocols 
+              http: !HttpParameter 
+                in: path
+          - !Parameter &ref_44
+            schema: *ref_39
+            implementation: Method
+            required: true
+            language: !Languages 
+              default:
+                name: resourceName
+                description: The name of the resource. It must be a minimum of 3 characters, and a maximum of 63.
+                serializedName: resourceName
+            protocol: !Protocols 
+              http: !HttpParameter 
+                in: path
+          - *ref_40
+          - *ref_41
+        requests:
+          - !Request 
+            parameters:
+              - !Parameter 
+                schema: *ref_42
+                implementation: Method
+                origin: modelerfour:synthesized/accept
+                required: true
+                language: !Languages 
+                  default:
+                    name: accept
+                    description: Accept header
+                    serializedName: Accept
+                protocol: !Protocols 
+                  http: !HttpParameter 
+                    in: header
+            signatureParameters: []
+            language: !Languages 
+              default:
+                name: ''
+                description: ''
+            protocol: !Protocols 
+              http: !HttpRequest 
+                path: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DelegatedNetwork/orchestrators/{resourceName}
+                method: get
+                uri: '{$host}'
+        signatureParameters:
+          - *ref_43
+          - *ref_44
+        responses:
+          - !SchemaResponse 
+            schema: *ref_2
+            language: !Languages 
+              default:
+                name: ''
+                description: OK. The operation was successful.
+            protocol: !Protocols 
+              http: !HttpResponse 
+                knownMediaType: json
+                mediaTypes:
+                  - application/json
+                statusCodes:
+                  - '200'
+        exceptions:
+          - !SchemaResponse 
+            schema: *ref_45
+            language: !Languages 
+              default:
+                name: ''
+                description: Error response describing why the operation failed.
+            protocol: !Protocols 
+              http: !HttpResponse 
+                knownMediaType: json
+                mediaTypes:
+                  - application/json
+                statusCodes:
+                  - default
+        extensions:
+          x-ms-examples:
+            Get details of a orchestratorInstance:
+              parameters:
+                api-version: 2021-3-15
+                resourceGroupName: TestRG
+                resourceName: testk8s1
+                subscriptionId: 613192d7-503f-477a-9cfe-4efc3ee2bd60
+              responses:
+                '200':
+                  body:
+                    name: testk8s1
+                    type: Microsoft.DelegatedNetwork/orchestrators
+                    id: /subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.DelegatedNetwork/orchestrators/testk8s1
+                    identity:
+                      type: SystemAssigned
+                      principalId: 7a2192d7-503f-477a-9cfe-4efc3ee2bd60
+                      tenantId: 3e2192d7-503f-477a-9cfe-4efc3ee2bd60
+                    kind: Kubernetes
+                    location: West US
+                    properties:
+                      apiServerEndpoint: https://testk8s.cloudapp.net
+                      clusterRootCA: ddsadsad344mfdsfdl
+                      controllerDetails:
+                        id: /subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.DelegatedNetwork/controller/testcontroller
+                      orchestratorAppId: 546192d7-503f-477a-9cfe-4efc3ee2b6e1
+                      orchestratorTenantId: da6192d7-503f-477a-9cfe-4efc3ee2b6c3
+                      privateLinkResourceId: /subscriptions/d21192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/plrg/Microsoft.Network/PrivateLink/pl1
+                      provisioningState: Succeeded
+                      resourceGuid: 1b2192d7-503f-477a-9cfe-4efc3ee2bd60
+                  headers: {}
+        language: !Languages 
+          default:
+            name: GetDetails
+            description: Gets details about the orchestrator instance.
+        protocol: !Protocols {}
+      - !Operation 
+        apiVersions:
+          - !ApiVersion 
+            version: '2021-03-15'
+        parameters:
+          - *ref_37
+          - !Parameter &ref_48
+            schema: *ref_38
+            implementation: Method
+            required: true
+            language: !Languages 
+              default:
+                name: resourceGroupName
+                description: The name of the resource group. The name is case insensitive.
+                serializedName: resourceGroupName
+            protocol: !Protocols 
+              http: !HttpParameter 
+                in: path
+          - !Parameter &ref_49
+            schema: *ref_39
+            implementation: Method
+            required: true
+            language: !Languages 
+              default:
+                name: resourceName
+                description: The name of the resource. It must be a minimum of 3 characters, and a maximum of 63.
+                serializedName: resourceName
+            protocol: !Protocols 
+              http: !HttpParameter 
+                in: path
+          - *ref_40
+          - *ref_41
+        requests:
+          - !Request 
+            parameters:
+              - !Parameter 
+                schema: *ref_46
+                implementation: Method
+                origin: modelerfour:synthesized/content-type
+                required: true
+                language: !Languages 
+                  default:
+                    name: contentType
+                    description: Body Parameter content-type
+                    serializedName: Content-Type
+                protocol: !Protocols 
+                  http: !HttpParameter 
+                    in: header
+              - !Parameter &ref_47
+                schema: *ref_2
+                implementation: Method
+                required: true
+                language: !Languages 
+                  default:
+                    name: parameters
+                    description: OrchestratorInstance type parameters
+                protocol: !Protocols 
+                  http: !HttpParameter 
+                    in: body
+                    style: json
+              - !Parameter 
+                schema: *ref_42
+                implementation: Method
+                origin: modelerfour:synthesized/accept
+                required: true
+                language: !Languages 
+                  default:
+                    name: accept
+                    description: Accept header
+                    serializedName: Accept
+                protocol: !Protocols 
+                  http: !HttpParameter 
+                    in: header
+            signatureParameters:
+              - *ref_47
+            language: !Languages 
+              default:
+                name: ''
+                description: ''
+            protocol: !Protocols 
+              http: !HttpWithBodyRequest 
+                path: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DelegatedNetwork/orchestrators/{resourceName}
+                method: put
+                knownMediaType: json
+                mediaTypes:
+                  - application/json
+                uri: '{$host}'
+        signatureParameters:
+          - *ref_48
+          - *ref_49
+        responses:
+          - !SchemaResponse 
+            schema: *ref_2
+            language: !Languages 
+              default:
+                name: ''
+                description: OK. The operation completed successfully.
+            protocol: !Protocols 
+              http: !HttpResponse 
+                knownMediaType: json
+                mediaTypes:
+                  - application/json
+                statusCodes:
+                  - '200'
+          - !SchemaResponse 
+            schema: *ref_2
+            language: !Languages 
+              default:
+                name: ''
+                description: InProgress. The operation is still in progress.
+            protocol: !Protocols 
+              http: !HttpResponse 
+                knownMediaType: json
+                mediaTypes:
+                  - application/json
+                statusCodes:
+                  - '201'
+        exceptions:
+          - !SchemaResponse 
+            schema: *ref_45
+            language: !Languages 
+              default:
+                name: ''
+                description: Error response describing why the operation failed.
+            protocol: !Protocols 
+              http: !HttpResponse 
+                knownMediaType: json
+                mediaTypes:
+                  - application/json
+                statusCodes:
+                  - default
+        extensions:
+          x-ms-examples:
+            Create orchestrator instance:
+              parameters:
+                api-version: 2021-3-15
+                parameters:
+                  identity:
+                    type: SystemAssigned
+                  kind: Kubernetes
+                  location: West US
+                  properties:
+                    apiServerEndpoint: https://testk8s.cloudapp.net
+                    clusterRootCA: ddsadsad344mfdsfdl
+                    controllerDetails:
+                      id: /subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.DelegatedNetwork/controller/testcontroller
+                    orchestratorAppId: 546192d7-503f-477a-9cfe-4efc3ee2b6e1
+                    orchestratorTenantId: da6192d7-503f-477a-9cfe-4efc3ee2b6c3
+                    privateLinkResourceId: /subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.Network/privateLinkServices/plresource1
+                resourceGroupName: TestRG
+                resourceName: testk8s1
+                subscriptionId: 613192d7-503f-477a-9cfe-4efc3ee2bd60
+              responses:
+                '200':
+                  body:
+                    name: testk8s1
+                    type: Microsoft.DelegatedNetwork/orchestrators
+                    id: /subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.DelegatedNetwork/orchestrators/testk8s1
+                    identity:
+                      type: SystemAssigned
+                      principalId: 7a2192d7-503f-477a-9cfe-4efc3ee2bd60
+                      tenantId: 3e2192d7-503f-477a-9cfe-4efc3ee2bd60
+                    kind: Kubernetes
+                    location: West US
+                    properties:
+                      apiServerEndpoint: https://testk8s.cloudapp.net
+                      clusterRootCA: ddsadsad344mfdsfdl
+                      controllerDetails:
+                        id: /subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.DelegatedNetwork/controller/testcontroller
+                      orchestratorAppId: 546192d7-503f-477a-9cfe-4efc3ee2b6e1
+                      orchestratorTenantId: da6192d7-503f-477a-9cfe-4efc3ee2b6c3
+                      privateLinkResourceId: /subscriptions/d21192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/plrg/Microsoft.Network/PrivateLink/pl1
+                      provisioningState: Succeeded
+                      resourceGuid: 1b2192d7-503f-477a-9cfe-4efc3ee2bd60
+                  headers: {}
+                '201':
+                  body:
+                    name: testk8s1
+                    type: Microsoft.DelegatedNetwork/orchestrators
+                    id: /subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.DelegatedNetwork/orchestrators/testk8s1
+                    kind: Kubernetes
+                    location: West US
+                    properties:
+                      controllerDetails:
+                        id: /subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.DelegatedNetwork/controller/testcontroller
+                      provisioningState: Provisioning
+                  headers: {}
+          x-ms-long-running-operation: true
+        language: !Languages 
+          default:
+            name: Create
+            description: Create a orchestrator instance
+        protocol: !Protocols {}
+      - !Operation 
+        apiVersions:
+          - !ApiVersion 
+            version: '2021-03-15'
+        parameters:
+          - *ref_37
+          - !Parameter &ref_50
+            schema: *ref_38
+            implementation: Method
+            required: true
+            language: !Languages 
+              default:
+                name: resourceGroupName
+                description: The name of the resource group. The name is case insensitive.
+                serializedName: resourceGroupName
+            protocol: !Protocols 
+              http: !HttpParameter 
+                in: path
+          - !Parameter &ref_51
+            schema: *ref_39
+            implementation: Method
+            required: true
+            language: !Languages 
+              default:
+                name: resourceName
+                description: The name of the resource. It must be a minimum of 3 characters, and a maximum of 63.
+                serializedName: resourceName
+            protocol: !Protocols 
+              http: !HttpParameter 
+                in: path
+          - *ref_40
+          - *ref_41
+        requests:
+          - !Request 
+            parameters:
+              - !Parameter 
+                schema: *ref_42
+                implementation: Method
+                origin: modelerfour:synthesized/accept
+                required: true
+                language: !Languages 
+                  default:
+                    name: accept
+                    description: Accept header
+                    serializedName: Accept
+                protocol: !Protocols 
+                  http: !HttpParameter 
+                    in: header
+            signatureParameters: []
+            language: !Languages 
+              default:
+                name: ''
+                description: ''
+            protocol: !Protocols 
+              http: !HttpRequest 
+                path: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DelegatedNetwork/orchestrators/{resourceName}
+                method: delete
+                uri: '{$host}'
+        signatureParameters:
+          - *ref_50
+          - *ref_51
+        responses:
+          - !Response 
+            language: !Languages 
+              default:
+                name: ''
+                description: OK.
+            protocol: !Protocols 
+              http: !HttpResponse 
+                statusCodes:
+                  - '200'
+          - !Response 
+            language: !Languages 
+              default:
+                name: ''
+                description: Accepted.
+            protocol: !Protocols 
+              http: !HttpResponse 
+                statusCodes:
+                  - '202'
+          - !Response 
+            language: !Languages 
+              default:
+                name: ''
+                description: No Content.
+            protocol: !Protocols 
+              http: !HttpResponse 
+                statusCodes:
+                  - '204'
+        exceptions:
+          - !SchemaResponse 
+            schema: *ref_45
+            language: !Languages 
+              default:
+                name: ''
+                description: Error response describing why the operation failed.
+            protocol: !Protocols 
+              http: !HttpResponse 
+                knownMediaType: json
+                mediaTypes:
+                  - application/json
+                statusCodes:
+                  - default
+        extensions:
+          x-ms-examples:
+            Delete Orchestrator Instance:
+              parameters:
+                api-version: 2021-3-15
+                resourceGroupName: TestRG
+                resourceName: k8stest1
+                subscriptionId: 613192d7-503f-477a-9cfe-4efc3ee2bd60
+              responses:
+                '200':
+                  description: OK.
+                  headers: {}
+                '202':
+                  description: Accepted.
+                  headers: {}
+                '204':
+                  headers: {}
+          x-ms-long-running-operation: true
+        language: !Languages 
+          default:
+            name: Delete
+            description: Deletes the Orchestrator Instance
+        protocol: !Protocols {}
+      - !Operation 
+        apiVersions:
+          - !ApiVersion 
+            version: '2021-03-15'
+        parameters:
+          - *ref_37
+          - !Parameter &ref_54
+            schema: *ref_38
+            implementation: Method
+            required: true
+            language: !Languages 
+              default:
+                name: resourceGroupName
+                description: The name of the resource group. The name is case insensitive.
+                serializedName: resourceGroupName
+            protocol: !Protocols 
+              http: !HttpParameter 
+                in: path
+          - !Parameter &ref_55
+            schema: *ref_39
+            implementation: Method
+            required: true
+            language: !Languages 
+              default:
+                name: resourceName
+                description: The name of the resource. It must be a minimum of 3 characters, and a maximum of 63.
+                serializedName: resourceName
+            protocol: !Protocols 
+              http: !HttpParameter 
+                in: path
+          - *ref_40
+          - *ref_41
+        requests:
+          - !Request 
+            parameters:
+              - !Parameter 
+                schema: *ref_46
+                implementation: Method
+                origin: modelerfour:synthesized/content-type
+                required: true
+                language: !Languages 
+                  default:
+                    name: contentType
+                    description: Body Parameter content-type
+                    serializedName: Content-Type
+                protocol: !Protocols 
+                  http: !HttpParameter 
+                    in: header
+              - !Parameter &ref_53
+                schema: *ref_52
+                implementation: Method
+                required: true
+                language: !Languages 
+                  default:
+                    name: parameters
+                    description: OrchestratorInstance update parameters
+                protocol: !Protocols 
+                  http: !HttpParameter 
+                    in: body
+                    style: json
+              - !Parameter 
+                schema: *ref_42
+                implementation: Method
+                origin: modelerfour:synthesized/accept
+                required: true
+                language: !Languages 
+                  default:
+                    name: accept
+                    description: Accept header
+                    serializedName: Accept
+                protocol: !Protocols 
+                  http: !HttpParameter 
+                    in: header
+            signatureParameters:
+              - *ref_53
+            language: !Languages 
+              default:
+                name: ''
+                description: ''
+            protocol: !Protocols 
+              http: !HttpWithBodyRequest 
+                path: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DelegatedNetwork/orchestrators/{resourceName}
+                method: patch
+                knownMediaType: json
+                mediaTypes:
+                  - application/json
+                uri: '{$host}'
+        signatureParameters:
+          - *ref_54
+          - *ref_55
+        responses:
+          - !SchemaResponse 
+            schema: *ref_2
+            language: !Languages 
+              default:
+                name: ''
+                description: OK. The operation completed successfully.
+            protocol: !Protocols 
+              http: !HttpResponse 
+                knownMediaType: json
+                mediaTypes:
+                  - application/json
+                statusCodes:
+                  - '200'
+        exceptions:
+          - !SchemaResponse 
+            schema: *ref_45
+            language: !Languages 
+              default:
+                name: ''
+                description: Error response describing why the operation failed.
+            protocol: !Protocols 
+              http: !HttpResponse 
+                knownMediaType: json
+                mediaTypes:
+                  - application/json
+                statusCodes:
+                  - default
+        extensions:
+          x-ms-examples:
+            update Orchestrator Instance:
+              parameters:
+                api-version: 2021-3-15
+                parameters:
+                  tags:
+                    key: value
+                resourceGroupName: TestRG
+                resourceName: testk8s1
+                subscriptionId: 613192d7-503f-477a-9cfe-4efc3ee2bd60
+              responses:
+                '200':
+                  body:
+                    name: testk8s1
+                    type: Microsoft.DelegatedNetwork/orchestrators
+                    id: /subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.DelegatedNetwork/orchestrators/testk8s1
+                    identity:
+                      type: SystemAssigned
+                      principalId: 7a2192d7-503f-477a-9cfe-4efc3ee2bd60
+                      tenantId: 3e2192d7-503f-477a-9cfe-4efc3ee2bd60
+                    kind: Kubernetes
+                    location: West US
+                    properties:
+                      apiServerEndpoint: https://testk8s.cloudapp.net
+                      clusterRootCA: ddsadsad344mfdsfdl
+                      controllerDetails:
+                        id: /subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.DelegatedNetwork/controller/testcontroller
+                      orchestratorAppId: 546192d7-503f-477a-9cfe-4efc3ee2b6e1
+                      orchestratorTenantId: da6192d7-503f-477a-9cfe-4efc3ee2b6c3
+                      privateLinkResourceId: /subscriptions/d21192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/plrg/Microsoft.Network/PrivateLink/pl1
+                      provisioningState: Succeeded
+                      resourceGuid: 1b2192d7-503f-477a-9cfe-4efc3ee2bd60
+                    tags:
+                      key: value
+                  headers: {}
+        language: !Languages 
+          default:
+            name: Patch
+            description: Update Orchestrator Instance
+        protocol: !Protocols {}
+      - !Operation 
+        apiVersions:
+          - !ApiVersion 
+            version: '2021-03-15'
+        parameters:
+          - *ref_37
+          - *ref_40
+          - *ref_41
+        requests:
+          - !Request 
+            parameters:
+              - !Parameter 
+                schema: *ref_42
+                implementation: Method
+                origin: modelerfour:synthesized/accept
+                required: true
+                language: !Languages 
+                  default:
+                    name: accept
+                    description: Accept header
+                    serializedName: Accept
+                protocol: !Protocols 
+                  http: !HttpParameter 
+                    in: header
+            signatureParameters: []
+            language: !Languages 
+              default:
+                name: ''
+                description: ''
+            protocol: !Protocols 
+              http: !HttpRequest 
+                path: /subscriptions/{subscriptionId}/providers/Microsoft.DelegatedNetwork/orchestrators
+                method: get
+                uri: '{$host}'
+        signatureParameters: []
+        responses:
+          - !SchemaResponse 
+            schema: *ref_56
+            language: !Languages 
+              default:
+                name: ''
+                description: This is a synchronous operation. The body contains a JSON-serialized array of the metadata from all the orchestratorInstance in the subscription.
+            protocol: !Protocols 
+              http: !HttpResponse 
+                knownMediaType: json
+                mediaTypes:
+                  - application/json
+                statusCodes:
+                  - '200'
+        exceptions:
+          - !SchemaResponse 
+            schema: *ref_45
+            language: !Languages 
+              default:
+                name: ''
+                description: Error response describing why the operation failed.
+            protocol: !Protocols 
+              http: !HttpResponse 
+                knownMediaType: json
+                mediaTypes:
+                  - application/json
+                statusCodes:
+                  - default
+        extensions:
+          x-ms-examples:
+            Get orchestratorInstance resources by subscription:
+              parameters:
+                api-version: 2021-3-15
+                subscriptionId: 50016170-c839-41ba-a724-51e9df440b9e
+              responses:
+                '200':
+                  body:
+                    value:
+                      - name: testk8s1
+                        type: Microsoft.DelegatedNetwork/orchestrators
+                        id: /subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.DelegatedNetwork/orchestrators/testk8s1
+                        identity:
+                          type: SystemAssigned
+                          principalId: 7a2192d7-503f-477a-9cfe-4efc3ee2bd60
+                          tenantId: 3e2192d7-503f-477a-9cfe-4efc3ee2bd60
+                        kind: Kubernetes
+                        location: West US
+                        properties:
+                          apiServerEndpoint: https://testk8s.cloudapp.net
+                          clusterRootCA: ddsadsad344mfdsfdl
+                          controllerDetails:
+                            id: /subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.DelegatedNetwork/controller/testcontroller
+                          orchestratorAppId: 546192d7-503f-477a-9cfe-4efc3ee2b6e1
+                          orchestratorTenantId: da6192d7-503f-477a-9cfe-4efc3ee2b6c3
+                          privateLinkResourceId: /subscriptions/d21192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/plrg/Microsoft.Network/PrivateLink/pl1
+                          provisioningState: Succeeded
+                          resourceGuid: 1b2192d7-503f-477a-9cfe-4efc3ee2bd60
+                  headers: {}
+          x-ms-pageable:
+            nextLinkName: nextLink
+        language: !Languages 
+          default:
+            name: ListBySubscription
+            description: Get all the orchestratorInstance resources in a subscription.
+            paging:
+              nextLinkName: nextLink
+        protocol: !Protocols {}
+      - !Operation 
+        apiVersions:
+          - !ApiVersion 
+            version: '2021-03-15'
+        parameters:
+          - *ref_37
+          - !Parameter &ref_57
+            schema: *ref_38
+            implementation: Method
+            required: true
+            language: !Languages 
+              default:
+                name: resourceGroupName
+                description: The name of the resource group. The name is case insensitive.
+                serializedName: resourceGroupName
+            protocol: !Protocols 
+              http: !HttpParameter 
+                in: path
+          - *ref_40
+          - *ref_41
+        requests:
+          - !Request 
+            parameters:
+              - !Parameter 
+                schema: *ref_42
+                implementation: Method
+                origin: modelerfour:synthesized/accept
+                required: true
+                language: !Languages 
+                  default:
+                    name: accept
+                    description: Accept header
+                    serializedName: Accept
+                protocol: !Protocols 
+                  http: !HttpParameter 
+                    in: header
+            signatureParameters: []
+            language: !Languages 
+              default:
+                name: ''
+                description: ''
+            protocol: !Protocols 
+              http: !HttpRequest 
+                path: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DelegatedNetwork/orchestrators
+                method: get
+                uri: '{$host}'
+        signatureParameters:
+          - *ref_57
+        responses:
+          - !SchemaResponse 
+            schema: *ref_56
+            language: !Languages 
+              default:
+                name: ''
+                description: This is a synchronous operation. The body contains a JSON-serialized array of the metadata from all the orchestratorInstances in the resource group.
+            protocol: !Protocols 
+              http: !HttpResponse 
+                knownMediaType: json
+                mediaTypes:
+                  - application/json
+                statusCodes:
+                  - '200'
+        exceptions:
+          - !SchemaResponse 
+            schema: *ref_45
+            language: !Languages 
+              default:
+                name: ''
+                description: Error response describing why the operation failed.
+            protocol: !Protocols 
+              http: !HttpResponse 
+                knownMediaType: json
+                mediaTypes:
+                  - application/json
+                statusCodes:
+                  - default
+        extensions:
+          x-ms-examples:
+            Get OrchestratorInstance resources by resource group:
+              parameters:
+                api-version: 2021-3-15
+                resourceGroupName: testRG
+                subscriptionId: 50016170-c839-41ba-a724-51e9df440b9e
+              responses:
+                '200':
+                  body:
+                    value:
+                      - name: testk8s1
+                        type: Microsoft.DelegatedNetwork/orchestrators
+                        id: /subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.DelegatedNetwork/orchestrators/testk8s1
+                        identity:
+                          type: SystemAssigned
+                          principalId: 7a2192d7-503f-477a-9cfe-4efc3ee2bd60
+                          tenantId: 3e2192d7-503f-477a-9cfe-4efc3ee2bd60
+                        kind: Kubernetes
+                        location: West US
+                        properties:
+                          apiServerEndpoint: https://testk8s.cloudapp.net
+                          clusterRootCA: ddsadsad344mfdsfdl
+                          controllerDetails:
+                            id: /subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.DelegatedNetwork/controller/testcontroller
+                          orchestratorAppId: 546192d7-503f-477a-9cfe-4efc3ee2b6e1
+                          orchestratorTenantId: da6192d7-503f-477a-9cfe-4efc3ee2b6c3
+                          privateLinkResourceId: /subscriptions/d21192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/plrg/Microsoft.Network/PrivateLink/pl1
+                          provisioningState: Succeeded
+                          resourceGuid: 1b2192d7-503f-477a-9cfe-4efc3ee2bd60
+                  headers: {}
+          x-ms-pageable:
+            nextLinkName: nextLink
+        language: !Languages 
+          default:
+            name: ListByResourceGroup
+            description: Get all the OrchestratorInstances resources in a resource group.
+            paging:
+              nextLinkName: nextLink
+        protocol: !Protocols {}
+    language: !Languages 
+      default:
+        name: OrchestratorInstanceService
+        description: ''
+    protocol: !Protocols {}
+security: !Security 
+  authenticationRequired: true
+language: !Languages 
+  default:
+    name: DNC
+    description: ''
+protocol: !Protocols 
+  http: !HttpModel {}
