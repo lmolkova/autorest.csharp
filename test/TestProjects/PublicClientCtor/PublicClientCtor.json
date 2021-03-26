@@ -23,6 +23,16 @@
       }
     ]
   },
+"securityDefinitions": {
+      "AADToken": {
+        "$ref": "https://raw.githubusercontent.com/Azure/autorest/feature/m4-security/schemas/aad-token-security.json#/components/securitySchemes/AADToken"
+      },
+    "security": [
+      {
+        "AADToken": ["https://myservice.azure.com/.default"]
+      }
+    ]
+  },
   "paths": {
     "/op": {
       "get": {
