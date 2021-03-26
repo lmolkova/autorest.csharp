@@ -38,7 +38,9 @@
   },
     "security": [
       {
-        "AADToken": ["https://myservice.azure.com/.default"],
+        "AADToken": ["https://myservice.azure.com/.default"]
+      },
+      {
         "AzureKey": []
       }
     ],

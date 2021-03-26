@@ -257,6 +257,8 @@ security: !Security
     - name: AADToken
       scopes:
         - https://myservice.azure.com/.default
+    - name: AzureKey
+      headerName: my-header-name
 language: !Languages 
   default:
     name: PublicClientCtor
