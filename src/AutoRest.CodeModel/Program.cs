@@ -19,7 +19,7 @@ namespace AutoRest.CodeModel
         private static void Main()
         {
             using var webClient = new WebClient();
-            webClient.DownloadFile(@"https://raw.githubusercontent.com/Azure/autorest/d3205d22d31f76abad3f12a965782481249f673e/packages/libs/codemodel/.resources/all-in-one/json/code-model.json", "code-model.json");
+            webClient.DownloadFile(@"https://raw.githubusercontent.com/Azure/autorest/842382b5dae0b0bb1d5cc69ee6767d674d99f389/packages/libs/codemodel/.resources/all-in-one/json/code-model.json", "code-model.json");
 
             var schemaJson = File.ReadAllText("code-model.json")
                 // Makes Choices only have string values
