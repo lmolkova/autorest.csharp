@@ -1000,7 +1000,7 @@ input-file: "swagger-document"
 
 ```yaml
 # autorest-core version
-version: "https://tinyurl.com/ygs677qq"
+version: "https://tinyurl.com/yzef2xel"
 save-inputs: true
 use: $(this-folder)/artifacts/bin/AutoRest.CSharp/Debug/netcoreapp3.1/
 clear-output-folder: true

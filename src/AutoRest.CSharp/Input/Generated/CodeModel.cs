@@ -1629,6 +1629,39 @@ namespace AutoRest.CSharp.Input
         /// <summary>indicates that the API surface requires authentication</summary>
         [YamlDotNet.Serialization.YamlMember(Alias = "authenticationRequired")]
         public bool? AuthenticationRequired { get; set; }
+
+        [YamlDotNet.Serialization.YamlMember(Alias = "schemes")]
+        [System.ComponentModel.DataAnnotations.Required]
+        public System.Collections.Generic.ICollection<Schemes> Schemes { get; set; } = new System.Collections.ObjectModel.Collection<Schemes>();
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.23.0 (Newtonsoft.Json v9.0.0.0)")]
+    internal partial class SecurityScheme
+    {
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.23.0 (Newtonsoft.Json v9.0.0.0)")]
+    internal partial class AADTokenSecurityScheme
+    {
+        [YamlDotNet.Serialization.YamlMember(Alias = "name")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public AADTokenSecuritySchemeName Name { get; set; }
+
+        [YamlDotNet.Serialization.YamlMember(Alias = "scopes")]
+        [System.ComponentModel.DataAnnotations.Required]
+        public System.Collections.Generic.ICollection<string> Scopes { get; set; } = new System.Collections.ObjectModel.Collection<string>();
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.23.0 (Newtonsoft.Json v9.0.0.0)")]
+    internal partial class AzureKeyScheme
+    {
+        [YamlDotNet.Serialization.YamlMember(Alias = "name")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public AzureKeySchemeName Name { get; set; }
+
+        [YamlDotNet.Serialization.YamlMember(Alias = "headerName")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string HeaderName { get; set; }
     }
 
     /// <summary>example data [UNFINISHED]</summary>
@@ -2157,11 +2190,6 @@ namespace AutoRest.CSharp.Input
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.23.0 (Newtonsoft.Json v9.0.0.0)")]
-    internal partial class SecurityScheme
-    {
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.23.0 (Newtonsoft.Json v9.0.0.0)")]
     internal partial class APIKeySecurityScheme
     {
         [YamlDotNet.Serialization.YamlMember(Alias = "type")]
@@ -2549,6 +2577,25 @@ namespace AutoRest.CSharp.Input
 
         [System.Runtime.Serialization.EnumMember(Value = @"date-time-rfc1123")]
         DateTimeRfc1123 = 1,
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.23.0 (Newtonsoft.Json v9.0.0.0)")]
+    internal partial class Schemes
+    {
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.23.0 (Newtonsoft.Json v9.0.0.0)")]
+    internal enum AADTokenSecuritySchemeName
+    {
+        [System.Runtime.Serialization.EnumMember(Value = @"AADToken")]
+        AADToken = 0,
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.23.0 (Newtonsoft.Json v9.0.0.0)")]
+    internal enum AzureKeySchemeName
+    {
+        [System.Runtime.Serialization.EnumMember(Value = @"AzureKey")]
+        AzureKey = 0,
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.0.23.0 (Newtonsoft.Json v9.0.0.0)")]
