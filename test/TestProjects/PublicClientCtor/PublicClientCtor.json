@@ -29,11 +29,17 @@
       "flow": "accessCode",
       "authorizationUrl": "https://login.microsoftonline.com/common/v2.0/oauth2/authorize",
       "tokenUrl": "https://login.microsoftonline.com/common/v2.0/oauth2/token"
+    },
+    "AzureKey": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "my-header-name"
     }
   },
     "security": [
       {
-        "AADToken": ["https://myservice.azure.com/.default"]
+        "AADToken": ["https://myservice.azure.com/.default"],
+        "AzureKey": []
       }
     ],
   "paths": {
