@@ -15,12 +15,10 @@ namespace sample
         public static async Task Main(string[] args)
         {
             ArmClient armClient = new ArmClient(new Uri("http://example.com"), new DefaultAzureCredential(), new ArmClientOptions());
-            Subscription subscription = armClient.DefaultSubscription;
-            ResourceGroup resourceGroup = (await subscription.GetResourceGroups().Construct(LocationData.WestUS2).CreateOrUpdateAsync("resourceGroupName")).Value;
-            AccountContainer accountContainer = resourceGroup.GetAccounts();
+            ResourceGroup resourceGroup = (await armClient.DefaultSubscription.GetResourceGroups().Construct(LocationData.WestUS2).CreateOrUpdateAsync("resourceGroupName")).Value;
 
             // Create Account
-            Account account = await accountContainer.CreateOrUpdateAsync("accountName", new AccountData(LocationData.WestUS2));
+            Account account = await resourceGroup.GetAccounts().CreateOrUpdateAsync("accountName", new AccountData(LocationData.WestUS2));
 
             // Get Account
             account = await account.GetAsync();
@@ -29,7 +27,7 @@ namespace sample
             await account.DeleteAsync();
 
             // Get list of Accounts
-            await foreach (Account accountInfo in subscription.ListAccountAsync())
+            await foreach (Account accountInfo in armClient.DefaultSubscription.ListAccountAsync())
             {
                 Console.WriteLine(accountInfo);
             }
