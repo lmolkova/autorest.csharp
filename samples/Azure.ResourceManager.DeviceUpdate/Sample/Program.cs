@@ -26,7 +26,7 @@ namespace sample
             // Delete Account
             await account.DeleteAsync();
 
-            // Get list of Accounts
+            // Get a list of Accounts
             await foreach (Account accountInfo in armClient.DefaultSubscription.ListAccountAsync())
             {
                 Console.WriteLine(accountInfo);
