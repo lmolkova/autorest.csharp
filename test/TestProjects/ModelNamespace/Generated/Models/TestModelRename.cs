@@ -8,10 +8,10 @@
 namespace ModelNamespace
 {
     /// <summary> . </summary>
-    internal partial class TestModel
+    internal partial class TestModelRename
     {
-        /// <summary> Initializes a new instance of TestModel. </summary>
-        internal TestModel()
+        /// <summary> Initializes a new instance of TestModelRename. </summary>
+        internal TestModelRename()
         {
         }
 
