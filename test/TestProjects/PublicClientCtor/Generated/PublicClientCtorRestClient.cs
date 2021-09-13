@@ -42,7 +42,7 @@ namespace PublicClientCtor
             _pipeline = pipeline;
         }
 
-        internal HttpMessage CreateOperationRequest(TestModel value)
+        internal HttpMessage CreateOperationRequest(TestModel model)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -63,22 +63,22 @@ namespace PublicClientCtor
             }
             request.Headers.Add("Content-Type", "application/json");
             var content = new Utf8JsonRequestContent();
-            content.JsonWriter.WriteObjectValue(value);
+            content.JsonWriter.WriteObjectValue(model);
             request.Content = content;
             return message;
         }
 
-        /// <param name="value"> The TestModel to use. </param>
+        /// <param name="model"> Post body of the request. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="value"/> is null. </exception>
-        public async Task<Response> OperationAsync(TestModel value, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="model"/> is null. </exception>
+        public async Task<Response> OperationAsync(TestModel model, CancellationToken cancellationToken = default)
         {
-            if (value == null)
+            if (model == null)
             {
-                throw new ArgumentNullException(nameof(value));
+                throw new ArgumentNullException(nameof(model));
             }
 
-            using var message = CreateOperationRequest(value);
+            using var message = CreateOperationRequest(model);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -89,17 +89,17 @@ namespace PublicClientCtor
             }
         }
 
-        /// <param name="value"> The TestModel to use. </param>
+        /// <param name="model"> Post body of the request. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="value"/> is null. </exception>
-        public Response Operation(TestModel value, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="model"/> is null. </exception>
+        public Response Operation(TestModel model, CancellationToken cancellationToken = default)
         {
-            if (value == null)
+            if (model == null)
             {
-                throw new ArgumentNullException(nameof(value));
+                throw new ArgumentNullException(nameof(model));
             }
 
-            using var message = CreateOperationRequest(value);
+            using var message = CreateOperationRequest(model);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

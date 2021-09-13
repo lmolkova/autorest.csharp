@@ -10,20 +10,25 @@ using Azure.Core;
 
 namespace PublicClientCtor.Models
 {
-    public partial class TestModel : IUtf8JsonSerializable
+    internal partial class TestModel : IUtf8JsonSerializable
     {
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
-            if (Optional.IsDefined(Code))
+            if (Optional.IsDefined(Delete))
             {
-                writer.WritePropertyName("Code");
-                writer.WriteStringValue(Code);
+                writer.WritePropertyName("delete");
+                writer.WriteObjectValue(Delete);
             }
-            if (Optional.IsDefined(Status))
+            if (Optional.IsDefined(EnableHierarchicalExtraction))
             {
-                writer.WritePropertyName("Status");
-                writer.WriteStringValue(Status);
+                writer.WritePropertyName("enableHierarchicalExtraction");
+                writer.WriteBooleanValue(EnableHierarchicalExtraction.Value);
+            }
+            if (Optional.IsDefined(DefaultAnswerUsedForExtraction))
+            {
+                writer.WritePropertyName("defaultAnswerUsedForExtraction");
+                writer.WriteStringValue(DefaultAnswerUsedForExtraction);
             }
             writer.WriteEndObject();
         }

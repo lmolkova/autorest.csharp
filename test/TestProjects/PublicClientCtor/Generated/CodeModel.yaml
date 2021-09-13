@@ -3,8 +3,25 @@ info: !Info
   description: Public Client Constructor
   title: PublicClientCtor
 schemas: !Schemas 
+  booleans:
+    - !BooleanSchema &ref_5
+      type: boolean
+      language: !Languages 
+        default:
+          name: Boolean
+          description: Enable hierarchical extraction of Q-A from files and urls. The value set during KB creation will be used if this field is not present.
+      protocol: !Protocols {}
+  numbers:
+    - !NumberSchema &ref_2
+      type: integer
+      precision: 32
+      language: !Languages 
+        default:
+          name: ArrayItemschema
+          description: ''
+      protocol: !Protocols {}
   strings:
-    - !StringSchema &ref_3
+    - !StringSchema &ref_9
       type: string
       apiVersions:
         - !ApiVersion 
@@ -21,28 +38,30 @@ schemas: !Schemas
           name: String
           description: simple string
       protocol: !Protocols {}
-    - !StringSchema &ref_1
+    - !StringSchema &ref_3
       type: string
       apiVersions:
         - !ApiVersion 
           version: 1.0.0
       language: !Languages 
         default:
-          name: TestModelCode
+          name: AllOfModelSourcesItem
           description: ''
       protocol: !Protocols {}
-    - !StringSchema &ref_2
+    - !StringSchema &ref_6
       type: string
       apiVersions:
         - !ApiVersion 
           version: 1.0.0
+      maxLength: 300
+      minLength: 1
       language: !Languages 
         default:
-          name: TestModelStatus
-          description: ''
+          name: TestModelDefaultAnswerUsedForExtraction
+          description: Text string to be used as the answer in any Q-A which has no extracted answer from the document but has a hierarchy. Required when EnableHierarchicalExtraction field is set to True.
       protocol: !Protocols {}
   constants:
-    - !ConstantSchema &ref_5
+    - !ConstantSchema &ref_11
       type: constant
       value: !ConstantValue 
         value: 1.0.0
@@ -52,7 +71,7 @@ schemas: !Schemas
           name: ApiVersion10
           description: Api Version (1.0.0)
       protocol: !Protocols {}
-    - !ConstantSchema &ref_10
+    - !ConstantSchema &ref_16
       type: constant
       value: !ConstantValue 
         value: application/json
@@ -63,7 +82,7 @@ schemas: !Schemas
           description: Content Type 'application/json'
       protocol: !Protocols {}
   uris:
-    - !UriSchema &ref_4
+    - !UriSchema &ref_10
       type: uri
       language: !Languages 
         default:
@@ -81,41 +100,133 @@ schemas: !Schemas
           description: ''
       protocol: !Protocols {}
   objects:
-    - !ObjectSchema &ref_11
+    - !ObjectSchema &ref_17
       type: object
       apiVersions:
         - !ApiVersion 
           version: 1.0.0
       properties:
         - !Property 
-          schema: *ref_1
-          serializedName: Code
+          schema: !ObjectSchema &ref_1
+            type: object
+            apiVersions:
+              - !ApiVersion 
+                version: 1.0.0
+            parents: !Relations 
+              all:
+                - !ObjectSchema &ref_4
+                  type: object
+                  apiVersions:
+                    - !ApiVersion 
+                      version: 1.0.0
+                  children: !Relations 
+                    all:
+                      - *ref_1
+                    immediate:
+                      - *ref_1
+                  properties:
+                    - !Property 
+                      schema: !ArraySchema &ref_7
+                        type: array
+                        elementType: *ref_2
+                        language: !Languages 
+                          default:
+                            name: ArrayOfArrayItemschema
+                            description: List of Qna Ids to be deleted
+                        protocol: !Protocols {}
+                      serializedName: ids
+                      language: !Languages 
+                        default:
+                          name: ids
+                          description: List of Qna Ids to be deleted
+                      protocol: !Protocols {}
+                    - !Property 
+                      schema: !ArraySchema &ref_8
+                        type: array
+                        apiVersions:
+                          - !ApiVersion 
+                            version: 1.0.0
+                        elementType: *ref_3
+                        language: !Languages 
+                          default:
+                            name: AllOfModelSources
+                            description: List of sources to be deleted from knowledgebase.
+                        protocol: !Protocols {}
+                      serializedName: sources
+                      language: !Languages 
+                        default:
+                          name: sources
+                          description: List of sources to be deleted from knowledgebase.
+                      protocol: !Protocols {}
+                  serializationFormats:
+                    - json
+                  usage:
+                    - input
+                  extensions:
+                    x-accessibility: internal
+                  language: !Languages 
+                    default:
+                      name: AllOfModel
+                      description: PATCH body schema of Delete Operation in UpdateKb
+                      namespace: ''
+                  protocol: !Protocols {}
+              immediate:
+                - *ref_4
+            serializationFormats:
+              - json
+            usage:
+              - input
+            extensions:
+              x-internal-autorest-anonymous-schema:
+                anonymous: true
+            language: !Languages 
+              default:
+                name: TestModelDelete
+                description: An instance of DeleteKbContentsDTO for delete Operation
+                namespace: ''
+            protocol: !Protocols {}
+          serializedName: delete
           language: !Languages 
             default:
-              name: code
-              description: ''
+              name: delete
+              description: An instance of DeleteKbContentsDTO for delete Operation
           protocol: !Protocols {}
         - !Property 
-          schema: *ref_2
-          serializedName: Status
+          schema: *ref_5
+          serializedName: enableHierarchicalExtraction
           language: !Languages 
             default:
-              name: status
-              description: ''
+              name: enableHierarchicalExtraction
+              description: Enable hierarchical extraction of Q-A from files and urls. The value set during KB creation will be used if this field is not present.
+          protocol: !Protocols {}
+        - !Property 
+          schema: *ref_6
+          serializedName: defaultAnswerUsedForExtraction
+          language: !Languages 
+            default:
+              name: defaultAnswerUsedForExtraction
+              description: Text string to be used as the answer in any Q-A which has no extracted answer from the document but has a hierarchy. Required when EnableHierarchicalExtraction field is set to True.
           protocol: !Protocols {}
       serializationFormats:
         - json
       usage:
         - input
+      extensions:
+        x-accessibility: internal
       language: !Languages 
         default:
           name: TestModel
-          description: .
+          description: Contains list of QnAs to be updated
           namespace: ''
       protocol: !Protocols {}
+    - *ref_4
+    - *ref_1
+  arrays:
+    - *ref_7
+    - *ref_8
 globalParameters:
-  - !Parameter &ref_7
-    schema: *ref_3
+  - !Parameter &ref_13
+    schema: *ref_9
     clientDefaultValue: value1
     implementation: Client
     extensions:
@@ -129,8 +240,8 @@ globalParameters:
     protocol: !Protocols 
       http: !HttpParameter 
         in: header
-  - !Parameter &ref_8
-    schema: *ref_3
+  - !Parameter &ref_14
+    schema: *ref_9
     implementation: Client
     extensions:
       x-ms-priority: 2
@@ -142,8 +253,8 @@ globalParameters:
     protocol: !Protocols 
       http: !HttpParameter 
         in: header
-  - !Parameter &ref_6
-    schema: *ref_4
+  - !Parameter &ref_12
+    schema: *ref_10
     implementation: Client
     required: true
     extensions:
@@ -162,8 +273,8 @@ globalParameters:
     protocol: !Protocols 
       http: !HttpParameter 
         in: uri
-  - !Parameter &ref_9
-    schema: *ref_5
+  - !Parameter &ref_15
+    schema: *ref_11
     implementation: Client
     origin: modelerfour:synthesized/api-version
     required: true
@@ -184,15 +295,15 @@ operationGroups:
           - !ApiVersion 
             version: 1.0.0
         parameters:
-          - *ref_6
-          - *ref_7
-          - *ref_8
-          - *ref_9
+          - *ref_12
+          - *ref_13
+          - *ref_14
+          - *ref_15
         requests:
           - !Request 
             parameters:
               - !Parameter 
-                schema: *ref_10
+                schema: *ref_16
                 implementation: Method
                 origin: modelerfour:synthesized/content-type
                 required: true
@@ -204,20 +315,22 @@ operationGroups:
                 protocol: !Protocols 
                   http: !HttpParameter 
                     in: header
-              - !Parameter &ref_12
-                schema: *ref_11
+              - !Parameter &ref_18
+                schema: *ref_17
                 implementation: Method
                 required: true
+                extensions:
+                  x-nullable: true
                 language: !Languages 
                   default:
-                    name: value
-                    description: ''
+                    name: model
+                    description: Post body of the request.
                 protocol: !Protocols 
                   http: !HttpParameter 
                     in: body
                     style: json
             signatureParameters:
-              - *ref_12
+              - *ref_18
             language: !Languages 
               default:
                 name: ''

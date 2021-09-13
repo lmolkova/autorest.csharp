@@ -88,15 +88,15 @@ namespace PublicClientCtor
             _pipeline = pipeline;
         }
 
-        /// <param name="value"> The TestModel to use. </param>
+        /// <param name="model"> Post body of the request. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response> OperationAsync(TestModel value, CancellationToken cancellationToken = default)
+        public virtual async Task<Response> OperationAsync(TestModel model, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("PublicClientCtorClient.Operation");
             scope.Start();
             try
             {
-                return await RestClient.OperationAsync(value, cancellationToken).ConfigureAwait(false);
+                return await RestClient.OperationAsync(model, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -105,15 +105,15 @@ namespace PublicClientCtor
             }
         }
 
-        /// <param name="value"> The TestModel to use. </param>
+        /// <param name="model"> Post body of the request. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response Operation(TestModel value, CancellationToken cancellationToken = default)
+        public virtual Response Operation(TestModel model, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("PublicClientCtorClient.Operation");
             scope.Start();
             try
             {
-                return RestClient.Operation(value, cancellationToken);
+                return RestClient.Operation(model, cancellationToken);
             }
             catch (Exception e)
             {

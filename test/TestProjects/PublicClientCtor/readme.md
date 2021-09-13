@@ -13,3 +13,11 @@ security-scopes:
   - "https://fakeendpoint.azure.com/.default"
   - "https://dummyendpoint.azure.com/.default"
 ```
+
+``` yaml
+directive:
+  from: swagger-document
+  where: $.definitions.*
+  transform: >
+    $["x-accessibility"] = "internal"
+```

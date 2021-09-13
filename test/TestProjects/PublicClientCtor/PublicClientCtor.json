@@ -30,12 +30,15 @@
         "description": "",
         "parameters": [
           {
-            "name": "value",
+            "name": "model",
             "in": "body",
             "required": true,
             "schema": {
               "$ref": "#/definitions/TestModel"
-            }
+            },
+            "x-nullable": true,
+            "description": "Post body of the request.",
+            "x-ms-parameter-location": "method"
           },
           {
             "$ref": "#/parameters/Param1"
@@ -58,11 +61,52 @@
   "definitions": {
     "TestModel": {
       "type": "object",
+      "description": "Contains list of QnAs to be updated",
+      "additionalProperties": false,
       "properties": {
-        "Code": { "type": "string" },
-        "Status": { "type": "string" }
-      },
-      "description": "."
+        "delete": {
+          "description": "An instance of DeleteKbContentsDTO for delete Operation",
+          "allOf": [
+            {
+              "$ref": "#/definitions/AllOfModel"
+            }
+          ]
+        },
+        "enableHierarchicalExtraction": {
+          "type": "boolean",
+          "description": "Enable hierarchical extraction of Q-A from files and urls. The value set during KB creation will be used if this field is not present."
+        },
+        "defaultAnswerUsedForExtraction": {
+          "type": "string",
+          "description": "Text string to be used as the answer in any Q-A which has no extracted answer from the document but has a hierarchy. Required when EnableHierarchicalExtraction field is set to True.",
+          "maxLength": 300,
+          "minLength": 1
+        }
+      }
+    },
+    "AllOfModel": {
+      "type": "object",
+      "description": "PATCH body schema of Delete Operation in UpdateKb",
+      "additionalProperties": false,
+      "properties": {
+        "ids": {
+          "type": "array",
+          "description": "List of Qna Ids to be deleted",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "sources": {
+          "type": "array",
+          "description": "List of sources to be deleted from knowledgebase.",
+          "maxLength": 300,
+          "minLength": 1,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
     }
   },
   "parameters": {
