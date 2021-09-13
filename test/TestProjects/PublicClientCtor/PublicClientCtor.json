@@ -82,7 +82,8 @@
           "maxLength": 300,
           "minLength": 1
         }
-      }
+      },
+      "x-accessibility": "internal"
     },
     "AllOfModel": {
       "type": "object",
@@ -106,7 +107,8 @@
             "type": "string"
           }
         }
-      }
+      },
+      "x-accessibility": "internal"
     }
   },
   "parameters": {
