@@ -10,7 +10,7 @@ using Azure.Core;
 
 namespace PublicClientCtor.Models
 {
-    public partial class TestModelDelete : IUtf8JsonSerializable
+    internal partial class TestModelDelete : IUtf8JsonSerializable
     {
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {

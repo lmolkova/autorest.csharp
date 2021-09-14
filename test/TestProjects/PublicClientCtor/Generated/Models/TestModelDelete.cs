@@ -8,7 +8,7 @@
 namespace PublicClientCtor.Models
 {
     /// <summary> An instance of DeleteKbContentsDTO for delete Operation. </summary>
-    public partial class TestModelDelete : AllOfModel
+    internal partial class TestModelDelete : AllOfModel
     {
         /// <summary> Initializes a new instance of TestModelDelete. </summary>
         public TestModelDelete()

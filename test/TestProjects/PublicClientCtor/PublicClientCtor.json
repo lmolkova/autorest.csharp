@@ -66,6 +66,7 @@
       "properties": {
         "delete": {
           "description": "An instance of DeleteKbContentsDTO for delete Operation",
+          "x-accessibility": "internal",
           "allOf": [
             {
               "$ref": "#/definitions/AllOfModel"

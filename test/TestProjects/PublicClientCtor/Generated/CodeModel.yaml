@@ -177,6 +177,7 @@ schemas: !Schemas
             usage:
               - input
             extensions:
+              x-accessibility: internal
               x-internal-autorest-anonymous-schema:
                 anonymous: true
             language: !Languages 
@@ -186,6 +187,8 @@ schemas: !Schemas
                 namespace: ''
             protocol: !Protocols {}
           serializedName: delete
+          extensions:
+            x-accessibility: internal
           language: !Languages 
             default:
               name: delete
