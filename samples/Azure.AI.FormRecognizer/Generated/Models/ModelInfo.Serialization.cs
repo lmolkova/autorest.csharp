@@ -19,6 +19,8 @@ namespace Azure.AI.FormRecognizer.Models
             ModelStatus status = default;
             DateTimeOffset createdDateTime = default;
             DateTimeOffset lastUpdatedDateTime = default;
+            Optional<string> modelName = default;
+            Optional<Attributes> attributes = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("modelId"))
@@ -41,8 +43,23 @@ namespace Azure.AI.FormRecognizer.Models
                     lastUpdatedDateTime = property.Value.GetDateTimeOffset("O");
                     continue;
                 }
+                if (property.NameEquals("modelName"))
+                {
+                    modelName = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("attributes"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    attributes = Attributes.DeserializeAttributes(property.Value);
+                    continue;
+                }
             }
-            return new ModelInfo(modelId, status, createdDateTime, lastUpdatedDateTime);
+            return new ModelInfo(modelId, status, createdDateTime, lastUpdatedDateTime, modelName.Value, attributes.Value);
         }
     }
 }

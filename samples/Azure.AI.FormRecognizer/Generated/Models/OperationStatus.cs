@@ -17,6 +17,8 @@ namespace Azure.AI.FormRecognizer.Models
         /// <summary> succeeded. </summary>
         Succeeded,
         /// <summary> failed. </summary>
-        Failed
+        Failed,
+        /// <summary> canceled. </summary>
+        Canceled
     }
 }

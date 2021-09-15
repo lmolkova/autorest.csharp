@@ -12,6 +12,8 @@ namespace Azure.AI.FormRecognizer.Models
     {
         /// <summary> Content Type &apos;application/pdf&apos;. </summary>
         ApplicationPdf,
+        /// <summary> Content Type &apos;image/bmp&apos;. </summary>
+        ImageBmp,
         /// <summary> Content Type &apos;image/jpeg&apos;. </summary>
         ImageJpeg,
         /// <summary> Content Type &apos;image/png&apos;. </summary>

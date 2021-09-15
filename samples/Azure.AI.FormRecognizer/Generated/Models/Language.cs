@@ -10,7 +10,7 @@ using System.ComponentModel;
 
 namespace Azure.AI.FormRecognizer.Models
 {
-    /// <summary> Language code. </summary>
+    /// <summary> The Language. </summary>
     public readonly partial struct Language : IEquatable<Language>
     {
         private readonly string _value;
@@ -22,13 +22,226 @@ namespace Azure.AI.FormRecognizer.Models
             _value = value ?? throw new ArgumentNullException(nameof(value));
         }
 
+        private const string AfValue = "af";
+        private const string AstValue = "ast";
+        private const string BiValue = "bi";
+        private const string BrValue = "br";
+        private const string CaValue = "ca";
+        private const string CebValue = "ceb";
+        private const string ChValue = "ch";
+        private const string CoValue = "co";
+        private const string CrhValue = "crh";
+        private const string CsValue = "cs";
+        private const string CsbValue = "csb";
+        private const string DaValue = "da";
+        private const string DeValue = "de";
         private const string EnValue = "en";
         private const string EsValue = "es";
+        private const string EtValue = "et";
+        private const string EuValue = "eu";
+        private const string FiValue = "fi";
+        private const string FilValue = "fil";
+        private const string FjValue = "fj";
+        private const string FrValue = "fr";
+        private const string FurValue = "fur";
+        private const string FyValue = "fy";
+        private const string GaValue = "ga";
+        private const string GdValue = "gd";
+        private const string GilValue = "gil";
+        private const string GlValue = "gl";
+        private const string GvValue = "gv";
+        private const string HniValue = "hni";
+        private const string HsbValue = "hsb";
+        private const string HtValue = "ht";
+        private const string HuValue = "hu";
+        private const string IaValue = "ia";
+        private const string IdValue = "id";
+        private const string ItValue = "it";
+        private const string IuValue = "iu";
+        private const string JaValue = "ja";
+        private const string JvValue = "jv";
+        private const string KaaValue = "kaa";
+        private const string KacValue = "kac";
+        private const string KeaValue = "kea";
+        private const string KhaValue = "kha";
+        private const string KlValue = "kl";
+        private const string KoValue = "ko";
+        private const string KuValue = "ku";
+        private const string KwValue = "kw";
+        private const string LbValue = "lb";
+        private const string MsValue = "ms";
+        private const string MwwValue = "mww";
+        private const string NapValue = "nap";
+        private const string NlValue = "nl";
+        private const string NoValue = "no";
+        private const string OcValue = "oc";
+        private const string PlValue = "pl";
+        private const string PtValue = "pt";
+        private const string QucValue = "quc";
+        private const string RmValue = "rm";
+        private const string ScoValue = "sco";
+        private const string SlValue = "sl";
+        private const string SqValue = "sq";
+        private const string SvValue = "sv";
+        private const string SwValue = "sw";
+        private const string TetValue = "tet";
+        private const string TrValue = "tr";
+        private const string TtValue = "tt";
+        private const string UzValue = "uz";
+        private const string VoValue = "vo";
+        private const string WaeValue = "wae";
+        private const string YuaValue = "yua";
+        private const string ZaValue = "za";
+        private const string ZhHansValue = "zh-Hans";
+        private const string ZhHantValue = "zh-Hant";
+        private const string ZuValue = "zu";
 
+        /// <summary> af. </summary>
+        public static Language Af { get; } = new Language(AfValue);
+        /// <summary> ast. </summary>
+        public static Language Ast { get; } = new Language(AstValue);
+        /// <summary> bi. </summary>
+        public static Language Bi { get; } = new Language(BiValue);
+        /// <summary> br. </summary>
+        public static Language Br { get; } = new Language(BrValue);
+        /// <summary> ca. </summary>
+        public static Language Ca { get; } = new Language(CaValue);
+        /// <summary> ceb. </summary>
+        public static Language Ceb { get; } = new Language(CebValue);
+        /// <summary> ch. </summary>
+        public static Language Ch { get; } = new Language(ChValue);
+        /// <summary> co. </summary>
+        public static Language Co { get; } = new Language(CoValue);
+        /// <summary> crh. </summary>
+        public static Language Crh { get; } = new Language(CrhValue);
+        /// <summary> cs. </summary>
+        public static Language Cs { get; } = new Language(CsValue);
+        /// <summary> csb. </summary>
+        public static Language Csb { get; } = new Language(CsbValue);
+        /// <summary> da. </summary>
+        public static Language Da { get; } = new Language(DaValue);
+        /// <summary> de. </summary>
+        public static Language De { get; } = new Language(DeValue);
         /// <summary> en. </summary>
         public static Language En { get; } = new Language(EnValue);
         /// <summary> es. </summary>
         public static Language Es { get; } = new Language(EsValue);
+        /// <summary> et. </summary>
+        public static Language Et { get; } = new Language(EtValue);
+        /// <summary> eu. </summary>
+        public static Language Eu { get; } = new Language(EuValue);
+        /// <summary> fi. </summary>
+        public static Language Fi { get; } = new Language(FiValue);
+        /// <summary> fil. </summary>
+        public static Language Fil { get; } = new Language(FilValue);
+        /// <summary> fj. </summary>
+        public static Language Fj { get; } = new Language(FjValue);
+        /// <summary> fr. </summary>
+        public static Language Fr { get; } = new Language(FrValue);
+        /// <summary> fur. </summary>
+        public static Language Fur { get; } = new Language(FurValue);
+        /// <summary> fy. </summary>
+        public static Language Fy { get; } = new Language(FyValue);
+        /// <summary> ga. </summary>
+        public static Language Ga { get; } = new Language(GaValue);
+        /// <summary> gd. </summary>
+        public static Language Gd { get; } = new Language(GdValue);
+        /// <summary> gil. </summary>
+        public static Language Gil { get; } = new Language(GilValue);
+        /// <summary> gl. </summary>
+        public static Language Gl { get; } = new Language(GlValue);
+        /// <summary> gv. </summary>
+        public static Language Gv { get; } = new Language(GvValue);
+        /// <summary> hni. </summary>
+        public static Language Hni { get; } = new Language(HniValue);
+        /// <summary> hsb. </summary>
+        public static Language Hsb { get; } = new Language(HsbValue);
+        /// <summary> ht. </summary>
+        public static Language Ht { get; } = new Language(HtValue);
+        /// <summary> hu. </summary>
+        public static Language Hu { get; } = new Language(HuValue);
+        /// <summary> ia. </summary>
+        public static Language Ia { get; } = new Language(IaValue);
+        /// <summary> id. </summary>
+        public static Language Id { get; } = new Language(IdValue);
+        /// <summary> it. </summary>
+        public static Language It { get; } = new Language(ItValue);
+        /// <summary> iu. </summary>
+        public static Language Iu { get; } = new Language(IuValue);
+        /// <summary> ja. </summary>
+        public static Language Ja { get; } = new Language(JaValue);
+        /// <summary> jv. </summary>
+        public static Language Jv { get; } = new Language(JvValue);
+        /// <summary> kaa. </summary>
+        public static Language Kaa { get; } = new Language(KaaValue);
+        /// <summary> kac. </summary>
+        public static Language Kac { get; } = new Language(KacValue);
+        /// <summary> kea. </summary>
+        public static Language Kea { get; } = new Language(KeaValue);
+        /// <summary> kha. </summary>
+        public static Language Kha { get; } = new Language(KhaValue);
+        /// <summary> kl. </summary>
+        public static Language Kl { get; } = new Language(KlValue);
+        /// <summary> ko. </summary>
+        public static Language Ko { get; } = new Language(KoValue);
+        /// <summary> ku. </summary>
+        public static Language Ku { get; } = new Language(KuValue);
+        /// <summary> kw. </summary>
+        public static Language Kw { get; } = new Language(KwValue);
+        /// <summary> lb. </summary>
+        public static Language Lb { get; } = new Language(LbValue);
+        /// <summary> ms. </summary>
+        public static Language Ms { get; } = new Language(MsValue);
+        /// <summary> mww. </summary>
+        public static Language Mww { get; } = new Language(MwwValue);
+        /// <summary> nap. </summary>
+        public static Language Nap { get; } = new Language(NapValue);
+        /// <summary> nl. </summary>
+        public static Language Nl { get; } = new Language(NlValue);
+        /// <summary> no. </summary>
+        public static Language No { get; } = new Language(NoValue);
+        /// <summary> oc. </summary>
+        public static Language Oc { get; } = new Language(OcValue);
+        /// <summary> pl. </summary>
+        public static Language Pl { get; } = new Language(PlValue);
+        /// <summary> pt. </summary>
+        public static Language Pt { get; } = new Language(PtValue);
+        /// <summary> quc. </summary>
+        public static Language Quc { get; } = new Language(QucValue);
+        /// <summary> rm. </summary>
+        public static Language Rm { get; } = new Language(RmValue);
+        /// <summary> sco. </summary>
+        public static Language Sco { get; } = new Language(ScoValue);
+        /// <summary> sl. </summary>
+        public static Language Sl { get; } = new Language(SlValue);
+        /// <summary> sq. </summary>
+        public static Language Sq { get; } = new Language(SqValue);
+        /// <summary> sv. </summary>
+        public static Language Sv { get; } = new Language(SvValue);
+        /// <summary> sw. </summary>
+        public static Language Sw { get; } = new Language(SwValue);
+        /// <summary> tet. </summary>
+        public static Language Tet { get; } = new Language(TetValue);
+        /// <summary> tr. </summary>
+        public static Language Tr { get; } = new Language(TrValue);
+        /// <summary> tt. </summary>
+        public static Language Tt { get; } = new Language(TtValue);
+        /// <summary> uz. </summary>
+        public static Language Uz { get; } = new Language(UzValue);
+        /// <summary> vo. </summary>
+        public static Language Vo { get; } = new Language(VoValue);
+        /// <summary> wae. </summary>
+        public static Language Wae { get; } = new Language(WaeValue);
+        /// <summary> yua. </summary>
+        public static Language Yua { get; } = new Language(YuaValue);
+        /// <summary> za. </summary>
+        public static Language Za { get; } = new Language(ZaValue);
+        /// <summary> zh-Hans. </summary>
+        public static Language ZhHans { get; } = new Language(ZhHansValue);
+        /// <summary> zh-Hant. </summary>
+        public static Language ZhHant { get; } = new Language(ZhHantValue);
+        /// <summary> zu. </summary>
+        public static Language Zu { get; } = new Language(ZuValue);
         /// <summary> Determines if two <see cref="Language"/> values are the same. </summary>
         public static bool operator ==(Language left, Language right) => left.Equals(right);
         /// <summary> Determines if two <see cref="Language"/> values are not the same. </summary>

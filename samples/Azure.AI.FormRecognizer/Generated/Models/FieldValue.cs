@@ -35,12 +35,14 @@ namespace Azure.AI.FormRecognizer.Models
         /// <param name="valueInteger"> Integer value. </param>
         /// <param name="valueArray"> Array of field values. </param>
         /// <param name="valueObject"> Dictionary of named field values. </param>
+        /// <param name="valueSelectionMark"> Selection mark value. </param>
+        /// <param name="valueCountryRegion"> 3-letter country code (ISO 3166-1 alpha-3). </param>
         /// <param name="text"> Text content of the extracted field. </param>
         /// <param name="boundingBox"> Bounding box of the field value, if appropriate. </param>
         /// <param name="confidence"> Confidence score. </param>
         /// <param name="elements"> When includeTextDetails is set to true, a list of references to the text elements constituting this field. </param>
         /// <param name="page"> The 1-based page number in the input document. </param>
-        internal FieldValue(FieldValueType type, string valueString, DateTimeOffset? valueDate, TimeSpan? valueTime, string valuePhoneNumber, float? valueNumber, int? valueInteger, IReadOnlyList<FieldValue> valueArray, IReadOnlyDictionary<string, FieldValue> valueObject, string text, IReadOnlyList<float> boundingBox, float? confidence, IReadOnlyList<string> elements, int? page)
+        internal FieldValue(FieldValueType type, string valueString, DateTimeOffset? valueDate, TimeSpan? valueTime, string valuePhoneNumber, float? valueNumber, int? valueInteger, IReadOnlyList<FieldValue> valueArray, IReadOnlyDictionary<string, FieldValue> valueObject, FieldValueSelectionMark? valueSelectionMark, string valueCountryRegion, string text, IReadOnlyList<float> boundingBox, float? confidence, IReadOnlyList<string> elements, int? page)
         {
             Type = type;
             ValueString = valueString;
@@ -51,6 +53,8 @@ namespace Azure.AI.FormRecognizer.Models
             ValueInteger = valueInteger;
             ValueArray = valueArray;
             ValueObject = valueObject;
+            ValueSelectionMark = valueSelectionMark;
+            ValueCountryRegion = valueCountryRegion;
             Text = text;
             BoundingBox = boundingBox;
             Confidence = confidence;
@@ -76,6 +80,10 @@ namespace Azure.AI.FormRecognizer.Models
         public IReadOnlyList<FieldValue> ValueArray { get; }
         /// <summary> Dictionary of named field values. </summary>
         public IReadOnlyDictionary<string, FieldValue> ValueObject { get; }
+        /// <summary> Selection mark value. </summary>
+        public FieldValueSelectionMark? ValueSelectionMark { get; }
+        /// <summary> 3-letter country code (ISO 3166-1 alpha-3). </summary>
+        public string ValueCountryRegion { get; }
         /// <summary> Text content of the extracted field. </summary>
         public string Text { get; }
         /// <summary> Bounding box of the field value, if appropriate. </summary>

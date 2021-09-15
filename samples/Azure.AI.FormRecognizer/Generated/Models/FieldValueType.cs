@@ -25,6 +25,10 @@ namespace Azure.AI.FormRecognizer.Models
         /// <summary> array. </summary>
         Array,
         /// <summary> object. </summary>
-        Object
+        Object,
+        /// <summary> selectionMark. </summary>
+        SelectionMark,
+        /// <summary> countryRegion. </summary>
+        CountryRegion
     }
 }

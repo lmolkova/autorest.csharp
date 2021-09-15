@@ -17,6 +17,7 @@ namespace Azure.AI.FormRecognizer.Models
             OperationStatus.Running => "running",
             OperationStatus.Succeeded => "succeeded",
             OperationStatus.Failed => "failed",
+            OperationStatus.Canceled => "canceled",
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, "Unknown OperationStatus value.")
         };
 
@@ -26,6 +27,7 @@ namespace Azure.AI.FormRecognizer.Models
             if (string.Equals(value, "running", StringComparison.InvariantCultureIgnoreCase)) return OperationStatus.Running;
             if (string.Equals(value, "succeeded", StringComparison.InvariantCultureIgnoreCase)) return OperationStatus.Succeeded;
             if (string.Equals(value, "failed", StringComparison.InvariantCultureIgnoreCase)) return OperationStatus.Failed;
+            if (string.Equals(value, "canceled", StringComparison.InvariantCultureIgnoreCase)) return OperationStatus.Canceled;
             throw new ArgumentOutOfRangeException(nameof(value), value, "Unknown OperationStatus value.");
         }
     }

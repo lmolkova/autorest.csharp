@@ -15,75 +15,125 @@ namespace Azure.AI.FormRecognizer.Models
     {
         internal static AnalyzeResult DeserializeAnalyzeResult(JsonElement element)
         {
-            string version = default;
-            IReadOnlyList<ReadResult> readResults = default;
-            Optional<IReadOnlyList<PageResult>> pageResults = default;
-            Optional<IReadOnlyList<DocumentResult>> documentResults = default;
-            Optional<IReadOnlyList<ErrorInformation>> errors = default;
+            ApiVersion apiVersion = default;
+            string modelId = default;
+            StringIndexType stringIndexType = default;
+            string content = default;
+            IReadOnlyList<DocumentPage> pages = default;
+            Optional<IReadOnlyList<DocumentTable>> tables = default;
+            Optional<IReadOnlyList<DocumentKeyValuePair>> keyValuePairs = default;
+            Optional<IReadOnlyList<DocumentEntity>> entities = default;
+            Optional<IReadOnlyList<DocumentStyle>> styles = default;
+            Optional<IReadOnlyList<Document>> documents = default;
             foreach (var property in element.EnumerateObject())
             {
-                if (property.NameEquals("version"))
+                if (property.NameEquals("apiVersion"))
                 {
-                    version = property.Value.GetString();
+                    apiVersion = new ApiVersion(property.Value.GetString());
                     continue;
                 }
-                if (property.NameEquals("readResults"))
+                if (property.NameEquals("modelId"))
                 {
-                    List<ReadResult> array = new List<ReadResult>();
+                    modelId = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("stringIndexType"))
+                {
+                    stringIndexType = new StringIndexType(property.Value.GetString());
+                    continue;
+                }
+                if (property.NameEquals("content"))
+                {
+                    content = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("pages"))
+                {
+                    List<DocumentPage> array = new List<DocumentPage>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(ReadResult.DeserializeReadResult(item));
+                        array.Add(DocumentPage.DeserializeDocumentPage(item));
                     }
-                    readResults = array;
+                    pages = array;
                     continue;
                 }
-                if (property.NameEquals("pageResults"))
+                if (property.NameEquals("tables"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    List<PageResult> array = new List<PageResult>();
+                    List<DocumentTable> array = new List<DocumentTable>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(PageResult.DeserializePageResult(item));
+                        array.Add(DocumentTable.DeserializeDocumentTable(item));
                     }
-                    pageResults = array;
+                    tables = array;
                     continue;
                 }
-                if (property.NameEquals("documentResults"))
+                if (property.NameEquals("keyValuePairs"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    List<DocumentResult> array = new List<DocumentResult>();
+                    List<DocumentKeyValuePair> array = new List<DocumentKeyValuePair>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(DocumentResult.DeserializeDocumentResult(item));
+                        array.Add(DocumentKeyValuePair.DeserializeDocumentKeyValuePair(item));
                     }
-                    documentResults = array;
+                    keyValuePairs = array;
                     continue;
                 }
-                if (property.NameEquals("errors"))
+                if (property.NameEquals("entities"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    List<ErrorInformation> array = new List<ErrorInformation>();
+                    List<DocumentEntity> array = new List<DocumentEntity>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(ErrorInformation.DeserializeErrorInformation(item));
+                        array.Add(DocumentEntity.DeserializeDocumentEntity(item));
                     }
-                    errors = array;
+                    entities = array;
+                    continue;
+                }
+                if (property.NameEquals("styles"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    List<DocumentStyle> array = new List<DocumentStyle>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(DocumentStyle.DeserializeDocumentStyle(item));
+                    }
+                    styles = array;
+                    continue;
+                }
+                if (property.NameEquals("documents"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    List<Document> array = new List<Document>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(Document.DeserializeDocument(item));
+                    }
+                    documents = array;
                     continue;
                 }
             }
-            return new AnalyzeResult(version, readResults, Optional.ToList(pageResults), Optional.ToList(documentResults), Optional.ToList(errors));
+            return new AnalyzeResult(apiVersion, modelId, stringIndexType, content, pages, Optional.ToList(tables), Optional.ToList(keyValuePairs), Optional.ToList(entities), Optional.ToList(styles), Optional.ToList(documents));
         }
     }
 }

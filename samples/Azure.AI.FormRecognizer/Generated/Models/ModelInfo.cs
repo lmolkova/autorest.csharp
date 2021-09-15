@@ -25,6 +25,23 @@ namespace Azure.AI.FormRecognizer.Models
             LastUpdatedDateTime = lastUpdatedDateTime;
         }
 
+        /// <summary> Initializes a new instance of ModelInfo. </summary>
+        /// <param name="modelId"> Model identifier. </param>
+        /// <param name="status"> Status of the model. </param>
+        /// <param name="createdDateTime"> Date and time (UTC) when the model was created. </param>
+        /// <param name="lastUpdatedDateTime"> Date and time (UTC) when the status was last updated. </param>
+        /// <param name="modelName"> Optional user defined model name (max length: 1024). </param>
+        /// <param name="attributes"> Optional model attributes. </param>
+        internal ModelInfo(Guid modelId, ModelStatus status, DateTimeOffset createdDateTime, DateTimeOffset lastUpdatedDateTime, string modelName, Attributes attributes)
+        {
+            ModelId = modelId;
+            Status = status;
+            CreatedDateTime = createdDateTime;
+            LastUpdatedDateTime = lastUpdatedDateTime;
+            ModelName = modelName;
+            Attributes = attributes;
+        }
+
         /// <summary> Model identifier. </summary>
         public Guid ModelId { get; }
         /// <summary> Status of the model. </summary>
@@ -33,5 +50,9 @@ namespace Azure.AI.FormRecognizer.Models
         public DateTimeOffset CreatedDateTime { get; }
         /// <summary> Date and time (UTC) when the status was last updated. </summary>
         public DateTimeOffset LastUpdatedDateTime { get; }
+        /// <summary> Optional user defined model name (max length: 1024). </summary>
+        public string ModelName { get; }
+        /// <summary> Optional model attributes. </summary>
+        public Attributes Attributes { get; }
     }
 }
