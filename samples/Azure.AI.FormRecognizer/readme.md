@@ -10,6 +10,7 @@ input-file:
 namespace: Azure.AI.FormRecognizer
 ```
 
+## Create new client
 ```yaml
 directive:
   - from: https://raw.githubusercontent.com/Azure/azure-rest-api-specs-pr/5fcc40f8557307a77303e906982651c925f7ff8e/specification/cognitiveservices/data-plane/FormRecognizer/preview/v3.0-preview.1/FormRecognizer.yml?token=AHUEAM3KLUFHDWCGEOUXLXLBITWCC
