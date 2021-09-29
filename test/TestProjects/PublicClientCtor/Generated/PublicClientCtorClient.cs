@@ -88,15 +88,32 @@ namespace PublicClientCtor
             _pipeline = pipeline;
         }
 
-        /// <param name="value"> The TestModel to use. </param>
+        /// <param name="skillNames"> The names of skills to reset. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response> OperationAsync(TestModel value, CancellationToken cancellationToken = default)
+        public virtual async Task<Response> OperationAsync(Test skillNames, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("PublicClientCtorClient.Operation");
             scope.Start();
             try
             {
-                return await RestClient.OperationAsync(value, cancellationToken).ConfigureAwait(false);
+                return await RestClient.OperationAsync(skillNames, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <param name="skillNames"> The names of skills to reset. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response Operation(Test skillNames, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("PublicClientCtorClient.Operation");
+            scope.Start();
+            try
+            {
+                return RestClient.Operation(skillNames, cancellationToken);
             }
             catch (Exception e)
             {
@@ -107,13 +124,30 @@ namespace PublicClientCtor
 
         /// <param name="value"> The TestModel to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response Operation(TestModel value, CancellationToken cancellationToken = default)
+        public virtual async Task<Response> OperationTestAsync(TestModel value, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("PublicClientCtorClient.Operation");
+            using var scope = _clientDiagnostics.CreateScope("PublicClientCtorClient.OperationTest");
             scope.Start();
             try
             {
-                return RestClient.Operation(value, cancellationToken);
+                return await RestClient.OperationTestAsync(value, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <param name="value"> The TestModel to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response OperationTest(TestModel value, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("PublicClientCtorClient.OperationTest");
+            scope.Start();
+            try
+            {
+                return RestClient.OperationTest(value, cancellationToken);
             }
             catch (Exception e)
             {

@@ -4,7 +4,7 @@ info: !Info
   title: PublicClientCtor
 schemas: !Schemas 
   strings:
-    - !StringSchema &ref_3
+    - !StringSchema &ref_5
       type: string
       apiVersions:
         - !ApiVersion 
@@ -28,10 +28,20 @@ schemas: !Schemas
           version: 1.0.0
       language: !Languages 
         default:
-          name: TestModelCode
+          name: GetContentSchemaSkillNamesItem
           description: ''
       protocol: !Protocols {}
     - !StringSchema &ref_2
+      type: string
+      apiVersions:
+        - !ApiVersion 
+          version: 1.0.0
+      language: !Languages 
+        default:
+          name: TestModelCode
+          description: ''
+      protocol: !Protocols {}
+    - !StringSchema &ref_3
       type: string
       apiVersions:
         - !ApiVersion 
@@ -42,7 +52,7 @@ schemas: !Schemas
           description: ''
       protocol: !Protocols {}
   constants:
-    - !ConstantSchema &ref_5
+    - !ConstantSchema &ref_7
       type: constant
       value: !ConstantValue 
         value: 1.0.0
@@ -52,7 +62,7 @@ schemas: !Schemas
           name: ApiVersion10
           description: Api Version (1.0.0)
       protocol: !Protocols {}
-    - !ConstantSchema &ref_10
+    - !ConstantSchema &ref_12
       type: constant
       value: !ConstantValue 
         value: application/json
@@ -63,7 +73,7 @@ schemas: !Schemas
           description: Content Type 'application/json'
       protocol: !Protocols {}
   uris:
-    - !UriSchema &ref_4
+    - !UriSchema &ref_6
       type: uri
       language: !Languages 
         default:
@@ -81,14 +91,48 @@ schemas: !Schemas
           description: ''
       protocol: !Protocols {}
   objects:
-    - !ObjectSchema &ref_11
+    - !ObjectSchema &ref_13
       type: object
       apiVersions:
         - !ApiVersion 
           version: 1.0.0
       properties:
         - !Property 
-          schema: *ref_1
+          schema: !ArraySchema &ref_4
+            type: array
+            apiVersions:
+              - !ApiVersion 
+                version: 1.0.0
+            elementType: *ref_1
+            language: !Languages 
+              default:
+                name: GetContentSchemaSkillNames
+                description: the names of skills to be reset.
+            protocol: !Protocols {}
+          serializedName: skillNames
+          language: !Languages 
+            default:
+              name: skillNames
+              description: the names of skills to be reset.
+          protocol: !Protocols {}
+      serializationFormats:
+        - json
+      usage:
+        - input
+      language: !Languages 
+        default:
+          name: Test
+          description: ''
+          namespace: ''
+      protocol: !Protocols {}
+    - !ObjectSchema &ref_15
+      type: object
+      apiVersions:
+        - !ApiVersion 
+          version: 1.0.0
+      properties:
+        - !Property 
+          schema: *ref_2
           serializedName: Code
           language: !Languages 
             default:
@@ -96,7 +140,7 @@ schemas: !Schemas
               description: ''
           protocol: !Protocols {}
         - !Property 
-          schema: *ref_2
+          schema: *ref_3
           serializedName: Status
           language: !Languages 
             default:
@@ -113,9 +157,11 @@ schemas: !Schemas
           description: .
           namespace: ''
       protocol: !Protocols {}
+  arrays:
+    - *ref_4
 globalParameters:
-  - !Parameter &ref_7
-    schema: *ref_3
+  - !Parameter &ref_9
+    schema: *ref_5
     clientDefaultValue: value1
     implementation: Client
     extensions:
@@ -129,8 +175,8 @@ globalParameters:
     protocol: !Protocols 
       http: !HttpParameter 
         in: header
-  - !Parameter &ref_8
-    schema: *ref_3
+  - !Parameter &ref_10
+    schema: *ref_5
     implementation: Client
     extensions:
       x-ms-priority: 2
@@ -142,8 +188,8 @@ globalParameters:
     protocol: !Protocols 
       http: !HttpParameter 
         in: header
-  - !Parameter &ref_6
-    schema: *ref_4
+  - !Parameter &ref_8
+    schema: *ref_6
     implementation: Client
     required: true
     extensions:
@@ -162,8 +208,8 @@ globalParameters:
     protocol: !Protocols 
       http: !HttpParameter 
         in: uri
-  - !Parameter &ref_9
-    schema: *ref_5
+  - !Parameter &ref_11
+    schema: *ref_7
     implementation: Client
     origin: modelerfour:synthesized/api-version
     required: true
@@ -184,15 +230,15 @@ operationGroups:
           - !ApiVersion 
             version: 1.0.0
         parameters:
-          - *ref_6
-          - *ref_7
           - *ref_8
           - *ref_9
+          - *ref_10
+          - *ref_11
         requests:
           - !Request 
             parameters:
               - !Parameter 
-                schema: *ref_10
+                schema: *ref_12
                 implementation: Method
                 origin: modelerfour:synthesized/content-type
                 required: true
@@ -204,20 +250,20 @@ operationGroups:
                 protocol: !Protocols 
                   http: !HttpParameter 
                     in: header
-              - !Parameter &ref_12
-                schema: *ref_11
+              - !Parameter &ref_14
+                schema: *ref_13
                 implementation: Method
                 required: true
                 language: !Languages 
                   default:
-                    name: value
-                    description: ''
+                    name: skillNames
+                    description: The names of skills to reset.
                 protocol: !Protocols 
                   http: !HttpParameter 
                     in: body
                     style: json
             signatureParameters:
-              - *ref_12
+              - *ref_14
             language: !Languages 
               default:
                 name: ''
@@ -244,6 +290,73 @@ operationGroups:
         language: !Languages 
           default:
             name: Operation
+            description: ''
+        protocol: !Protocols {}
+      - !Operation 
+        apiVersions:
+          - !ApiVersion 
+            version: 1.0.0
+        parameters:
+          - *ref_8
+          - *ref_9
+          - *ref_10
+          - *ref_11
+        requests:
+          - !Request 
+            parameters:
+              - !Parameter 
+                schema: *ref_12
+                implementation: Method
+                origin: modelerfour:synthesized/content-type
+                required: true
+                language: !Languages 
+                  default:
+                    name: contentType
+                    description: Body Parameter content-type
+                    serializedName: Content-Type
+                protocol: !Protocols 
+                  http: !HttpParameter 
+                    in: header
+              - !Parameter &ref_16
+                schema: *ref_15
+                implementation: Method
+                required: true
+                language: !Languages 
+                  default:
+                    name: value
+                    description: ''
+                protocol: !Protocols 
+                  http: !HttpParameter 
+                    in: body
+                    style: json
+            signatureParameters:
+              - *ref_16
+            language: !Languages 
+              default:
+                name: ''
+                description: ''
+            protocol: !Protocols 
+              http: !HttpWithBodyRequest 
+                path: /opTest
+                method: get
+                knownMediaType: json
+                mediaTypes:
+                  - application/json
+                uri: '{Endpoint}/publicclientctor/1.0.0'
+        signatureParameters: []
+        responses:
+          - !Response 
+            language: !Languages 
+              default:
+                name: ''
+                description: OK
+            protocol: !Protocols 
+              http: !HttpResponse 
+                statusCodes:
+                  - '200'
+        language: !Languages 
+          default:
+            name: OperationTest
             description: ''
         protocol: !Protocols {}
     language: !Languages 

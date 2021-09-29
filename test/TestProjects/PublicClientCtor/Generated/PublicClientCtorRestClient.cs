@@ -42,7 +42,7 @@ namespace PublicClientCtor
             _pipeline = pipeline;
         }
 
-        internal HttpMessage CreateOperationRequest(TestModel value)
+        internal HttpMessage CreateOperationRequest(Test skillNames)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -63,6 +63,74 @@ namespace PublicClientCtor
             }
             request.Headers.Add("Content-Type", "application/json");
             var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(skillNames);
+            request.Content = content;
+            return message;
+        }
+
+        /// <param name="skillNames"> The names of skills to reset. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="skillNames"/> is null. </exception>
+        public async Task<Response> OperationAsync(Test skillNames, CancellationToken cancellationToken = default)
+        {
+            if (skillNames == null)
+            {
+                throw new ArgumentNullException(nameof(skillNames));
+            }
+
+            using var message = CreateOperationRequest(skillNames);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    return message.Response;
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <param name="skillNames"> The names of skills to reset. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="skillNames"/> is null. </exception>
+        public Response Operation(Test skillNames, CancellationToken cancellationToken = default)
+        {
+            if (skillNames == null)
+            {
+                throw new ArgumentNullException(nameof(skillNames));
+            }
+
+            using var message = CreateOperationRequest(skillNames);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    return message.Response;
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateOperationTestRequest(TestModel value)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(endpoint);
+            uri.AppendRaw("/publicclientctor/1.0.0", false);
+            uri.AppendPath("/opTest", false);
+            uri.AppendQuery("api-version", apiVersion, true);
+            request.Uri = uri;
+            if (param1 != null)
+            {
+                request.Headers.Add("Param1", param1);
+            }
+            if (param2 != null)
+            {
+                request.Headers.Add("Param2", param2);
+            }
+            request.Headers.Add("Content-Type", "application/json");
+            var content = new Utf8JsonRequestContent();
             content.JsonWriter.WriteObjectValue(value);
             request.Content = content;
             return message;
@@ -71,14 +139,14 @@ namespace PublicClientCtor
         /// <param name="value"> The TestModel to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="value"/> is null. </exception>
-        public async Task<Response> OperationAsync(TestModel value, CancellationToken cancellationToken = default)
+        public async Task<Response> OperationTestAsync(TestModel value, CancellationToken cancellationToken = default)
         {
             if (value == null)
             {
                 throw new ArgumentNullException(nameof(value));
             }
 
-            using var message = CreateOperationRequest(value);
+            using var message = CreateOperationTestRequest(value);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -92,14 +160,14 @@ namespace PublicClientCtor
         /// <param name="value"> The TestModel to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="value"/> is null. </exception>
-        public Response Operation(TestModel value, CancellationToken cancellationToken = default)
+        public Response OperationTest(TestModel value, CancellationToken cancellationToken = default)
         {
             if (value == null)
             {
                 throw new ArgumentNullException(nameof(value));
             }
 
-            using var message = CreateOperationRequest(value);
+            using var message = CreateOperationTestRequest(value);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

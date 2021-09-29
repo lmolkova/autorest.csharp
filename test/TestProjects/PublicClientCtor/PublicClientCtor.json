@@ -30,6 +30,47 @@
         "description": "",
         "parameters": [
           {
+            "name": "skillNames",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "x-ms-client-name": "Test",
+              "properties": {
+                "skillNames": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "the names of skills to be reset."
+                }
+              }
+            },
+            "description": "The names of skills to reset."
+          },
+          {
+            "$ref": "#/parameters/Param1"
+          },
+          {
+            "$ref": "#/parameters/Param2"
+          },
+          {
+            "$ref": "#/parameters/ApiVersion"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/opTest": {
+      "get": {
+        "operationId": "OperationTest",
+        "description": "",
+        "parameters": [
+          {
             "name": "value",
             "in": "body",
             "required": true,
