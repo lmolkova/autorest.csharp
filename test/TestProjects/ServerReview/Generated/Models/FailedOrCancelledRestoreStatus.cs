@@ -13,7 +13,7 @@ namespace ServerReview.Models
     public partial class FailedOrCancelledRestoreStatus : RestoreStatus
     {
         /// <summary> Initializes a new instance of FailedOrCancelledRestoreStatus. </summary>
-        internal FailedOrCancelledRestoreStatus()
+        public FailedOrCancelledRestoreStatus()
         {
         }
 
@@ -23,12 +23,12 @@ namespace ServerReview.Models
         /// <param name="retryAfterOnRetryableErrorInSeconds"> If Plugin terminates with a retryable ErrorCode, it can set this value in Seconds for BA to retry after this. </param>
         /// <param name="loopBackContext"> Json serialized Loopback Context. </param>
         /// <param name="error"> Embedded Error Object. </param>
-        internal FailedOrCancelledRestoreStatus(IReadOnlyDictionary<string, string> additionalProperties, string telemetryData, int? retryAfterOnRetryableErrorInSeconds, string loopBackContext, Error error) : base(additionalProperties, telemetryData, retryAfterOnRetryableErrorInSeconds, loopBackContext)
+        internal FailedOrCancelledRestoreStatus(IDictionary<string, string> additionalProperties, string telemetryData, int? retryAfterOnRetryableErrorInSeconds, string loopBackContext, Error error) : base(additionalProperties, telemetryData, retryAfterOnRetryableErrorInSeconds, loopBackContext)
         {
             Error = error;
         }
 
         /// <summary> Embedded Error Object. </summary>
-        public Error Error { get; }
+        public Error Error { get; set; }
     }
 }

@@ -11,12 +11,39 @@ using Azure.Core;
 
 namespace ServerReview.Models
 {
-    public partial class InnerError
+    public partial class InnerError : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsDefined(Code))
+            {
+                writer.WritePropertyName("code");
+                writer.WriteStringValue(Code);
+            }
+            if (Optional.IsCollectionDefined(AdditionalInfo))
+            {
+                writer.WritePropertyName("additionalInfo");
+                writer.WriteStartObject();
+                foreach (var item in AdditionalInfo)
+                {
+                    writer.WritePropertyName(item.Key);
+                    writer.WriteStringValue(item.Value);
+                }
+                writer.WriteEndObject();
+            }
+            if (Optional.IsDefined(EmbeddedInnerError))
+            {
+                writer.WritePropertyName("embeddedInnerError");
+                writer.WriteObjectValue(EmbeddedInnerError);
+            }
+            writer.WriteEndObject();
+        }
+
         internal static InnerError DeserializeInnerError(JsonElement element)
         {
             Optional<string> code = default;
-            Optional<IReadOnlyDictionary<string, string>> additionalInfo = default;
+            Optional<IDictionary<string, string>> additionalInfo = default;
             Optional<InnerError> embeddedInnerError = default;
             foreach (var property in element.EnumerateObject())
             {

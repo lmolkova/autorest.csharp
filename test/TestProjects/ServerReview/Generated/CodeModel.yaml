@@ -5537,6 +5537,9 @@ schemas: !Schemas
         - json
       usage:
         - output
+      extensions:
+        x-csharp-formats: json
+        x-csharp-usage: model,input,output,converter
       language: !Languages 
         default:
           name: Response

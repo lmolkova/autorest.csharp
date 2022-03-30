@@ -14,7 +14,7 @@ namespace ServerReview.Models
     public partial class BaseStatus
     {
         /// <summary> Initializes a new instance of BaseStatus. </summary>
-        internal BaseStatus()
+        public BaseStatus()
         {
             AdditionalProperties = new ChangeTrackingDictionary<string, string>();
         }
@@ -23,7 +23,7 @@ namespace ServerReview.Models
         /// <param name="additionalProperties"> Any additional properties that should be returned along with this operation. </param>
         /// <param name="telemetryData"> Additional Json Serialized Telemetry data from the Plugin. This would be logged with BA Telemetry. </param>
         /// <param name="retryAfterOnRetryableErrorInSeconds"> If Plugin terminates with a retryable ErrorCode, it can set this value in Seconds for BA to retry after this. </param>
-        internal BaseStatus(IReadOnlyDictionary<string, string> additionalProperties, string telemetryData, int? retryAfterOnRetryableErrorInSeconds)
+        internal BaseStatus(IDictionary<string, string> additionalProperties, string telemetryData, int? retryAfterOnRetryableErrorInSeconds)
         {
             AdditionalProperties = additionalProperties;
             TelemetryData = telemetryData;
@@ -31,10 +31,10 @@ namespace ServerReview.Models
         }
 
         /// <summary> Any additional properties that should be returned along with this operation. </summary>
-        public IReadOnlyDictionary<string, string> AdditionalProperties { get; }
+        public IDictionary<string, string> AdditionalProperties { get; }
         /// <summary> Additional Json Serialized Telemetry data from the Plugin. This would be logged with BA Telemetry. </summary>
-        public string TelemetryData { get; }
+        public string TelemetryData { get; set; }
         /// <summary> If Plugin terminates with a retryable ErrorCode, it can set this value in Seconds for BA to retry after this. </summary>
-        public int? RetryAfterOnRetryableErrorInSeconds { get; }
+        public int? RetryAfterOnRetryableErrorInSeconds { get; set; }
     }
 }

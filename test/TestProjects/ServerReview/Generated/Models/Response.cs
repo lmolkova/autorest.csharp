@@ -18,7 +18,7 @@ namespace ServerReview.Models
         /// <param name="status"> Service-set extensible enum indicating operation?s kind. </param>
         /// <param name="createdTime"> When the client creates the LRO. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="id"/> is null. </exception>
-        internal Response(string id, OperationType kind, ExecutionStatus status, DateTimeOffset createdTime)
+        public Response(string id, OperationType kind, ExecutionStatus status, DateTimeOffset createdTime)
         {
             if (id == null)
             {
@@ -63,30 +63,30 @@ namespace ServerReview.Models
         }
 
         /// <summary> As passed in the URL?s operationId query parameter. </summary>
-        public string Id { get; }
+        public string Id { get; set; }
         /// <summary> Service-set extensible enum indicating operation?s kind. </summary>
-        public OperationType Kind { get; }
+        public OperationType Kind { get; set; }
         /// <summary> Service-set extensible enum indicating operation?s kind. </summary>
-        public ExecutionStatus Status { get; }
+        public ExecutionStatus Status { get; set; }
         /// <summary> When the client creates the LRO. </summary>
-        public DateTimeOffset CreatedTime { get; }
+        public DateTimeOffset CreatedTime { get; set; }
         /// <summary> When server starts processing this LRO. </summary>
-        public DateTimeOffset? StartTime { get; }
+        public DateTimeOffset? StartTime { get; set; }
         /// <summary> When service finishes processing this LRO. </summary>
-        public DateTimeOffset? EndTime { get; }
+        public DateTimeOffset? EndTime { get; set; }
         /// <summary> Time at which server will GC this LRO. This is set after EndTime. </summary>
-        public DateTimeOffset? PurgeTime { get; }
+        public DateTimeOffset? PurgeTime { get; set; }
         /// <summary> Original request body. </summary>
-        public BaseRequest BaseRequest { get; }
+        public BaseRequest BaseRequest { get; set; }
         /// <summary> Set the Kind- specific response when Status = NotStarted. </summary>
-        public BaseStatus NotStartedResponse { get; }
+        public BaseStatus NotStartedResponse { get; set; }
         /// <summary> Set the Kind- specific response when Status = Running. </summary>
-        public BaseStatus RunningResponse { get; }
+        public BaseStatus RunningResponse { get; set; }
         /// <summary> Set the Kind- specific response when Status = Failed. </summary>
-        public BaseStatus FailedResponse { get; }
+        public BaseStatus FailedResponse { get; set; }
         /// <summary> Set the Kind- specific response when Status = Cancelled. </summary>
-        public BaseStatus CanceledResponse { get; }
+        public BaseStatus CanceledResponse { get; set; }
         /// <summary> Set the Kind- specific response when Status = Succeeded. </summary>
-        public BaseStatus SucceededResponse { get; }
+        public BaseStatus SucceededResponse { get; set; }
     }
 }

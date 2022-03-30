@@ -13,7 +13,7 @@ namespace ServerReview.Models
     public partial class CommitOrRollbackBackupStatus : BaseStatus
     {
         /// <summary> Initializes a new instance of CommitOrRollbackBackupStatus. </summary>
-        internal CommitOrRollbackBackupStatus()
+        public CommitOrRollbackBackupStatus()
         {
         }
 
@@ -23,15 +23,15 @@ namespace ServerReview.Models
         /// <param name="retryAfterOnRetryableErrorInSeconds"> If Plugin terminates with a retryable ErrorCode, it can set this value in Seconds for BA to retry after this. </param>
         /// <param name="datasourceSizeInBytes"> Size of datasource in bytes. </param>
         /// <param name="dataTransferredInBytes"> Size of data transferred as part of backup. </param>
-        internal CommitOrRollbackBackupStatus(IReadOnlyDictionary<string, string> additionalProperties, string telemetryData, int? retryAfterOnRetryableErrorInSeconds, long? datasourceSizeInBytes, long? dataTransferredInBytes) : base(additionalProperties, telemetryData, retryAfterOnRetryableErrorInSeconds)
+        internal CommitOrRollbackBackupStatus(IDictionary<string, string> additionalProperties, string telemetryData, int? retryAfterOnRetryableErrorInSeconds, long? datasourceSizeInBytes, long? dataTransferredInBytes) : base(additionalProperties, telemetryData, retryAfterOnRetryableErrorInSeconds)
         {
             DatasourceSizeInBytes = datasourceSizeInBytes;
             DataTransferredInBytes = dataTransferredInBytes;
         }
 
         /// <summary> Size of datasource in bytes. </summary>
-        public long? DatasourceSizeInBytes { get; }
+        public long? DatasourceSizeInBytes { get; set; }
         /// <summary> Size of data transferred as part of backup. </summary>
-        public long? DataTransferredInBytes { get; }
+        public long? DataTransferredInBytes { get; set; }
     }
 }

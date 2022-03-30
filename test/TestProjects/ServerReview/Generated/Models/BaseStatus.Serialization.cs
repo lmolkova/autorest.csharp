@@ -11,11 +11,38 @@ using Azure.Core;
 
 namespace ServerReview.Models
 {
-    public partial class BaseStatus
+    public partial class BaseStatus : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsCollectionDefined(AdditionalProperties))
+            {
+                writer.WritePropertyName("additionalProperties");
+                writer.WriteStartObject();
+                foreach (var item in AdditionalProperties)
+                {
+                    writer.WritePropertyName(item.Key);
+                    writer.WriteStringValue(item.Value);
+                }
+                writer.WriteEndObject();
+            }
+            if (Optional.IsDefined(TelemetryData))
+            {
+                writer.WritePropertyName("telemetryData");
+                writer.WriteStringValue(TelemetryData);
+            }
+            if (Optional.IsDefined(RetryAfterOnRetryableErrorInSeconds))
+            {
+                writer.WritePropertyName("retryAfterOnRetryableErrorInSeconds");
+                writer.WriteNumberValue(RetryAfterOnRetryableErrorInSeconds.Value);
+            }
+            writer.WriteEndObject();
+        }
+
         internal static BaseStatus DeserializeBaseStatus(JsonElement element)
         {
-            Optional<IReadOnlyDictionary<string, string>> additionalProperties = default;
+            Optional<IDictionary<string, string>> additionalProperties = default;
             Optional<string> telemetryData = default;
             Optional<int> retryAfterOnRetryableErrorInSeconds = default;
             foreach (var property in element.EnumerateObject())

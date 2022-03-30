@@ -11,14 +11,56 @@ using Azure.Core;
 
 namespace ServerReview.Models
 {
-    public partial class FailedOrCancelledCommitOrRollbackBackupStatus
+    public partial class FailedOrCancelledCommitOrRollbackBackupStatus : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsDefined(Error))
+            {
+                writer.WritePropertyName("error");
+                writer.WriteObjectValue(Error);
+            }
+            if (Optional.IsDefined(DatasourceSizeInBytes))
+            {
+                writer.WritePropertyName("datasourceSizeInBytes");
+                writer.WriteNumberValue(DatasourceSizeInBytes.Value);
+            }
+            if (Optional.IsDefined(DataTransferredInBytes))
+            {
+                writer.WritePropertyName("dataTransferredInBytes");
+                writer.WriteNumberValue(DataTransferredInBytes.Value);
+            }
+            if (Optional.IsCollectionDefined(AdditionalProperties))
+            {
+                writer.WritePropertyName("additionalProperties");
+                writer.WriteStartObject();
+                foreach (var item in AdditionalProperties)
+                {
+                    writer.WritePropertyName(item.Key);
+                    writer.WriteStringValue(item.Value);
+                }
+                writer.WriteEndObject();
+            }
+            if (Optional.IsDefined(TelemetryData))
+            {
+                writer.WritePropertyName("telemetryData");
+                writer.WriteStringValue(TelemetryData);
+            }
+            if (Optional.IsDefined(RetryAfterOnRetryableErrorInSeconds))
+            {
+                writer.WritePropertyName("retryAfterOnRetryableErrorInSeconds");
+                writer.WriteNumberValue(RetryAfterOnRetryableErrorInSeconds.Value);
+            }
+            writer.WriteEndObject();
+        }
+
         internal static FailedOrCancelledCommitOrRollbackBackupStatus DeserializeFailedOrCancelledCommitOrRollbackBackupStatus(JsonElement element)
         {
             Optional<Error> error = default;
             Optional<long> datasourceSizeInBytes = default;
             Optional<long> dataTransferredInBytes = default;
-            Optional<IReadOnlyDictionary<string, string>> additionalProperties = default;
+            Optional<IDictionary<string, string>> additionalProperties = default;
             Optional<string> telemetryData = default;
             Optional<int> retryAfterOnRetryableErrorInSeconds = default;
             foreach (var property in element.EnumerateObject())

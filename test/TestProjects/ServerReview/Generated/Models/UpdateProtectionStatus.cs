@@ -13,7 +13,7 @@ namespace ServerReview.Models
     public partial class UpdateProtectionStatus : BaseStatus
     {
         /// <summary> Initializes a new instance of UpdateProtectionStatus. </summary>
-        internal UpdateProtectionStatus()
+        public UpdateProtectionStatus()
         {
         }
 
@@ -21,7 +21,7 @@ namespace ServerReview.Models
         /// <param name="additionalProperties"> Any additional properties that should be returned along with this operation. </param>
         /// <param name="telemetryData"> Additional Json Serialized Telemetry data from the Plugin. This would be logged with BA Telemetry. </param>
         /// <param name="retryAfterOnRetryableErrorInSeconds"> If Plugin terminates with a retryable ErrorCode, it can set this value in Seconds for BA to retry after this. </param>
-        internal UpdateProtectionStatus(IReadOnlyDictionary<string, string> additionalProperties, string telemetryData, int? retryAfterOnRetryableErrorInSeconds) : base(additionalProperties, telemetryData, retryAfterOnRetryableErrorInSeconds)
+        internal UpdateProtectionStatus(IDictionary<string, string> additionalProperties, string telemetryData, int? retryAfterOnRetryableErrorInSeconds) : base(additionalProperties, telemetryData, retryAfterOnRetryableErrorInSeconds)
         {
         }
     }

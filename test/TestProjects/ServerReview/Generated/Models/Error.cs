@@ -14,7 +14,7 @@ namespace ServerReview.Models
     public partial class Error
     {
         /// <summary> Initializes a new instance of Error. </summary>
-        internal Error()
+        public Error()
         {
             Details = new ChangeTrackingList<Error>();
             Properties = new ChangeTrackingDictionary<string, string>();
@@ -27,7 +27,7 @@ namespace ServerReview.Models
         /// <param name="target"> Target of the error. </param>
         /// <param name="innerError"> Inner Error. </param>
         /// <param name="properties"> Any key value pairs that can be injected inside error object. </param>
-        internal Error(string message, IReadOnlyList<Error> details, string code, string target, InnerError innerError, IReadOnlyDictionary<string, string> properties)
+        internal Error(string message, IList<Error> details, string code, string target, InnerError innerError, IDictionary<string, string> properties)
         {
             Message = message;
             Details = details;
@@ -38,16 +38,16 @@ namespace ServerReview.Models
         }
 
         /// <summary> Message ? Human readable, non-localized. </summary>
-        public string Message { get; }
+        public string Message { get; set; }
         /// <summary> Additional related Errors. </summary>
-        public IReadOnlyList<Error> Details { get; }
+        public IList<Error> Details { get; }
         /// <summary> Unique code for this error. </summary>
-        public string Code { get; }
+        public string Code { get; set; }
         /// <summary> Target of the error. </summary>
-        public string Target { get; }
+        public string Target { get; set; }
         /// <summary> Inner Error. </summary>
-        public InnerError InnerError { get; }
+        public InnerError InnerError { get; set; }
         /// <summary> Any key value pairs that can be injected inside error object. </summary>
-        public IReadOnlyDictionary<string, string> Properties { get; }
+        public IDictionary<string, string> Properties { get; }
     }
 }

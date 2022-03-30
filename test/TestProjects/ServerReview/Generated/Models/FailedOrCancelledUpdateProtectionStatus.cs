@@ -13,7 +13,7 @@ namespace ServerReview.Models
     public partial class FailedOrCancelledUpdateProtectionStatus : UpdateProtectionStatus
     {
         /// <summary> Initializes a new instance of FailedOrCancelledUpdateProtectionStatus. </summary>
-        internal FailedOrCancelledUpdateProtectionStatus()
+        public FailedOrCancelledUpdateProtectionStatus()
         {
         }
 
@@ -22,12 +22,12 @@ namespace ServerReview.Models
         /// <param name="telemetryData"> Additional Json Serialized Telemetry data from the Plugin. This would be logged with BA Telemetry. </param>
         /// <param name="retryAfterOnRetryableErrorInSeconds"> If Plugin terminates with a retryable ErrorCode, it can set this value in Seconds for BA to retry after this. </param>
         /// <param name="error"> Embedded Error Object. </param>
-        internal FailedOrCancelledUpdateProtectionStatus(IReadOnlyDictionary<string, string> additionalProperties, string telemetryData, int? retryAfterOnRetryableErrorInSeconds, Error error) : base(additionalProperties, telemetryData, retryAfterOnRetryableErrorInSeconds)
+        internal FailedOrCancelledUpdateProtectionStatus(IDictionary<string, string> additionalProperties, string telemetryData, int? retryAfterOnRetryableErrorInSeconds, Error error) : base(additionalProperties, telemetryData, retryAfterOnRetryableErrorInSeconds)
         {
             Error = error;
         }
 
         /// <summary> Embedded Error Object. </summary>
-        public Error Error { get; }
+        public Error Error { get; set; }
     }
 }

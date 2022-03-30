@@ -13,7 +13,7 @@ namespace ServerReview.Models
     public partial class StartProtectionStatus : BaseStatus
     {
         /// <summary> Initializes a new instance of StartProtectionStatus. </summary>
-        internal StartProtectionStatus()
+        public StartProtectionStatus()
         {
         }
 
@@ -21,7 +21,7 @@ namespace ServerReview.Models
         /// <param name="additionalProperties"> Any additional properties that should be returned along with this operation. </param>
         /// <param name="telemetryData"> Additional Json Serialized Telemetry data from the Plugin. This would be logged with BA Telemetry. </param>
         /// <param name="retryAfterOnRetryableErrorInSeconds"> If Plugin terminates with a retryable ErrorCode, it can set this value in Seconds for BA to retry after this. </param>
-        internal StartProtectionStatus(IReadOnlyDictionary<string, string> additionalProperties, string telemetryData, int? retryAfterOnRetryableErrorInSeconds) : base(additionalProperties, telemetryData, retryAfterOnRetryableErrorInSeconds)
+        internal StartProtectionStatus(IDictionary<string, string> additionalProperties, string telemetryData, int? retryAfterOnRetryableErrorInSeconds) : base(additionalProperties, telemetryData, retryAfterOnRetryableErrorInSeconds)
         {
         }
     }

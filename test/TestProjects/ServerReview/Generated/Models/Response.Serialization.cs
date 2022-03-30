@@ -7,12 +7,73 @@
 
 using System;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Azure.Core;
 
 namespace ServerReview.Models
 {
-    public partial class Response
+    [JsonConverter(typeof(ResponseConverter))]
+    public partial class Response : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            writer.WritePropertyName("id");
+            writer.WriteStringValue(Id);
+            writer.WritePropertyName("kind");
+            writer.WriteStringValue(Kind.ToString());
+            writer.WritePropertyName("status");
+            writer.WriteStringValue(Status.ToString());
+            writer.WritePropertyName("createdTime");
+            writer.WriteStringValue(CreatedTime, "O");
+            if (Optional.IsDefined(StartTime))
+            {
+                writer.WritePropertyName("startTime");
+                writer.WriteStringValue(StartTime.Value, "O");
+            }
+            if (Optional.IsDefined(EndTime))
+            {
+                writer.WritePropertyName("endTime");
+                writer.WriteStringValue(EndTime.Value, "O");
+            }
+            if (Optional.IsDefined(PurgeTime))
+            {
+                writer.WritePropertyName("purgeTime");
+                writer.WriteStringValue(PurgeTime.Value, "O");
+            }
+            if (Optional.IsDefined(BaseRequest))
+            {
+                writer.WritePropertyName("baseRequest");
+                writer.WriteObjectValue(BaseRequest);
+            }
+            if (Optional.IsDefined(NotStartedResponse))
+            {
+                writer.WritePropertyName("notStartedResponse");
+                writer.WriteObjectValue(NotStartedResponse);
+            }
+            if (Optional.IsDefined(RunningResponse))
+            {
+                writer.WritePropertyName("runningResponse");
+                writer.WriteObjectValue(RunningResponse);
+            }
+            if (Optional.IsDefined(FailedResponse))
+            {
+                writer.WritePropertyName("failedResponse");
+                writer.WriteObjectValue(FailedResponse);
+            }
+            if (Optional.IsDefined(CanceledResponse))
+            {
+                writer.WritePropertyName("canceledResponse");
+                writer.WriteObjectValue(CanceledResponse);
+            }
+            if (Optional.IsDefined(SucceededResponse))
+            {
+                writer.WritePropertyName("succeededResponse");
+                writer.WriteObjectValue(SucceededResponse);
+            }
+            writer.WriteEndObject();
+        }
+
         internal static Response DeserializeResponse(JsonElement element)
         {
             string id = default;
@@ -142,6 +203,19 @@ namespace ServerReview.Models
                 }
             }
             return new Response(id, kind, status, createdTime, Optional.ToNullable(startTime), Optional.ToNullable(endTime), Optional.ToNullable(purgeTime), baseRequest.Value, notStartedResponse.Value, runningResponse.Value, failedResponse.Value, canceledResponse.Value, succeededResponse.Value);
+        }
+
+        internal partial class ResponseConverter : JsonConverter<Response>
+        {
+            public override void Write(Utf8JsonWriter writer, Response model, JsonSerializerOptions options)
+            {
+                writer.WriteObjectValue(model);
+            }
+            public override Response Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+            {
+                using var document = JsonDocument.ParseValue(ref reader);
+                return DeserializeResponse(document.RootElement);
+            }
         }
     }
 }

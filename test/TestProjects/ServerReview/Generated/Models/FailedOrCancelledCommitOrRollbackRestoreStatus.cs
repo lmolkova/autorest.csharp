@@ -13,7 +13,7 @@ namespace ServerReview.Models
     public partial class FailedOrCancelledCommitOrRollbackRestoreStatus : CommitOrRollbackRestoreStatus
     {
         /// <summary> Initializes a new instance of FailedOrCancelledCommitOrRollbackRestoreStatus. </summary>
-        internal FailedOrCancelledCommitOrRollbackRestoreStatus()
+        public FailedOrCancelledCommitOrRollbackRestoreStatus()
         {
         }
 
@@ -24,12 +24,12 @@ namespace ServerReview.Models
         /// <param name="originalDatasourceSizeInBytes"> Size of original datasource when the backup was created. </param>
         /// <param name="dataTransferredInBytes"> Size of data transferred as part of backup. </param>
         /// <param name="error"> Embedded Error Object. </param>
-        internal FailedOrCancelledCommitOrRollbackRestoreStatus(IReadOnlyDictionary<string, string> additionalProperties, string telemetryData, int? retryAfterOnRetryableErrorInSeconds, long? originalDatasourceSizeInBytes, long? dataTransferredInBytes, Error error) : base(additionalProperties, telemetryData, retryAfterOnRetryableErrorInSeconds, originalDatasourceSizeInBytes, dataTransferredInBytes)
+        internal FailedOrCancelledCommitOrRollbackRestoreStatus(IDictionary<string, string> additionalProperties, string telemetryData, int? retryAfterOnRetryableErrorInSeconds, long? originalDatasourceSizeInBytes, long? dataTransferredInBytes, Error error) : base(additionalProperties, telemetryData, retryAfterOnRetryableErrorInSeconds, originalDatasourceSizeInBytes, dataTransferredInBytes)
         {
             Error = error;
         }
 
         /// <summary> Embedded Error Object. </summary>
-        public Error Error { get; }
+        public Error Error { get; set; }
     }
 }
