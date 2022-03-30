@@ -9,6 +9,7 @@ input-file: $(this-folder)/ServerReview.json
 namespace: Azure.ServerReview
 ```
 
+### Apply "x-csharp-usage" to Response
 ```yaml
 directive:
 - from: swagger-document
