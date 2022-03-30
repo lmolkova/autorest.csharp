@@ -1,0 +1,3073 @@
+﻿{
+  "swagger": "2.0",
+  "info": {
+    "version": "2022-03-01-preview",
+    "description": "This is a swagger documentation for Datasource Plugin APIs",
+    "title": "Data Protection Platform - Datasource Plugin API",
+    "x-ms-code-generation-settings": {
+      "internalConstructors": false
+    }
+  },
+  "host": "pluginBaseUrl.com",
+  "schemes": ["https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/operations/{operationId}": {
+      "get": {
+        "description": "Gets the status of an LRO.",
+        "tags": ["DatasourcePlugin"],
+        "operationId": "lro_Get",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "operationId",
+            "in": "path",
+            "description": "Unique id of the LRO",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "This is the version of the Plugin API",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "subscription-id",
+            "in": "header",
+            "description": "SubscriptionId of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resource-id",
+            "in": "header",
+            "description": "Unique id of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "task-id",
+            "in": "header",
+            "description": "Unique id of the current task",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-ms-client-request-id",
+            "in": "header",
+            "description": "Correlation request Id for tracking a particular request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Polling interval in seconds to get the next status of the LRO.",
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "Request Id for tracking a particular request.",
+                "type": "string"
+              }
+            }
+          },
+         "default": {
+            "description": "Error Scenario, where Plugin cannot send Kind specific Error in LRO response",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "headers": {
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "Request Id for tracking a particular request.",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Sample for GetStatus API": {
+            "$ref": "./examples/GetStatus.json"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "description": "Delete the LRO",
+        "tags": ["DatasourcePlugin"],
+        "operationId": "lro_delete",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "operationId",
+            "in": "path",
+            "description": "Unique id of the LRO",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "This is the version of the Plugin API",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "subscription-id",
+            "in": "header",
+            "description": "SubscriptionId of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resource-id",
+            "in": "header",
+            "description": "Unique id of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "task-id",
+            "in": "header",
+            "description": "Unique id of the current task",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-ms-client-request-id",
+            "in": "header",
+            "description": "Correlation request Id for tracking a particular request.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "OK",
+            "headers": {              
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "request Id for tracking a particular call.",
+                "type": "string"
+              }
+            }
+          },
+         "default": {
+            "description": "Error Scenario, where Plugin cannot send Kind specific Error in LRO response",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "headers": {
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "Request Id for tracking a particular request.",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Sample for Delete API": {
+            "$ref": "./examples/Delete.json"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/plugin:backup": {
+      "post": {
+        "description": "Start the Backup operation",
+        "tags": ["DatasourcePlugin"],
+        "operationId": "plugin_backup",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "parameters",
+            "in": "body",
+            "description": "Request body for operation",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BackupRequest"
+            }
+          },
+          {
+            "name": "operationId",
+            "in": "query",
+            "description": "Unique id of the LRO",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "This is the version of the Plugin API",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "subscription-id",
+            "in": "header",
+            "description": "SubscriptionId of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resource-id",
+            "in": "header",
+            "description": "unique id of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "task-id",
+            "in": "header",
+            "description": "unique id of the current task",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-ms-client-request-id",
+            "in": "header",
+            "description": "correlation request Id for tracking a particular call.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted. If completion of LRO is synchronous, the Response.Status = Succeeded | Failed | Canceled",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Polling interval in seconds to get the next status of the LRO.",
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "request Id for tracking a particular call.",
+                "type": "string"
+              }
+            }
+          },
+         "default": {
+            "description": "Error Scenario, where Plugin cannot send Kind specific Error in LRO response",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "headers": {
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "Request Id for tracking a particular request.",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Sample for Backup API.": {
+            "$ref": "./examples/Backup.json"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/plugin:commitOrRollbackBackup": {
+      "post": {
+        "description": "Start the commitOrRollbackBackup operation.",
+        "tags": ["DatasourcePlugin"],
+        "operationId": "plugin_commitOrRollbackBackup",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "parameters",
+            "in": "body",
+            "description": "Request body for operation",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CommitOrRollbackBackupRequest"
+            }
+          },
+          {
+            "name": "operationId",
+            "in": "query",
+            "description": "Unique id of the LRO",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "This is the version of the Plugin API",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "subscription-id",
+            "in": "header",
+            "description": "SubscriptionId of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resource-id",
+            "in": "header",
+            "description": "unique id of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "task-id",
+            "in": "header",
+            "description": "unique id of the current task",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-ms-client-request-id",
+            "in": "header",
+            "description": "correlation request Id for tracking a particular call.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted. If completion of LRO is synchronous, the Response.Status = Succeeded | Failed | Canceled",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Polling interval in seconds to get the next status of the LRO.",
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "request Id for tracking a particular call.",
+                "type": "string"
+              }
+            }
+          },
+         "default": {
+            "description": "Error Scenario, where Plugin cannot send Kind specific Error in LRO response",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "headers": {
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "Request Id for tracking a particular request.",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Sample for CommitOrRollbackBackup API.": {
+            "$ref": "./examples/CommitOrRollbackBackup.json"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/plugin:commitOrRollbackRestore": {
+      "post": {
+        "description": "Start the commitOrRollbackRestore operation.",
+        "tags": ["DatasourcePlugin"],
+        "operationId": "plugin_commitOrRollbackRestore",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "parameters",
+            "in": "body",
+            "description": "Request body for operation",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CommitOrRollbackRestoreRequest"
+            }
+          },
+          {
+            "name": "operationId",
+            "in": "query",
+            "description": "Unique id of the LRO",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "This is the version of the Plugin API",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "subscription-id",
+            "in": "header",
+            "description": "SubscriptionId of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resource-id",
+            "in": "header",
+            "description": "unique id of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "task-id",
+            "in": "header",
+            "description": "unique id of the current task",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-ms-client-request-id",
+            "in": "header",
+            "description": "correlation request Id for tracking a particular call.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted. If completion of LRO is synchronous, the Response.Status = Succeeded | Failed | Canceled",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Polling interval in seconds to get the next status of the LRO.",
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "request Id for tracking a particular call.",
+                "type": "string"
+              }
+            }
+          },
+         "default": {
+            "description": "Error Scenario, where Plugin cannot send Kind specific Error in LRO response",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "headers": {
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "Request Id for tracking a particular request.",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Sample for CommitOrRollbackRestore API": {
+            "$ref": "./examples/CommitOrRollbackRestore.json"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/plugin:restore": {
+      "post": {
+        "description": "Start the restore operation.",
+        "tags": ["DatasourcePlugin"],
+        "operationId": "plugin_restore",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "parameters",
+            "in": "body",
+            "description": "Request body for operation",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RestoreRequest"
+            }
+          },
+          {
+            "name": "operationId",
+            "in": "query",
+            "description": "Unique id of the LRO",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "This is the version of the Plugin API",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "subscription-id",
+            "in": "header",
+            "description": "SubscriptionId of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resource-id",
+            "in": "header",
+            "description": "unique id of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "task-id",
+            "in": "header",
+            "description": "unique id of the current task",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-ms-client-request-id",
+            "in": "header",
+            "description": "correlation request Id for tracking a particular call.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted. If completion of LRO is synchronous, the Response.Status = Succeeded | Failed | Canceled",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Polling interval in seconds to get the next status of the LRO.",
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "request Id for tracking a particular call.",
+                "type": "string"
+              }
+            }
+          },
+         "default": {
+            "description": "Error Scenario, where Plugin cannot send Kind specific Error in LRO response",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "headers": {
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "Request Id for tracking a particular request.",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Sample for Restore API.": {
+            "$ref": "./examples/Restore.json"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/plugin:startProtection": {
+      "post": {
+        "description": "Start the startProtection operation.",
+        "tags": ["DatasourcePlugin"],
+        "operationId": "plugin_startProtection",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "parameters",
+            "in": "body",
+            "description": "Request body for operation",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StartProtectionRequest"
+            }
+          },
+          {
+            "name": "operationId",
+            "in": "query",
+            "description": "Unique id of the LRO",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "This is the version of the Plugin API",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "subscription-id",
+            "in": "header",
+            "description": "SubscriptionId of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resource-id",
+            "in": "header",
+            "description": "unique id of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "task-id",
+            "in": "header",
+            "description": "unique id of the current task",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-ms-client-request-id",
+            "in": "header",
+            "description": "correlation request Id for tracking a particular call.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted. If completion of LRO is synchronous, the Response.Status = Succeeded | Failed | Canceled",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Polling interval in seconds to get the next status of the LRO.",
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "request Id for tracking a particular call.",
+                "type": "string"
+              }
+            }
+          },
+         "default": {
+            "description": "Error Scenario, where Plugin cannot send Kind specific Error in LRO response",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "headers": {
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "Request Id for tracking a particular request.",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Sample for StartProtection API.": {
+            "$ref": "./examples/StartProtection.json"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/plugin:stopProtection": {
+      "post": {
+        "description": "Start the stopProtection operation.",
+        "tags": ["DatasourcePlugin"],
+        "operationId": "plugin_stopProtection",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "parameters",
+            "in": "body",
+            "description": "Request body for operation",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StopProtectionRequest"
+            }
+          },
+          {
+            "name": "operationId",
+            "in": "query",
+            "description": "Unique id of the LRO",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "This is the version of the Plugin API",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "subscription-id",
+            "in": "header",
+            "description": "SubscriptionId of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resource-id",
+            "in": "header",
+            "description": "unique id of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "task-id",
+            "in": "header",
+            "description": "unique id of the current task",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-ms-client-request-id",
+            "in": "header",
+            "description": "correlation request Id for tracking a particular call.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted. If completion of LRO is synchronous, the Response.Status = Succeeded | Failed | Canceled",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Polling interval in seconds to get the next status of the LRO.",
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "request Id for tracking a particular call.",
+                "type": "string"
+              }
+            }
+          },
+         "default": {
+            "description": "Error Scenario, where Plugin cannot send Kind specific Error in LRO response",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "headers": {
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "Request Id for tracking a particular request.",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Sample for StopProtection API.": {
+            "$ref": "./examples/StopProtection.json"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/plugin:updateProtection": {
+      "post": {
+        "description": "Start the updateProtection operation.",
+        "tags": ["DatasourcePlugin"],
+        "operationId": "plugin_updateProtection",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "parameters",
+            "in": "body",
+            "description": "Request body for operation",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateProtectionRequest"
+            }
+          },
+          {
+            "name": "operationId",
+            "in": "query",
+            "description": "Unique id of the LRO",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "This is the version of the Plugin API",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "subscription-id",
+            "in": "header",
+            "description": "SubscriptionId of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resource-id",
+            "in": "header",
+            "description": "unique id of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "task-id",
+            "in": "header",
+            "description": "unique id of the current task",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-ms-client-request-id",
+            "in": "header",
+            "description": "correlation request Id for tracking a particular call.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted. If completion of LRO is synchronous, the Response.Status = Succeeded | Failed | Canceled",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Polling interval in seconds to get the next status of the LRO.",
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "request Id for tracking a particular call.",
+                "type": "string"
+              }
+            }
+          },
+         "default": {
+            "description": "Error Scenario, where Plugin cannot send Kind specific Error in LRO response",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "headers": {
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "Request Id for tracking a particular request.",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Sample for UpdateProtection API.": {
+            "$ref": "./examples/UpdateProtection.json"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/plugin:validateForBackup": {
+      "post": {
+        "description": "Start the validateForBackup operation.",
+        "tags": ["DatasourcePlugin"],
+        "operationId": "plugin_validateForBackup",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "parameters",
+            "in": "body",
+            "description": "Request body for operation",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ValidateForBackupRequest"
+            }
+          },
+          {
+            "name": "operationId",
+            "in": "query",
+            "description": "Unique id of the LRO",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "This is the version of the Plugin API",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "subscription-id",
+            "in": "header",
+            "description": "SubscriptionId of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resource-id",
+            "in": "header",
+            "description": "unique id of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "task-id",
+            "in": "header",
+            "description": "unique id of the current task",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-ms-client-request-id",
+            "in": "header",
+            "description": "correlation request Id for tracking a particular call.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Polling interval in seconds to get the next status of the LRO.",
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "request Id for tracking a particular call.",
+                "type": "string"
+              }
+            }
+          },
+         "default": {
+            "description": "Error Scenario, where Plugin cannot send Kind specific Error in LRO response",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "headers": {
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "Request Id for tracking a particular request.",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Sample for ValidateForBackup API.": {
+            "$ref": "./examples/ValidateForBackup.json"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/plugin:validateForProtection": {
+      "post": {
+        "description": "Start the validateForProtection operation.",
+        "tags": ["DatasourcePlugin"],
+        "operationId": "plugin_validateForProtection",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "parameters",
+            "in": "body",
+            "description": "Request body for operation",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ValidateForProtectionRequest"
+            }
+          },
+          {
+            "name": "operationId",
+            "in": "query",
+            "description": "Unique id of the LRO",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "This is the version of the Plugin API",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "subscription-id",
+            "in": "header",
+            "description": "SubscriptionId of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resource-id",
+            "in": "header",
+            "description": "unique id of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "task-id",
+            "in": "header",
+            "description": "unique id of the current task",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-ms-client-request-id",
+            "in": "header",
+            "description": "correlation request Id for tracking a particular call.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted. If completion of LRO is synchronous, the Response.Status = Succeeded | Failed | Canceled",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Polling interval in seconds to get the next status of the LRO.",
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "request Id for tracking a particular call.",
+                "type": "string"
+              }
+            }
+          },
+         "default": {
+            "description": "Error Scenario, where Plugin cannot send Kind specific Error in LRO response",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "headers": {
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "Request Id for tracking a particular request.",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Sample for ValidateForProtection API.": {
+            "$ref": "./examples/ValidateForProtection.json"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/plugin:validateForRestore": {
+      "post": {
+        "description": "Start the validateForRestore operation.",
+        "tags": ["DatasourcePlugin"],
+        "operationId": "plugin_validateForRestore",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "parameters",
+            "in": "body",
+            "description": "Request body for operation",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ValidateForRestoreRequest"
+            }
+          },
+          {
+            "name": "operationId",
+            "in": "query",
+            "description": "Unique id of the LRO",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "This is the version of the Plugin API",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "subscription-id",
+            "in": "header",
+            "description": "SubscriptionId of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resource-id",
+            "in": "header",
+            "description": "unique id of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "task-id",
+            "in": "header",
+            "description": "unique id of the current task",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-ms-client-request-id",
+            "in": "header",
+            "description": "correlation request Id for tracking a particular call.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted. If completion of LRO is synchronous, the Response.Status = Succeeded | Failed | Canceled",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Polling interval in seconds to get the next status of the LRO.",
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "request Id for tracking a particular call.",
+                "type": "string"
+              }
+            }
+          },
+         "default": {
+            "description": "Error Scenario, where Plugin cannot send Kind specific Error in LRO response",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "headers": {
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "Request Id for tracking a particular request.",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Sample for ValidateForRestore API.": {
+            "$ref": "./examples/ValidateForRestore.json"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/operations/{operationId}:cancel": {
+      "post": {
+        "description": "Cancel the operation. Poll the LRO to get the final status.",
+        "tags": ["DatasourcePlugin"],
+        "operationId": "lro_cancel",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "operationId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "operationId of the original request"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "description": "Request body for operation",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CancelRequest"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "This is the version of the Plugin API",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "subscription-id",
+            "in": "header",
+            "description": "SubscriptionId of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resource-id",
+            "in": "header",
+            "description": "unique id of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "task-id",
+            "in": "header",
+            "description": "unique id of the current task",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-ms-client-request-id",
+            "in": "header",
+            "description": "correlation request Id for tracking a particular call.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK.",
+            "schema": {
+              "$ref": "#/definitions/SyncResponse"
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Polling interval in seconds to get the next status of the LRO.",
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "request Id for tracking a particular call.",
+                "type": "string"
+              }
+            }
+          },
+         "default": {
+            "description": "Error Scenario, where Plugin cannot send Kind specific Error in LRO response",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "headers": {
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "Request Id for tracking a particular request.",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Sync post call to cancel the ongoing operationId": {
+            "$ref": "./examples/Cancel.json"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/operations/{operationId}:refreshTokens": {
+      "post": {
+        "description": "Refresh tokens for a given operation.",
+        "tags": ["DatasourcePlugin"],
+        "operationId": "lro_refreshTokens",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "operationId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "operationId of the original request"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "description": "Request body for operation",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RefreshTokensRequest"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "This is the version of the Plugin API",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "subscription-id",
+            "in": "header",
+            "description": "SubscriptionId of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resource-id",
+            "in": "header",
+            "description": "unique id of the resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "task-id",
+            "in": "header",
+            "description": "unique id of the current task",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-ms-client-request-id",
+            "in": "header",
+            "description": "correlation request Id for tracking a particular call.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SyncResponse"
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Polling interval in seconds to get the next status of the LRO.",
+                "type": "integer",
+                "format": "int32"
+              },
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "request Id for tracking a particular call.",
+                "type": "string"
+              }
+            }
+          },
+         "default": {
+            "description": "Error Scenario, where Plugin cannot send Kind specific Error in LRO response",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "headers": {
+              "x-ms-error-code": {
+                "description": "ErrorCode string in the event of a failure.",
+                "type": "string"
+              },
+              "x-ms-request-id": {
+                "description": "Request Id for tracking a particular request.",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Sync post call to refresh token for ongoing operationId": {
+            "$ref": "./examples/RefreshTokens.json"
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "AdhocBasedTaggingCriteria": {
+      "description": "Class for Adhoc backup Tagging Criteria",
+      "type": "object",
+      "properties": {
+        "tagInfo": {
+          "$ref": "#/definitions/RetentionTag",
+          "description": "Retention tag information"
+        }
+      }
+    },
+    "AdhocBasedTriggerContext": {
+      "description": "Adhoc based trigger",
+      "required": ["taggingCriteria"],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TriggerContext"
+        }
+      ],
+      "properties": {
+        "taggingCriteria": {
+          "$ref": "#/definitions/AdhocBasedTaggingCriteria",
+          "description": "Tagging Criteria containing retention tag for adhoc backup."
+        }
+      },
+      "x-ms-discriminator-value": "AdhocBasedTriggerContext"
+    },
+    "AutoHealSettings": {
+      "description": "AutoHeal Settings ? On/Off ; other flags",
+      "type": "object",
+      "properties": {
+        "autoHealStatus": {
+          "description": "Policy controlled toggle",
+          "enum": ["Off", "On"],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "AutoHealStatus",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "AzureBackupParams": {
+      "description": "backup Parameters for Azure resources",
+      "required": ["backupType"],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/BackupParameters"
+        }
+      ],
+      "properties": {
+        "backupType": {
+          "description": "BackupType ; Full/Incremental etc",
+          "type": "string"
+        }
+      },
+      "x-ms-discriminator-value": "AzureBackupParams"
+    },
+    "AzureBackupParamsForPlugin": {
+      "description": "Backup Parameters that need to be sent for plugin",
+      "required": ["retentionTag"],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AzureBackupParams"
+        }
+      ],
+      "properties": {
+        "retentionTag": {
+          "$ref": "#/definitions/RetentionTag",
+          "description": "Retention tag that the backup must be marked with"
+        },
+        "policyInfo": {
+          "$ref": "#/definitions/PolicyInfo",
+          "description": "Policy Info that is required while creating the pit by plugin"
+        },
+        "policyParameters": {
+          "$ref": "#/definitions/PolicyParameters",
+          "description": "BackupInstance policy-parameters containing DataStore parameters etc."
+        },
+        "triggerType": {
+          "description": "Trigger Type ? Adhoc/Scheduled/Custom event etc.",
+          "enum": ["Adhoc", "Scheduled"],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "TriggerType",
+            "modelAsString": true
+          }
+        },
+        "autoHealSettings": {
+          "$ref": "#/definitions/AutoHealSettings",
+          "description": "Setting for autoHeal"
+        }
+      },
+      "x-ms-discriminator-value": "AzureBackupParamsForPlugin"
+    },
+    "AzureOperationalStoreParameters": {
+      "description": "Parameters for Operational-Tier DataStore",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DataStoreParameters"
+        }
+      ],
+      "properties": {
+        "resourceGroupId": {
+          "description": "Gets or sets the Resource Group Uri.",
+          "type": "string"
+        }
+      },
+      "x-ms-discriminator-value": "AzureOperationalStoreParameters"
+    },
+    "BackupCriteria": {
+      "description": "Identifies the type of backup and trigger",
+      "required": ["objectType"],
+      "type": "object",
+      "properties": {
+        "objectType": {
+          "description": "Type of the specific object - used for deserializing",
+          "type": "string",
+          "readOnly": false
+        }
+      },
+      "discriminator": "objectType"
+    },
+    "BackupDatasourceParameters": {
+      "description": "Parameters for Backup",
+      "required": ["objectType"],
+      "type": "object",
+      "properties": {
+        "objectType": {
+          "description": "Type of the specific object - used for deserializing",
+          "type": "string",
+          "readOnly": false
+        }
+      },
+      "discriminator": "objectType"
+    },
+    "BackupParameters": {
+      "description": "Base class for parameters specific to Backup agent",
+      "required": ["objectType"],
+      "type": "object",
+      "properties": {
+        "objectType": {
+          "description": "Type of the specific object - used for deserializing",
+          "type": "string",
+          "readOnly": false
+        }
+      },
+      "discriminator": "objectType"
+    },
+    "BackupRequest": {
+      "description": "BackupRequest for the backup operation",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/BackupRequestBase"
+        }
+      ],
+      "properties": {
+        "loopBackContext": {
+          "description": "LoopbackContext returned from previous plugin calls, to be sent again.",
+          "type": "string"
+        }
+      }
+    },
+    "BackupRequestBase": {
+      "description": "BackupRequestBase is the base for all backup request.",
+      "required": [
+        "datasource",
+        "rPCatalogInitializeParams",
+        "datastoreInitializeParams",
+        "backupParameters"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseRequest"
+        }
+      ],
+      "properties": {
+        "datasourceSet": {
+          "$ref": "#/definitions/DatasourceSet",
+          "description": "DatasourceSet object"
+        },
+        "datasource": {
+          "$ref": "#/definitions/Datasource",
+          "description": "Datasource object"
+        },
+        "rPCatalogInitializeParams": {
+          "description": "The dictionary required to initialize the RPCatalog client library.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "datastoreInitializeParams": {
+          "description": "The dictionary required to initialize the Datastore client library.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "backupParameters": {
+          "$ref": "#/definitions/AzureBackupParamsForPlugin",
+          "description": "List of properties with values that the Backup should honour, for a given BackupRule. Like Tags, Exclusion rules etc."
+        }
+      }
+    },
+    "BackupRule": {
+      "description": "Rule definition based on which backup is triggered",
+      "type": "object",
+      "properties": {
+        "backupParameters": {
+          "$ref": "#/definitions/BackupParameters",
+          "description": "it will have parameters that should be used by BA i.e backup type like Full, Incremental, Logs"
+        },
+        "targetDatastore": {
+          "$ref": "#/definitions/DataStoreInfo",
+          "description": "DataStore info object"
+        },
+        "trigger": {
+          "$ref": "#/definitions/TriggerContext",
+          "description": "Defines trigger; schedule based or adhoc"
+        },
+        "autoHealSettings": {
+          "$ref": "#/definitions/AutoHealSettings",
+          "description": "AutoHeal Settings ? On/Off ; other flags"
+        },
+        "name": {
+          "description": "Unique name of the entity/object (sometimes this is friendly as well)",
+          "type": "string"
+        },
+        "objectType": {
+          "description": "Type of the object/command/entity",
+          "type": "string"
+        }
+      }
+    },
+    "BackupSchedule": {
+      "description": "Complete definition of schedule",
+      "required": ["repeatingTimeIntervals"],
+      "type": "object",
+      "properties": {
+        "repeatingTimeIntervals": {
+          "description": "ISO 8601 repeating time interval format",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "timeZone": {
+          "description": "TimeZone input as string. For example: TimeZone = \"Pacific Standard Time\".",
+          "type": "string"
+        }
+      }
+    },
+    "BackupSettings": {
+      "description": "Settings and rules required to take scheduled/adhoc backups",
+      "required": ["dataSourceType", "rules"],
+      "type": "object",
+      "properties": {
+        "dataSourceType": {
+          "description": "Type of datasource for the backup management",
+          "type": "string"
+        },
+        "rules": {
+          "description": "List of Rules",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BackupRule"
+          }
+        },
+        "rawJsonSetting": {
+          "description": "this is optional raw json opaque setting for the datasource where mgmt does not understand the backup policy/setting.",
+          "type": "string"
+        },
+        "policyName": {
+          "description": "Name of the policy used for this backup instance",
+          "type": "string"
+        },
+        "policyParameters": {
+          "$ref": "#/definitions/PolicyParameters",
+          "description": "Policy parameters for the backup instance"
+        },
+        "objectType": {
+          "description": "Type of Datasource object, used to initialize the right inherited type",
+          "type": "string"
+        }
+      }
+    },
+    "BackupStatus": {
+      "description": "BackupStatus for the backup operation.",
+      "type": "object",
+      "properties": {
+        "loopBackContext": {
+          "description": "Json serialized Loopback Context",
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseStatus"
+        }
+      ]
+    },
+    "BaseRequest": {
+      "description": "Base request for all plugin operations",
+      "type": "object",
+      "properties": {
+        "jobLibraryInitializationParams": {
+          "description": "The initialization params of the Job Client Lib. The plugin needs this to do progress updates on Jobs.",
+          "type": "string"
+        },
+        "datasourceAccessToken": {
+          "$ref": "#/definitions/DatasourceTokens",
+          "description": "Access token for the Datasource Mgmt and Data plane. This is an MSI token (in almost all cases)"
+        },
+        "additionalProperties": {
+          "description": "Additional Properties for extensibility.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "BaseResourceProperties": {
+      "description": "Properties which are specific to datasource/datasourcesets/backupinstanceref/backupsettings",
+      "required": ["objectType"],
+      "type": "object",
+      "properties": {
+        "objectType": {
+          "description": "Type of the specific object - used for deserializing",
+          "type": "string",
+          "readOnly": false
+        }
+      },
+      "discriminator": "objectType"
+    },
+    "BaseStatus": {
+      "description": "Base Response.",
+      "type": "object",
+      "properties": {
+        "additionalProperties": {
+          "description": "Any additional properties that should be returned along with this operation",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "telemetryData": {
+          "type": "string",
+          "description": "Additional Json Serialized Telemetry data from the Plugin. This would be logged with BA Telemetry."
+        },
+        "retryAfterOnRetryableErrorInSeconds": {
+          "format": "int32",
+          "description": "If Plugin terminates with a retryable ErrorCode, it can set this value in Seconds for BA to retry after this.",
+          "type": "integer"
+        }
+      }
+    },
+    "BlobBackupDatasourceParameters": {
+      "description": "Parameters for Backup",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/BackupDatasourceParameters"
+        }
+      ],
+      "properties": {
+        "containersList": {
+          "description": "List of containers to be protected",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "x-ms-discriminator-value": "BlobBackupDatasourceParameters"
+    },
+    "CancelRequest": {
+      "description": "Cancel Request contract",
+      "type": "object",
+      "properties": {
+        "datasourceAccessToken": {
+          "$ref": "#/definitions/DatasourceTokens",
+          "description": "Access token for the Datasource Mgmt and Data plane. This is an MSI token (in almost all cases)"
+        }
+      }
+    },
+    "CommitOrRollbackBackupRequest": {
+      "description": "CommitOrRollbackBackupRequest for the CommitOrRollbackBackup operation.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/BackupRequestBase"
+        }
+      ],
+      "properties": {
+        "loopBackContext": {
+          "description": "LoopbackContext returned from previous plugin calls, to be sent again.",
+          "type": "string"
+        }
+      }
+    },
+    "CommitOrRollbackBackupStatus": {
+      "description": "CommitOrRollbackBackupStatus for the CommitOrRollbackBackup operation.",
+      "type": "object",
+      "properties": {
+        "datasourceSizeInBytes": {
+          "format": "int64",
+          "description": "Size of datasource in bytes",
+          "type": "integer"
+        },
+        "dataTransferredInBytes": {
+          "format": "int64",
+          "description": "Size of data transferred as part of backup",
+          "type": "integer"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseStatus"
+        }
+      ]
+    },
+    "CommitOrRollbackRestoreRequest": {
+      "description": "CommitOrRollbackRestoreRequest for the CommitOrRollbackRestore operation.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/RestoreRequestBase"
+        }
+      ],
+      "properties": {
+        "loopBackContext": {
+          "description": "LoopbackContext returned from previous plugin calls, to be sent again.",
+          "type": "string"
+        }
+      }
+    },
+    "CommitOrRollbackRestoreStatus": {
+      "description": "CommitOrRollbackRestoreStatus for the CommitOrRollbackRestore status.",
+      "type": "object",
+      "properties": {
+        "originalDatasourceSizeInBytes": {
+          "format": "int64",
+          "description": "Size of original datasource when the backup was created",
+          "type": "integer"
+        },
+        "dataTransferredInBytes": {
+          "format": "int64",
+          "description": "Size of data transferred as part of backup",
+          "type": "integer"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseStatus"
+        }
+      ]
+    },
+    "Datasource": {
+      "description": "Base datasource class with properties common to all fabric types",
+      "required": ["resourceID"],
+      "type": "object",
+      "properties": {
+        "resourceID": {
+          "description": "Full ARM ID of the resource. For azure resources, this is ARM ID. For non azure resources, this will be the ID created by backup service via Fabric/Vault.",
+          "type": "string"
+        },
+        "resourceUri": {
+          "description": "Uri of the resource.",
+          "type": "string"
+        },
+        "baseUri": {
+          "description": "BaseUri of the resource. For azure resources, this will be ARM endpoint of current cloud. For non azure resources, this will be private endpoint information or null.",
+          "type": "string"
+        },
+        "datasourceType": {
+          "description": "DatasourceType of the resource.",
+          "type": "string"
+        },
+        "resourceName": {
+          "description": "Unique identifier of the resource in the context of parent.",
+          "type": "string"
+        },
+        "resourceType": {
+          "description": "Resource Type of Datasource.",
+          "type": "string"
+        },
+        "resourceLocation": {
+          "description": "Location of datasource.",
+          "type": "string"
+        },
+        "resourceProperties": {
+          "$ref": "#/definitions/BaseResourceProperties",
+          "description": "Properties specific to data source"
+        },
+        "objectType": {
+          "description": "Type of Datasource object, used to initialize the right inherited type",
+          "type": "string"
+        }
+      }
+    },
+    "DatasourceSet": {
+      "description": "DatasourceSet class with properties common to all fabric types",
+      "required": ["resourceID"],
+      "type": "object",
+      "properties": {
+        "resourceID": {
+          "description": "Full ARM ID of the resource. For azure resources, this is ARM ID. For non azure resources, this will be the ID created by backup service via Fabric/Vault.",
+          "type": "string"
+        },
+        "resourceUri": {
+          "description": "Uri of the resource.",
+          "type": "string"
+        },
+        "baseUri": {
+          "description": "BaseUri of the resource. For azure resources, this will be ARM endpoint of current cloud. For non azure resources, this will be private endpoint information or null.",
+          "type": "string"
+        },
+        "datasourceType": {
+          "description": "DatasourceType of the resource.",
+          "type": "string"
+        },
+        "resourceName": {
+          "description": "Unique identifier of the resource in the context of parent.",
+          "type": "string"
+        },
+        "resourceType": {
+          "description": "Resource Type of Datasource.",
+          "type": "string"
+        },
+        "resourceLocation": {
+          "description": "Location of datasource.",
+          "type": "string"
+        },
+        "resourceProperties": {
+          "$ref": "#/definitions/BaseResourceProperties",
+          "description": "Properties specific to data source"
+        },
+        "objectType": {
+          "description": "Type of Datasource object, used to initialize the right inherited type",
+          "type": "string"
+        }
+      }
+    },
+    "DatasourceTokens": {
+      "description": "Tokens to be sent by Backup Agent to plugin host",
+      "type": "object",
+      "properties": {
+        "dataPlaneToken": {
+          "description": "Token associated with accessing the data plane of datasource.",
+          "type": "string"
+        },
+        "mgmtPlaneToken": {
+          "description": "Access token for the Datasource  management plane. This is an MSI token (in almost all cases)",
+          "type": "string"
+        },
+        "dataPlanePrincipalId": {
+          "description": "PrincipalId of the identity which is providing DataPlaneToken.",
+          "type": "string"
+        },
+        "mgmtPlanePrincipalId": {
+          "description": "PrincipalId of the identity which is providing DataPlaneToken. Typically Vault MSI PrincipalId.",
+          "type": "string"
+        },
+        "dataPlaneTokenType": {
+          "description": "Gets or sets the type of DataPlaneToken. One of values defined in enum DataPlaneTokenType.",
+          "type": "string"
+        }
+      }
+    },
+    "DataStoreInfo": {
+      "description": "Information of Datastore",
+      "required": [
+        "dataStoreName",
+        "dataStoreId",
+        "dataStoreURL",
+        "dataStoreType",
+        "objectType"
+      ],
+      "type": "object",
+      "properties": {
+        "dataStoreName": {
+          "description": "Name of DataStore",
+          "type": "string"
+        },
+        "dataStoreId": {
+          "description": "UniqueId of DataStore",
+          "type": "string"
+        },
+        "dataStoreURL": {
+          "description": "endpoint url of datastore",
+          "type": "string"
+        },
+        "storageTypeFlags": {
+          "description": "Type of storage to be used for storing backup data. Passed as input to datastore.",
+          "type": "string"
+        },
+        "authorizationTypeFlags": {
+          "description": "Type of storage to be used for storing backup data. Passed as input to datastore.",
+          "type": "string"
+        },
+        "objectType": {
+          "description": "Type of Datasource object, used to initialize the right inherited type",
+          "type": "string",
+          "readOnly": false
+        },
+        "dataStoreType": {
+          "description": "type of datastore; SnapShot/Hot/Archive",
+          "enum": ["OperationalStore", "VaultStore", "ArchiveStore"],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "DataStoreTypes",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "DataStoreParameters": {
+      "description": "Parameters for DataStore",
+      "required": ["objectType", "dataStoreType"],
+      "type": "object",
+      "properties": {
+        "objectType": {
+          "description": "Type of the specific object - used for deserializing",
+          "type": "string",
+          "readOnly": false
+        },
+        "dataStoreType": {
+          "description": "type of datastore; SnapShot/Hot/Archive",
+          "enum": ["OperationalStore", "VaultStore", "ArchiveStore"],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "DataStoreTypes",
+            "modelAsString": true
+          }
+        }
+      },
+      "discriminator": "objectType"
+    },
+    "Day": {
+      "description": "Day of the Month.",
+      "type": "object",
+      "properties": {
+        "date": {
+          "format": "int32",
+          "description": "Date of the month",
+          "type": "integer"
+        },
+        "isLast": {
+          "description": "Whether Date is last date of month",
+          "type": "boolean"
+        }
+      }
+    },
+    "Error": {
+      "description": "Error object used by layers that dont use any localized content.",
+      "type": "object",
+      "properties": {
+        "message": {
+          "description": "Message ? Human readable, non-localized.",
+          "type": "string"
+        },
+        "details": {
+          "description": "Additional related Errors",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          }
+        },
+        "code": {
+          "description": "Unique code for this error",
+          "type": "string"
+        },
+        "target": {
+          "description": "Target of the error.",
+          "type": "string"
+        },
+        "innerError": {
+          "$ref": "#/definitions/InnerError",
+          "description": "Inner Error"
+        },
+        "properties": {
+          "description": "Any key value pairs that can be injected inside error object",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "description": "Any Key Value pairs that can be injected inside the error object"
+          }
+        }
+      }
+    },
+    "FailedOrCancelledBackupStatus": {
+      "description": "BackupStatus for the failed or cancelled backup operation.",
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/Error",
+          "description": "Embedded Error Object."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/BackupStatus"
+        }
+      ]
+    },
+    "FailedOrCancelledCommitOrRollbackBackupStatus": {
+      "description": "CommitOrRollbackBackupStatus for the failed or cancelled CommitOrRollbackBackup operation.",
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/Error",
+          "description": "Embedded Error Object."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/CommitOrRollbackBackupStatus"
+        }
+      ]
+    },
+    "FailedOrCancelledCommitOrRollbackRestoreStatus": {
+      "description": "CommitOrRollbackRestoreStatus for the failed or cancelled CommitOrRollbackRestore operation.",
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/Error",
+          "description": "Embedded Error Object."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/CommitOrRollbackRestoreStatus"
+        }
+      ]
+    },
+
+    "FailedOrCancelledRestoreStatus": {
+      "description": "RestoreStatus for the failed or cancelled restore operation.",
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/Error",
+          "description": "Embedded Error Object."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/RestoreStatus"
+        }
+      ]
+    },
+    "FailedOrCancelledStartProtectionStatus": {
+      "description": "StartProtectionStatus for the failed or cancelled startProtection operation.",
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/Error",
+          "description": "Embedded Error Object."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/StartProtectionStatus"
+        }
+      ]
+    },
+    "FailedOrCancelledStopProtectionStatus": {
+      "description": "StopProtectionStatus for the failed or cancelled stopProtection operation.",
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/Error",
+          "description": "Embedded Error Object."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/StopProtectionStatus"
+        }
+      ]
+    },
+    "FailedOrCancelledUpdateProtectionStatus": {
+      "description": "UpdateProtectionStatus for the failed or cancelled UpdateProtection operation.",
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/Error",
+          "description": "Embedded Error Object."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/UpdateProtectionStatus"
+        }
+      ]
+    },
+    "FailedOrCancelledValidateForBackupStatus": {
+      "description": "ValidateForBackupStatus for the failed or cancelled ValidateForBackup operation.",
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/Error",
+          "description": "Embedded Error Object."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ValidateForBackupStatus"
+        }
+      ]
+    },
+    "FailedOrCancelledValidateForProtectionStatus": {
+      "description": "ValidateForProtectionStatus for the failed or cancelled ValidateForProtection operation.",
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/Error",
+          "description": "Embedded Error Object."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ValidateForProtectionStatus"
+        }
+      ]
+    },
+    "FailedOrCancelledValidateForRestoreStatus": {
+      "description": "ValidateForRestoreStatus for the failed or cancelled ValidateForRestore operation.",
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/Error",
+          "description": "Embedded Error Object."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ValidateForRestoreStatus"
+        }
+      ]
+    },
+    "InnerError": {
+      "description": "Inner Error",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Unique code for this error",
+          "type": "string"
+        },
+        "additionalInfo": {
+          "description": "Any Key value pairs that can be provided to the client for additional  verbose information.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "embeddedInnerError": {
+          "$ref": "#/definitions/InnerError",
+          "description": "Child Inner Error, to allow Nesting."
+        }
+      }
+    },
+    "ItemLevelRestoreCriteria": {
+      "description": "Class to contain criteria for item level restore",
+      "required": ["objectType"],
+      "type": "object",
+      "properties": {
+        "objectType": {
+          "description": "Type of the specific object - used for deserializing",
+          "type": "string",
+          "readOnly": false
+        }
+      },
+      "discriminator": "objectType"
+    },
+    "ItemPathBasedRestoreCriteria": {
+      "description": "Class to contain criteria for item path based restore",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ItemLevelRestoreCriteria"
+        }
+      ],
+      "properties": {
+        "itemPath": {
+          "description": "Path of the item to be restored",
+          "type": "string"
+        },
+        "isPathRelativeToBackupItem": {
+          "description": "Flag to specify if the path is relative to Backup Item or full path",
+          "type": "boolean"
+        }
+      },
+      "x-ms-discriminator-value": "ItemPathBasedRestoreCriteria"
+    },
+    "KubernetesPVRestoreCriteria": {
+      "description": "Class used for Kubernetes PV Restore Criteria",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ItemLevelRestoreCriteria"
+        }
+      ],
+      "properties": {
+        "name": {
+          "description": "name of the kubernetes resource",
+          "type": "string"
+        },
+        "storageClassName": {
+          "description": "storage class name",
+          "type": "string"
+        }
+      },
+      "x-ms-discriminator-value": "KubernetesPVRestoreCriteria"
+    },
+    "KubernetesStorageClassRestoreCriteria": {
+      "description": "Class used for Kubernetes Storage Class Restore Criteria",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ItemLevelRestoreCriteria"
+        }
+      ],
+      "properties": {
+        "selectedStorageClassName": {
+          "description": "selected storage class name",
+          "type": "string"
+        },
+        "provisioner": {
+          "description": "provisioner for the kubernetes resource",
+          "type": "string"
+        }
+      },
+      "x-ms-discriminator-value": "KubernetesStorageClassRestoreCriteria"
+    },
+    "PolicyInfo": {
+      "description": "Policy Info for the backups",
+      "type": "object",
+      "properties": {
+        "policyName": {
+          "description": "Name of the policy that pit should be tagged with",
+          "type": "string"
+        },
+        "policyVersion": {
+          "description": "Version of policy that pit should be tagged with",
+          "type": "string"
+        }
+      }
+    },
+    "PolicyParameters": {
+      "description": "Parameters in Policy",
+      "type": "object",
+      "properties": {
+        "dataStoreParametersList": {
+          "description": "Gets or sets the DataStore Parameters",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DataStoreParameters"
+          }
+        },
+        "backupDatasourceParametersList": {
+          "description": "Gets or sets the Backup Parameters",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BackupDatasourceParameters"
+          }
+        }
+      }
+    },
+    "ProtectionRequestBase": {
+      "description": "Base request for Validate, Start and Stop protection",
+      "required": ["datasource", "backupSettings"],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseRequest"
+        }
+      ],
+      "properties": {
+        "datasourceSet": {
+          "$ref": "#/definitions/DatasourceSet",
+          "description": "DatasourceSet object"
+        },
+        "datasource": {
+          "$ref": "#/definitions/Datasource",
+          "description": "Datasource object"
+        },
+        "backupSettings": {
+          "$ref": "#/definitions/BackupSettings",
+          "description": "Full backup settings used to protect the datasource"
+        }
+      }
+    },
+    "RangeBasedItemLevelRestoreCriteria": {
+      "description": "Item Level target info for restore operation",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ItemLevelRestoreCriteria"
+        }
+      ],
+      "properties": {
+        "minMatchingValue": {
+          "description": "minimum value for range prefix match",
+          "type": "string"
+        },
+        "maxMatchingValue": {
+          "description": "maximum value for range prefix match",
+          "type": "string"
+        }
+      },
+      "x-ms-discriminator-value": "RangeBasedItemLevelRestoreCriteria"
+    },
+    "RefreshTokensRequest": {
+      "description": "RefreshToken Request contract",
+      "type": "object",
+      "properties": {
+        "datasourceAccessToken": {
+          "$ref": "#/definitions/DatasourceTokens",
+          "description": "Access token for the Datasource Mgmt and Data plane. This is an MSI token (in almost all cases)"
+        }
+      }
+    },
+    "Response": {
+      "description": "Response body received from the Plugin Server.",
+      "type": "object",
+      "required": ["id", "kind", "status", "createdTime"],
+      "properties": {
+        "id": {
+          "description": "As passed in the URL?s operationId query parameter",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Service-set extensible enum indicating operation?s kind",
+          "enum": [
+            "ValidateForProtection",
+            "StartProtection",
+            "UpdateProtection",
+            "StopProtection",
+            "ValidateForBackup",
+            "Backup",
+            "CommitOrRollbackBackup",
+            "ValidateForRestore",
+            "Restore",
+            "CommitOrRollbackRestore"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "OperationType",
+            "modelAsString": true
+          }
+        },
+        "status": {
+          "description": "Service-set extensible enum indicating operation?s kind",
+          "enum": ["NotStarted", "Running", "Cancelled", "Failed", "Succeeded"],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "ExecutionStatus",
+            "modelAsString": true
+          }
+        },
+        "createdTime": {
+          "format": "date-time",
+          "description": "When the client creates the LRO",
+          "type": "string"
+        },
+        "startTime": {
+          "format": "date-time",
+          "description": "When server starts processing this LRO",
+          "type": "string"
+        },
+        "endTime": {
+          "format": "date-time",
+          "description": "When service finishes processing this LRO",
+          "type": "string"
+        },
+        "purgeTime": {
+          "format": "date-time",
+          "description": "Time at which server will GC this LRO. This is set after EndTime.",
+          "type": "string"
+        },
+        "baseRequest": {
+          "$ref": "#/definitions/BaseRequest",
+          "description": "Original request body."
+        },
+        "notStartedResponse": {
+          "$ref": "#/definitions/BaseStatus",
+          "description": "Set the Kind- specific response when Status = NotStarted."
+        },
+        "runningResponse": {
+          "$ref": "#/definitions/BaseStatus",
+          "description": "Set the Kind- specific response when Status = Running."
+        },
+        "failedResponse": {
+          "$ref": "#/definitions/BaseStatus",
+          "description": "Set the Kind- specific response when Status = Failed."
+        },
+        "canceledResponse": {
+          "$ref": "#/definitions/BaseStatus",
+          "description": "Set the Kind- specific response when Status = Cancelled."
+        },
+        "succeededResponse": {
+          "$ref": "#/definitions/BaseStatus",
+          "description": "Set the Kind- specific response when Status = Succeeded."
+        }
+      }
+    },
+    "RestoreRequest": {
+      "description": "RestoreRequest for the Restore operation.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/RestoreRequestBase"
+        }
+      ],
+      "properties": {
+        "loopBackContext": {
+          "description": "LoopbackContext returned from previous plugin calls, to be sent again.",
+          "type": "string"
+        }
+      }
+    },
+    "RestoreRequestBase": {
+      "description": "RestoreRequestBase is the base for RestoreRequest",
+      "required": ["restoreType", "sourceDatasource", "forceOverwrite"],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseRequest"
+        }
+      ],
+      "properties": {
+        "restoreType": {
+          "description": "Restore type: OLR, ALR, ILR, Copy",
+          "enum": [
+            "Invalid",
+            "OriginalLocationRecovery",
+            "AlternateLocationRecovery",
+            "ItemLevelLocationRecovery"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "RestoreType",
+            "modelAsString": true
+          }
+        },
+        "sourceDatasourceSet": {
+          "$ref": "#/definitions/DatasourceSet",
+          "description": "Source DatasourceSet object"
+        },
+        "sourceDatasource": {
+          "$ref": "#/definitions/Datasource",
+          "description": "Source Datasource object"
+        },
+        "targetDatasourceSet": {
+          "$ref": "#/definitions/DatasourceSet",
+          "description": "Target DatasourceSet object"
+        },
+        "targetDatasource": {
+          "$ref": "#/definitions/Datasource",
+          "description": "Target Datasource object"
+        },
+        "restoreAsFilesTargetDetails": {
+          "$ref": "#/definitions/TargetDetails",
+          "description": "Destination of RestoreAsFiles operation, when destination is not a datasource"
+        },
+        "iLRRestoreCriteria": {
+          "description": "Item level restore criteria",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ItemLevelRestoreCriteria"
+          }
+        },
+        "restoreToRPId": {
+          "description": "RPId to be used for restore.",
+          "type": "string"
+        },
+        "restoreToPointInTime": {
+          "description": "PointInTime to be used for restore.",
+          "type": "string"
+        },
+        "rPCatalogInitializeParams": {
+          "description": "The dictionary required to initialize the RPCatalog client library. We need to GET RPs of the src.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "datastoreInitializeParams": {
+          "description": "The dictionary required to initialize the Datastore client library. We need to GET Backup content of the source.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "forceOverwrite": {
+          "description": "Overwrite if exists ?.",
+          "type": "boolean"
+        }
+      }
+    },
+    "RestoreStatus": {
+      "description": "RestoreStatus for the Restore Operation.",
+      "type": "object",
+      "properties": {
+        "loopBackContext": {
+          "description": "Json serialized Loopback Context",
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseStatus"
+        }
+      ]
+    },
+    "RetentionTag": {
+      "description": "Retention Tag information",
+      "required": ["tagName"],
+      "type": "object",
+      "properties": {
+        "tagName": {
+          "description": "Retention Tag Name to relate it to retention rule.",
+          "type": "string"
+        },
+        "eTag": {
+          "description": "Retention Tag version.",
+          "type": "string",
+          "readOnly": true
+        },
+        "id": {
+          "description": "Retention Tag version.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "ScheduleBasedBackupCriteria": {
+      "description": "This is for scheduled backups where criteria is schedule based\r\n                 /// Example of supported identifiers:\r\n             1.  Every Sunday/Monday\r\n                 DaysOfWeeks : Sunday/Monday\r\n            \r\n             2.  First/Second Sunday/Tuesday of the Month\r\n                 WeekOfMonth : First/Second\r\n                 DaysOfWeek : Sunday/Tuesday\r\n            \r\n             3.  1st/2nd day of month\r\n                 DaysOfMonth : 1/2\r\n            \r\n             4. First Sunday of January\r\n                 WeekOfMonth : First/Second\r\n                 DaysOfWeek : Sunday/Tuesday\r\n                 MonthsOfYear : Jan\r\n            \r\n             5. 1st/2nd January\r\n                 DaysOfMonth : 1/2\r\n                 MonthsOfYear : Jan\r\n            \r\n             6. First SuccessFull of Week\r\n                AbsoluteIdentifier : FirstOfWeek",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/BackupCriteria"
+        }
+      ],
+      "properties": {
+        "absoluteCriteria": {
+          "description": "it contains absolute values like \"AllBackup\" / \"FirstOfDay\" / \"FirstOfWeek\" / \"FirstOfMonth\"\r\n            and should be part of AbsoluteMarker enum",
+          "type": "array",
+          "items": {
+            "enum": [
+              "AllBackup",
+              "FirstOfDay",
+              "FirstOfWeek",
+              "FirstOfMonth",
+              "FirstOfYear",
+              "Invalid"
+            ],
+            "type": "string",
+            "x-ms-enum": {
+              "name": "AbsoluteMarker",
+              "modelAsString": true
+            }
+          }
+        },
+        "scheduleTimes": {
+          "description": "List of schedule times for backup",
+          "type": "array",
+          "items": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "daysOfMonth": {
+          "description": "This is day of the month from 1 to 28 other wise last of month",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Day"
+          }
+        },
+        "weeksOfTheMonth": {
+          "description": "It should be First/Second/Third/Fourth/Last",
+          "type": "array",
+          "items": {
+            "enum": ["First", "Second", "Third", "Fourth", "Last", "Invalid"],
+            "type": "string",
+            "x-ms-enum": {
+              "name": "WeekNumber",
+              "modelAsString": true
+            }
+          }
+        },
+        "daysOfTheWeek": {
+          "description": "It should be Sunday/Monday/T..../Saturday",
+          "type": "array",
+          "items": {
+            "enum": [
+              "Sunday",
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday"
+            ],
+            "type": "string",
+            "x-ms-enum": {
+              "name": "DayOfWeek",
+              "modelAsString": true
+            }
+          }
+        },
+        "monthsOfYear": {
+          "description": "It should be January/February/....../December",
+          "type": "array",
+          "items": {
+            "enum": [
+              "January",
+              "February",
+              "March",
+              "April",
+              "May",
+              "June",
+              "July",
+              "August",
+              "September",
+              "October",
+              "November",
+              "December"
+            ],
+            "type": "string",
+            "x-ms-enum": {
+              "name": "Month",
+              "modelAsString": true
+            }
+          }
+        }
+      },
+      "x-ms-discriminator-value": "ScheduleBasedBackupCriteria"
+    },
+    "ScheduleBasedTriggerContext": {
+      "description": "Specific class for schedule based triggers",
+      "required": ["schedule", "taggingCriteria"],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TriggerContext"
+        }
+      ],
+      "properties": {
+        "schedule": {
+          "$ref": "#/definitions/BackupSchedule",
+          "description": "Schedule for this backup"
+        },
+        "taggingCriteria": {
+          "description": "List of tags that can be applicable for given schedule.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TaggingCriteria"
+          }
+        }
+      },
+      "x-ms-discriminator-value": "ScheduleBasedTriggerContext"
+    },
+    "StartProtectionRequest": {
+      "description": "StartProtectionRequest for the StartProtection operation.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProtectionRequestBase"
+        }
+      ]
+    },
+    "StartProtectionStatus": {
+      "description": "StartProtectionStatus for the StartProtection operation.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseStatus"
+        }
+      ]
+    },
+    "StopProtectionRequest": {
+      "description": "StopProtectionRequest for the StopProtection operation.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProtectionRequestBase"
+        }
+      ]
+    },
+    "StopProtectionStatus": {
+      "description": "StopProtectionStatus for stop protection operation",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseStatus"
+        }
+      ]
+    },
+    "SyncResponse": {
+      "description": "Response body received from the Plugin Server for Sync APIs like cancellation, refreshTokens",
+      "type": "object",
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "description": "As passed in the URL?s operationId query parameter",
+          "type": "string"
+        },
+        "error": {
+          "$ref": "#/definitions/Error",
+          "description": "Set the error when API is in failure path."
+        }
+      }
+    },
+    "TaggingCriteria": {
+      "description": "Base class for Tagging Criteria",
+      "required": ["tagInfo", "taggingPriority", "isDefault"],
+      "type": "object",
+      "properties": {
+        "tagInfo": {
+          "$ref": "#/definitions/RetentionTag",
+          "description": "Retention tag information"
+        },
+        "taggingPriority": {
+          "format": "int64",
+          "description": "Retention Tag priority.",
+          "type": "integer"
+        },
+        "isDefault": {
+          "description": "Specifies if tag is default.",
+          "type": "boolean"
+        },
+        "criteria": {
+          "description": "Criteria which decides whether the tag can be applied to a triggered backup.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BackupCriteria"
+          }
+        }
+      }
+    },
+    "TargetDetails": {
+      "description": "Class encapsulating target details, used where the destination is not a datasource",
+      "required": ["url", "filePrefix", "restoreTargetLocationType"],
+      "type": "object",
+      "properties": {
+        "url": {
+          "description": "Url denoting the restore destination. It can point to container / file share etc",
+          "type": "string"
+        },
+        "filePrefix": {
+          "description": "Restore operation may create multiple files inside location pointed by Url\r\n            Below will be the common prefix for all of them",
+          "type": "string"
+        },
+        "restoreTargetLocationType": {
+          "description": "Denotes the target location where the data will be restored,\r\n            string value for the enum {Microsoft.Internal.AzureBackup.DataProtection.Common.Interface.RestoreTargetLocationType}",
+          "enum": [
+            "Invalid",
+            "AzureBlobs",
+            "AzureDisks",
+            "AzureFiles",
+            "AzureKubernetesWorkload"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "RestoreTargetLocationType",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "TriggerContext": {
+      "description": "Contains the context of a backup trigger - whether it is event based, ad-hoc, etc.",
+      "required": ["objectType"],
+      "type": "object",
+      "properties": {
+        "objectType": {
+          "description": "Type of the specific object - used for deserializing",
+          "type": "string",
+          "readOnly": false
+        }
+      },
+      "discriminator": "objectType"
+    },
+    "UpdateProtectionRequest": {
+      "description": "UpdateProtectionRequest for the UpdateProtection operation.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProtectionRequestBase"
+        }
+      ]
+    },
+    "UpdateProtectionStatus": {
+      "description": "UpdateProtectionStatus for the Update Protection operation.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseStatus"
+        }
+      ]
+    },
+    "ValidateForBackupRequest": {
+      "description": "ValidateForBackupRequest for the validate for backup operation.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/BackupRequestBase"
+        }
+      ]
+    },
+    "ValidateForBackupStatus": {
+      "description": "ValidateForBackupStatus for the validate for backup operation.",
+      "type": "object",
+      "properties": {
+        "loopBackContext": {
+          "description": "Json serialized Loopback Context",
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseStatus"
+        }
+      ]
+    },
+    "ValidateForProtectionRequest": {
+      "description": "ValidateForProtectionRequest for the validate for protection operation.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProtectionRequestBase"
+        }
+      ]
+    },
+    "ValidateForProtectionStatus": {
+      "description": "ValidateForProtectionStatus for the ValidateForProtection operation.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseStatus"
+        }
+      ]
+    },
+    "ValidateForRestoreRequest": {
+      "description": "Validates the restore request on the plugin.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/RestoreRequestBase"
+        }
+      ],
+      "properties": {
+        "isValidateOnlyOperation": {
+          "type": "boolean",
+          "description": "This is set to true, if the request is not part of actual Restore operation, Else this is set to false/Null"
+        }
+      }
+    },
+    "ValidateForRestoreStatus": {
+      "description": "Plugin's Status for validate for restore request",
+      "type": "object",
+      "properties": {
+        "loopBackContext": {
+          "description": "Json serialized Loopback Context",
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseStatus"
+        }
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account."
+      }
+    }
+  },
+  "security": [
+    {
+      "azure_auth": ["user_impersonation"]
+    }
+  ]
+}
